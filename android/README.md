@@ -12,7 +12,9 @@ assistant/state layer. Audio and real location records remain pending.
 
 `:app:assembleDebug` succeeded here after correcting an icon-helper parameter name.
 APK: `app/build/outputs/apk/debug/app-debug.apk` (approximately 9.3 MB), verified v2
-signature, package `com.a0.daleelak`, min API 26 / target 36. No phone run confirmed.
+signature, package `com.a0.daleelak`, min API 26 / target 36. The user reports that
+the app opens on the USB phone after running the installer. This is user-confirmed
+launch, not an agent-observed walkthrough or voice/UI verification.
 The agent shell cannot access USB; in the normal desktop terminal, from this folder:
 
 ```sh

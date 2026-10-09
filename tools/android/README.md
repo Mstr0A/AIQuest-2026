@@ -16,7 +16,9 @@ No successful device run is claimed until adb install/start succeeds.
 Build status, 2026-10-09: `:app:assembleDebug` succeeded after correcting the icon
 helper parameter name to `pathBuilder`. APK signature verification passed (v2);
 package `com.a0.daleelak`, min API 26, target API 36, APK approximately 9.3 MB.
-The installer passed Bash syntax checking. Device UI/audio checks remain pending.
+The installer passed Bash syntax checking. The user subsequently confirmed "App
+opens" after running it in the normal terminal. This confirms basic launch by user
+report; device walkthrough/audio checks remain pending.
 
 User-local build tools: `~/.local/share/daleelak-dev` contains Temurin JDK 17,
 Gradle 9.3.1, SDK 36.1/build tools 36.0.0, downloads and build logs. APK output:

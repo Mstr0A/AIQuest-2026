@@ -48,9 +48,10 @@ tools, each archive verified against its publisher checksum. Android 36.1 SDK
 and build tools are installed. `:app:assembleDebug` passed after fixing the existing
 icon helper's named parameter from `block` to `pathBuilder`; APK signature verification
 passed (v2), package `com.a0.daleelak`, min SDK 26, target 36. The APK is 9.3 MB at
-`android/app/build/outputs/apk/debug/app-debug.apk`. No device run yet: this shell is
+`android/app/build/outputs/apk/debug/app-debug.apk`. This shell is
 containerized and `/dev/bus/usb` is absent. A normal-terminal install/launch helper
-is `tools/android/run-phone.sh`; the user has been given that concrete command.
+is `tools/android/run-phone.sh`; the user ran it and confirmed "App opens" (U-044).
+Basic phone launch is user-confirmed; a full device walkthrough/audio check is not.
 
 Recorded 2026-10-09 after fetching Android skeleton commit `9567827`. Local merge `85cc601` preserves that skeleton and the Android/Kotlin skills commit `8d9328b`. This is a code inspection and proposed work assignment; no implementation, build, or tests were run for this review.
 

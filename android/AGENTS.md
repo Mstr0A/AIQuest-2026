@@ -31,4 +31,6 @@ batch pushed as 3c72157. User selected USB phone deployment. Local assembly now
 succeeded after fixing DaleelakIcons pathBuilder parameter; APK signing verified.
 This shell is containerized without /dev/bus/usb or /dev/kvm, so device install/launch
 must run from the normal desktop terminal with tools/android/run-phone.sh.
-No successful phone run is confirmed yet. No general implementation tests were added.
+U-044: the user confirms the app opens after the normal-terminal installer. Record
+this as user-confirmed launch, not an agent-observed full walkthrough. Voice and
+places remain pending. No general implementation tests were added.
