@@ -1,6 +1,6 @@
-# Cost-conscious coding workflow proposal
+# Cost-conscious coding workflow
 
-User request, 2026-10-09: be more careful with usage; consider this Codex agent as orchestrator and an open model through the user's OpenRouter key for implementation. This is a proposed development workflow, not selection of DALEELAK's runtime government assistant or speech provider. No OpenRouter inference call has been made and no API key has been collected.
+User requests, 2026-10-09 (U-038/U-039): be more careful with usage, consider this Codex agent as orchestrator and an open model through the user's OpenRouter key for implementation, then explain how to start. A lightweight local runner and first task packet are prepared in [tools/coding-worker](../../tools/coding-worker/README.md). This is development tooling, not selection of DALEELAK's runtime government assistant or speech provider. No OpenRouter inference call has been made and no API key has been collected.
 
 ## Suggested worker
 
@@ -17,7 +17,7 @@ Example at listed uncached rates: 20,000 input and 5,000 output tokens cost appr
 5. Report input/output tokens and cost per task. Repeated failure returns to the orchestrator instead of unlimited retries.
 6. Implementation tests remain prohibited unless requested. A coding worker must inherit this requirement. Build/runtime verification remains a separate pending activity; this shell has no Java/Gradle.
 
-A lightweight local patch-generation script is enough for the first version; an existing coding CLI with OpenRouter support is another option, but no new CLI installation is required by this proposal. [OpenRouter tool-calling documentation](https://openrouter.ai/docs/guides/features/tool-calling) distinguishes a model's tool request from the program that executes it. The API alone does not grant file-editing access.
+The prepared Python standard-library runner uses one Chat Completions request with structured exact-substring edits. It checks paths and unique matches, then saves proposed replacements and a unified diff without editing the app. No coding CLI installation is needed. [OpenRouter tool-calling documentation](https://openrouter.ai/docs/guides/features/tool-calling) distinguishes a model's tool request from the program that executes it. The API alone does not grant file-editing access.
 
 Keep this Codex session as the orchestrator. Do not assume its built-in model slots use an OpenRouter key. A separate worker avoids requiring a change to this session's provider. [Official Codex guidance](https://learn.chatgpt.com/docs/models) requires Responses API compatibility for a custom Codex provider; a Chat Completions-only gateway is not sufficient. This workflow can use OpenRouter's Chat Completions endpoint from its own runner.
 
@@ -25,7 +25,11 @@ Codex planning/review still consumes the current Codex allowance. Small task pac
 
 ## Keys and budget
 
-Store the worker key locally through an environment variable or an ignored credential file, not chat, committed code, the Android APK or the design canvas. No key location or budget has been supplied yet. Suggested initial worker budget: $1 total, pending user selection. No spending is authorized merely by writing this recommendation.
+Store the worker key locally through an environment variable or the prepared hidden-prompt setup script, not chat, committed code, the Android APK or the design canvas. The script saves `~/.config/daleelak/openrouter.key` with mode 0600. No key has been supplied. The runner has a suggested $1 local reservation budget, retaining $0.05 per attempt, two calls per task ID, 60 KB input and 6,000 output-token limits; actual reported cost is tracked separately. This suggested default is not a user-selected account-wide billing limit. A dedicated OpenRouter key limit is needed for account-side enforcement. No paid worker call is authorized merely by preparing this tooling.
+
+## First task and next action
+
+Prepared `checklist-accessibility.json` allows changes only to `features/journey/JourneyScreen.kt`: make the requirement label/row one accessible checkbox target, while preserving progress and completed-operation disabled state. This is an orchestrator-selected first task, not an additional user feature request. Other-agent file ownership is unchanged. Configure the key in the user's terminal, then agree the first bounded request; Codex runs it, reviews the diff against baseline hashes and applies accepted edits. No runner execution, tests, API inference or native build occurred during setup.
 
 ## Design usage record
 

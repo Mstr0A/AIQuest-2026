@@ -1,0 +1,19 @@
+{
+  "id": "checklist-accessibility",
+  "goal": "Make each requirement checklist row a single accessible checkbox control: tapping its label or row toggles the requirement once; screen readers hear its existing label and format together with checked/disabled state.",
+  "allowed_files": [
+    "android/app/src/main/java/com/a0/daleelak/features/journey/JourneyScreen.kt"
+  ],
+  "context_files": [
+    "android/AGENTS.md",
+    "docs/daleelak/visual-direction.md"
+  ],
+  "acceptance_criteria": [
+    "Use the Compose toggleable row pattern with Role.Checkbox; checkbox onCheckedChange should be null so the row owns the event.",
+    "Associate visible label/format with the row for accessibility. Preserve a minimum 48dp touch target and current layout/Arabic wording.",
+    "Derive checked state from operation.checkedRequirementIds and preserve disabled state when operation.status is COMPLETED.",
+    "Call model.toggleRequirement(requirement.id) exactly once per activation.",
+    "Preserve pager, dependency logic, completion gates, overview, simulations and sources. No ViewModel/domain/data/build edits.",
+    "No tests or unrelated changes. Return only small exact-substring edits and necessary imports. Do not claim runtime verification."
+  ]
+}
