@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DALEELAK response v1.0",
+  "description": "Proposed provider-neutral shape; semantic acceptance rules are in ai-response-contract.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "kind", "message", "case_summary", "questions", "plan", "suggested_prompts", "source_ids", "uncertainties"],
+  "properties": {
+    "schema_version": {"type": "string", "enum": ["1.0"]},
+    "kind": {"type": "string", "enum": ["clarification", "plan", "unsupported"]},
+    "message": {"type": "string", "minLength": 1},
+    "case_summary": {"$ref": "#/$defs/case_summary"},
+    "questions": {"type": "array", "maxItems": 3, "items": {"$ref": "#/$defs/question"}},
+    "plan": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/plan"}]},
+    "suggested_prompts": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "string", "minLength": 1}},
+    "source_ids": {"$ref": "#/$defs/id_array"},
+    "uncertainties": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "id_array": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "case_summary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["goal", "known_facts", "unresolved_facts"],
+      "properties": {
+        "goal": {"type": "string", "minLength": 1},
+        "known_facts": {"type": "array", "items": {"$ref": "#/$defs/fact"}},
+        "unresolved_facts": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "fact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["key", "value", "origin", "source_ids"],
+      "properties": {
+        "key": {"type": "string", "minLength": 1},
+        "value": {"type": "string", "minLength": 1},
+        "origin": {"type": "string", "enum": ["user", "reviewed_source"]},
+        "source_ids": {"$ref": "#/$defs/id_array"}
+      }
+    },
+    "question": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "text", "options", "reason"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "text": {"type": "string", "minLength": 1},
+        "options": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "plan": {
+      "type": "object", "additionalProperties": false,
+      "required": ["title", "service_id", "route", "summary", "steps"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "service_id": {"type": "string", "minLength": 1},
+        "route": {"type": "string", "enum": ["electronic", "in_person", "mixed", "undetermined"]},
+        "summary": {"type": "string", "minLength": 1},
+        "steps": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/step"}}
+      }
+    },
+    "step": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "title", "explanation", "actor", "depends_on", "checklists", "completion_evidence", "place_ids", "source_ids"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "explanation": {"type": "string", "minLength": 1},
+        "actor": {"type": "string", "enum": ["user", "authority", "user_and_authority"]},
+        "depends_on": {"$ref": "#/$defs/id_array"},
+        "checklists": {"$ref": "#/$defs/checklists"},
+        "completion_evidence": {"type": "string", "minLength": 1},
+        "place_ids": {"type": "array", "maxItems": 3, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "source_ids": {"$ref": "#/$defs/id_array"}
+      }
+    },
+    "checklists": {
+      "type": "object", "additionalProperties": false,
+      "required": ["documents", "actions", "payments_and_commitments", "visits"],
+      "properties": {
+        "documents": {"type": "array", "items": {"$ref": "#/$defs/checklist_item"}},
+        "actions": {"type": "array", "items": {"$ref": "#/$defs/checklist_item"}},
+        "payments_and_commitments": {"type": "array", "items": {"$ref": "#/$defs/checklist_item"}},
+        "visits": {"type": "array", "items": {"$ref": "#/$defs/checklist_item"}}
+      }
+    },
+    "checklist_item": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "label", "necessity", "condition", "format", "source_ids"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "label": {"type": "string", "minLength": 1},
+        "necessity": {"type": "string", "enum": ["required", "conditional", "helpful"]},
+        "condition": {"type": ["string", "null"]},
+        "format": {"type": "string", "enum": ["original", "paper_copy", "digital_upload", "official_electronic_record", "unspecified"]},
+        "source_ids": {"$ref": "#/$defs/id_array"}
+      }
+    }
+  }
+}
