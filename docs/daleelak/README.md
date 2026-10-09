@@ -18,6 +18,8 @@ DALEELAK is the team's Society-sector AI Quest 2026 concept. The current flagshi
 10. [Skeleton review and work split](work-plan.md): inspected Android code, remaining gaps, file ownership and the other agent's task.
 11. [Coding workflow and costs](coding-workflow.md): Codex orchestration with a scoped OpenRouter coding worker; [runner setup](../../tools/coding-worker/README.md) and [first-run result](worker-first-run.md), including actual cost and review corrections.
 
+Latest handoff, 2026-10-10: [Jordanian speech research and Waydroid verification](speech-research-2026-10-10.md). The implementation goal is paused. OpenRouter is restricted to app runtime; historical coding-worker material is superseded for new work. Speechmatics and ElevenLabs are recommendations, not selected or measured providers.
+
 ## Current versus future
 
 **Current demo:** local storage, no accounts, conversation/clarification, snapping step cards and a current-task overview, per-step checklists, up to three relevant nearby map options, a locations view, voice-to-text targeting Jordanian Arabic/English/mixed speech, three suggested prompts and new/ongoing/completed history. Sanad-dependent features including booking remain interactive placeholders returning labeled local fake responses. Information is returned through the AI API. Location/source reference data can be bundled locally.

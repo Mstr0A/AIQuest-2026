@@ -34,3 +34,12 @@ must run from the normal desktop terminal with tools/android/run-phone.sh.
 U-044: the user confirms the app opens after the normal-terminal installer. Record
 this as user-confirmed launch, not an agent-observed full walkthrough. Voice and
 places remain pending. No general implementation tests were added.
+
+U-049, 2026-10-10: Waydroid is now available directly to this shell through adb at
+192.168.240.112:5555. This supersedes the earlier requirement to install from an
+outer terminal when testing Waydroid. Use ../tools/android/run-phone.sh with the
+explicit serial; inspect screenshots, UI XML and logcat. Read the current speech
+research report in ../docs/daleelak before further voice implementation. The goal
+remains paused; research recommendations are not user-selected providers. This
+API 33 Waydroid image has no SpeechRecognizer service; cloud capture must check
+microphone routing separately. OpenRouter remains app-runtime-only.

@@ -1,5 +1,7 @@
 # Voice input and simulated Sanad actions
 
+Current handoff, 2026-10-10: read [Jordanian speech research and Waydroid verification](speech-research-2026-10-10.md). Android dictation and narrow runtime OpenRouter routing were implemented under U-047; the goal is now paused. U-049 requires dialect/provider research and device verification before further implementation. The proposals and no-test statements below describe the earlier 2026-10-09 documentation stage.
+
 Latest user clarification, 2026-10-09: retain Sanad-dependent features, including booking, as interactive placeholders returning fake responses for the demo. Real integrations remain future. Dictation should accept everyday Jordanian conversation, including Arabic, English and mixed speech.
 
 ## Proposed dictation pipeline
