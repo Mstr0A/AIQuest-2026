@@ -10,6 +10,8 @@ data class Requirement(
     val category: ChecklistCategory,
     val format: RequirementFormat = RequirementFormat.UNSPECIFIED,
     val sourceIds: List<String> = emptyList(),
+    val necessity: String = "required",
+    val condition: String? = null,
 )
 data class PlanStep(
     val id: String,
@@ -19,6 +21,8 @@ data class PlanStep(
     val requirements: List<Requirement> = emptyList(),
     val sourceIds: List<String> = emptyList(),
     val placeIds: List<String> = emptyList(),
+    val actor: String = "user",
+    val completionEvidence: String = "تأكيد المستخدم فقط",
 )
 data class GuidancePlan(
     val serviceId: String,
@@ -26,6 +30,10 @@ data class GuidancePlan(
     val title: String,
     val steps: List<PlanStep>,
     val illustrative: Boolean = true,
+    val summary: String = "",
+    val route: String = "undetermined",
+    val uncertainties: List<String> = emptyList(),
+    val sourceVersions: Map<String, String> = emptyMap(),
 )
 data class DemoEvent(val reference: String, val message: String, val createdAt: Long)
 data class Operation(
@@ -38,6 +46,9 @@ data class Operation(
     val status: OperationStatus = OperationStatus.NEW,
     val demoEvents: List<DemoEvent> = emptyList(),
     val updatedAt: Long = System.currentTimeMillis(),
+    val conversation: List<ChatMessage> = emptyList(),
+    val acceptedResponseJson: String? = null,
+    val contextResponseJson: String? = null,
 )
 data class ChatMessage(val text: String, val fromUser: Boolean = false)
 
@@ -49,7 +60,8 @@ data class Place(
 )
 
 interface AssistantGateway {
-    suspend fun respond(message: String, answers: Map<String, String>): String
+    /** Providers must return the v1.0 contract; the app validates before accepting it. */
+    suspend fun respond(request: com.a0.daleelak.ai.AssistantRequest): com.a0.daleelak.ai.AssistantResponse
 }
 interface TranscriptionGateway {
     // Audio remains transient. Return text to the editable composer, never auto-send.

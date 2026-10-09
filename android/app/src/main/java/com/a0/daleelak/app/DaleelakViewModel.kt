@@ -4,65 +4,187 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.a0.daleelak.data.DemoCatalog
+import androidx.lifecycle.viewModelScope
+import com.a0.daleelak.ai.*
 import com.a0.daleelak.data.LocalOperationStore
 import com.a0.daleelak.domain.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.UUID
 
 enum class Destination { ASSISTANT, OPERATIONS, LOCATIONS }
 
-class DaleelakViewModel(private val store: LocalOperationStore) : ViewModel() {
+/** Owns accepted guidance and user-reported progress; providers cannot own either. */
+class DaleelakViewModel(
+    private val store: LocalOperationStore,
+    private val gateway: AssistantGateway = LocalReviewedAssistant(store.catalog),
+) : ViewModel() {
+    private val catalog = store.catalog
+    private val codec = ContractCodec(catalog.schema)
+    private val validator = ResponseValidator(catalog)
+    private val writes = Mutex()
+    private var responseJob: Job? = null
+    private var draftSaveJob: Job? = null
+    private var generation = 0
+    private var loading = true
+    private var storageReadable = true
+    private var activeOperationId: String? = null
+    private var acceptedResponseJson: String? = null
+    private var contextResponseJson: String? = null
+    private var answers: Map<String, String> = emptyMap()
+    private var questions: List<ClarificationQuestion> = emptyList()
+    private var selection by mutableStateOf<String?>(null)
+
     var destination by mutableStateOf(Destination.ASSISTANT)
-    var draft by mutableStateOf("")
-    var messages by mutableStateOf(listOf(ChatMessage("أهلاً! احكيلي شو بتحتاج. هذه محادثة تجريبية، وليست استجابة من AI متصل.")))
+    private var draftValue by mutableStateOf("")
+    var draft: String
+        get() = draftValue
+        set(value) {
+            draftValue = value
+            draftSaveJob?.cancel()
+            if (!loading) draftSaveJob = viewModelScope.launch { delay(300); saveSession() }
+        }
+    var messages by mutableStateOf(listOf(ChatMessage("أهلاً! التغطية الحالية لدفتر العائلة المفقود. المحرك محلي ومحدود بالملاحظات المراجعة، وليس AI متصلاً.")))
         private set
     var operations by mutableStateOf(emptyList<Operation>())
         private set
-    var selectedId by mutableStateOf<String?>(null)
     var notice by mutableStateOf<String?>(null)
-    var showPlan by mutableStateOf(false)
+    var currentPlan by mutableStateOf<GuidancePlan?>(null)
         private set
-    private var answers: Map<String, String> = emptyMap()
-    private var stage = 0
-    val selected: Operation? get() = operations.firstOrNull { it.id == selectedId }
+    var suggestedPrompts by mutableStateOf(catalog.startPrompts)
+        private set
+    var isResponding by mutableStateOf(false)
+        private set
+    val showPlan: Boolean get() = currentPlan != null
+    val selected: Operation? get() = operations.firstOrNull { it.id == selection }
+    var selectedId: String?
+        get() = selection
+        set(value) {
+            selection = value
+            if (value != null) operations.firstOrNull { it.id == value }?.let(::restoreOperation)
+        }
 
     init {
-        runCatching { store.load() }.onSuccess { operations = it }
-            .onFailure { notice = "تعذر قراءة البيانات المحفوظة. لم يتم حذفها أو استبدالها." }
+        viewModelScope.launch {
+            try {
+                val loaded = withContext(Dispatchers.IO) { store.load() to store.loadSession() }
+                operations = loaded.first
+                loaded.second?.let(::restoreSession)
+            } catch (error: CancellationException) {
+                throw error
+            } catch (error: Exception) {
+                storageReadable = false
+                notice = "تعذر قراءة المحفوظات. لم نحذفها؛ الحفظ معطل لمنع استبدال بيانات غير مقروءة."
+            } finally {
+                loading = false
+            }
+        }
     }
 
+    /** Draft stays editable and is cleared only after a validated response succeeds. */
     fun send(text: String = draft) {
-        if (text.isBlank()) return
-        messages = messages + ChatMessage(text.trim(), true)
-        draft = ""
-        val reply = when (stage) {
-            0 -> { answers = answers + ("goal" to text); stage = 1; "للتجربة: ضاع داخل الأردن ولا خارجها؟" }
-            1 -> { answers = answers + ("loss_location" to text); stage = 2; "للتجربة: أول مرة يضيع ولا تكرر الفقدان؟" }
-            else -> { answers = answers + ("loss_history" to text); showPlan = true; "هذا ملخص إجاباتك ونموذج شكل الخطة. المتطلبات الرسمية ستُربط لاحقاً بالمصادر المراجعة." }
+        if (text.isBlank() || isResponding) return
+        if (loading) { notice = "جارٍ تحميل المحفوظات، حاول بعد لحظة."; return }
+        val submitted = text.trim()
+        val previousDraft = draft
+        val ticket = generation
+        val request = AssistantRequest(submitted, messages, answers, currentPlan, questions)
+        isResponding = true
+        responseJob = viewModelScope.launch {
+            try {
+                val response = withContext(Dispatchers.Default) {
+                    // Even typed gateways must pass the unchanged JSON schema and semantic checks.
+                    val parsed = codec.decode(codec.encode(gateway.respond(request)))
+                    validator.validate(parsed)
+                    parsed
+                }
+                if (ticket != generation) return@launch
+                val encoded = codec.encode(response)
+                answers = response.caseSummary.knownFacts.filter { it.origin == "user" }.associate { it.key to it.value }
+                questions = response.questions
+                suggestedPrompts = response.suggestedPrompts
+                contextResponseJson = encoded
+                messages = messages + ChatMessage(submitted, true) + ChatMessage(ResponsePresentation.message(response, catalog))
+                if (draft == previousDraft) draft = ""
+                when (response.kind) {
+                    ResponseKind.PLAN -> {
+                        currentPlan = catalog.toDomain(response)
+                        acceptedResponseJson = encoded
+                    }
+                    ResponseKind.CLARIFICATION -> {
+                        // A correction that makes the goal unclear must not keep presenting an old recommendation.
+                        if (answers["issue"] != "lost") { currentPlan = null; acceptedResponseJson = null }
+                    }
+                    ResponseKind.UNSUPPORTED -> {
+                        currentPlan = null
+                        acceptedResponseJson = null
+                        // Preserve the existing operation snapshot; do not replace it with another service.
+                        activeOperationId = null
+                    }
+                }
+                saveActiveContext()
+                saveSession()
+            } catch (error: CancellationException) {
+                throw error
+            } catch (error: Exception) {
+                if (ticket == generation) {
+                    if (draft == previousDraft && previousDraft.isBlank()) draft = submitted
+                    notice = "تعذر قبول الرد. بقيت رسالتك والخطة السابقة؛ حاول مجدداً. هذا خطأ استجابة وليس خدمة غير مدعومة."
+                }
+            } finally {
+                if (ticket == generation) isResponding = false
+            }
         }
-        messages = messages + ChatMessage(reply)
     }
 
     fun newConversation() {
-        stage = 0; answers = emptyMap(); showPlan = false; draft = ""
-        messages = listOf(ChatMessage("محادثة تجريبية جديدة. كيف أقدر أساعدك؟"))
+        generation++; responseJob?.cancel(); isResponding = false
+        activeOperationId = null; answers = emptyMap(); questions = emptyList()
+        acceptedResponseJson = null; contextResponseJson = null; currentPlan = null
+        suggestedPrompts = catalog.startPrompts; draft = ""
+        messages = listOf(ChatMessage("محادثة جديدة. احكيلي عن المشكلة؛ سأستخدم فقط الجزء المثبت في الوثائق المتاحة."))
+        saveSession()
     }
 
     fun savePlan() {
-        val existing = operations.firstOrNull { it.plan.serviceId == DemoCatalog.plan.serviceId && it.status != OperationStatus.COMPLETED }
-        if (existing != null) { selectedId = existing.id; destination = Destination.OPERATIONS; return }
-        val operation = Operation(UUID.randomUUID().toString(), DemoCatalog.plan.title, DemoCatalog.plan, answers)
-        if (persist(operations + operation)) { selectedId = operation.id; destination = Destination.OPERATIONS }
+        if (isResponding || loading) return
+        val plan = currentPlan ?: run { notice = "لا توجد خطة مقبولة للحفظ بعد."; return }
+        val context = conversationSnapshot()
+        val accepted = acceptedResponseJson
+        val responseContext = contextResponseJson
+        val facts = answers.toMap()
+        val existingId = activeOperationId ?: operations.firstOrNull {
+            it.plan.serviceId == plan.serviceId && it.status != OperationStatus.COMPLETED
+        }?.id
+        writeOperations { latest ->
+            val existing = latest.firstOrNull { it.id == existingId }
+            val operation = if (existing == null) Operation(UUID.randomUUID().toString(), plan.title, plan,
+                answers = facts, conversation = context, acceptedResponseJson = accepted, contextResponseJson = responseContext)
+            else reconcilePlan(existing, plan, facts).copy(answers = facts, conversation = context,
+                acceptedResponseJson = accepted, contextResponseJson = responseContext, updatedAt = System.currentTimeMillis())
+            activeOperationId = operation.id
+            selection = operation.id
+            destination = Destination.OPERATIONS
+            latest.filterNot { it.id == operation.id } + operation
+        }
     }
 
     fun toggleStep(id: String) = update { operation ->
-        val step = operation.plan.steps.first { it.id == id }
+        val step = operation.plan.steps.firstOrNull { it.id == id } ?: return@update operation
+        if (operation.status == OperationStatus.COMPLETED) return@update operation
         val done = id in operation.completedStepIds
         if (!done && !operation.completedStepIds.containsAll(step.dependsOn)) {
             notice = "أكمل الخطوات السابقة أولاً."; operation
         } else {
             var completed = if (done) operation.completedStepIds - id else operation.completedStepIds + id
-            // Reopening a dependency also reopens dependent steps, preserving unrelated work.
             while (true) {
                 val invalid = operation.plan.steps.filter { it.id in completed && !completed.containsAll(it.dependsOn) }.map { it.id }.toSet()
                 if (invalid.isEmpty()) break
@@ -71,26 +193,126 @@ class DaleelakViewModel(private val store: LocalOperationStore) : ViewModel() {
             operation.copy(completedStepIds = completed, status = OperationStatus.ONGOING)
         }
     }
-    fun toggleRequirement(id: String) = update { operation -> operation.copy(
-        checkedRequirementIds = if (id in operation.checkedRequirementIds) operation.checkedRequirementIds - id else operation.checkedRequirementIds + id,
-        status = OperationStatus.ONGOING) }
+    fun toggleRequirement(id: String) = update { operation ->
+        if (operation.plan.steps.none { step -> step.requirements.any { it.id == id } } || operation.status == OperationStatus.COMPLETED) operation
+        else operation.copy(checkedRequirementIds = if (id in operation.checkedRequirementIds) operation.checkedRequirementIds - id else operation.checkedRequirementIds + id,
+            status = OperationStatus.ONGOING)
+    }
     fun setCompleted() = update { operation ->
-        if (operation.completedStepIds.size != operation.plan.steps.size) { notice = "راجع كل الخطوات أولاً."; operation }
-        else operation.copy(status = OperationStatus.COMPLETED)
+        if (!operation.completedStepIds.containsAll(operation.plan.steps.map { it.id })) {
+            notice = "راجع كل الخطوات أولاً."; operation
+        } else {
+            notice = "اكتملت متابعة الجزء المحفوظ حسب تأكيدك فقط؛ ليست موافقة حكومية أو إثبات اكتمال الإجراء الكامل."
+            operation.copy(status = OperationStatus.COMPLETED)
+        }
     }
     fun reopen() = update { it.copy(status = OperationStatus.ONGOING) }
     fun bookDemo() = update { operation ->
-        val event = DemoEvent("DEMO-${UUID.randomUUID().toString().take(8)}", "تم إنشاء حجز تجريبي محلي فقط. لا يوجد موعد رسمي أو توافر حقيقي.", System.currentTimeMillis())
-        operation.copy(demoEvents = operation.demoEvents + event) // Never alters official/user-reported progress.
+        val event = DemoEvent("DEMO-${UUID.randomUUID().toString().take(8)}", "حجز تجريبي محلي فقط. لم يُنشأ موعد رسمي ولا يدل على توافر أو اشتراط الحجز.", System.currentTimeMillis())
+        operation.copy(demoEvents = operation.demoEvents + event)
     }
     fun deleteSelected() {
-        if (persist(operations.filterNot { it.id == selectedId })) selectedId = null
+        val id = selection ?: return
+        writeOperations { latest ->
+            if (activeOperationId == id) activeOperationId = null
+            selection = null
+            latest.filterNot { it.id == id }
+        }
     }
     private fun update(transform: (Operation) -> Operation) {
-        val id = selectedId ?: return
-        persist(operations.map { if (it.id == id) transform(it).copy(updatedAt = System.currentTimeMillis()) else it })
+        val id = selection ?: return
+        writeOperations { latest -> latest.map { if (it.id == id) transform(it).copy(updatedAt = System.currentTimeMillis()) else it } }
     }
-    private fun persist(next: List<Operation>): Boolean = runCatching { store.save(next) }
-        .onSuccess { operations = next }
-        .onFailure { notice = "فشل الحفظ. التغييرات السابقة ما زالت محفوظة؛ حاول مجدداً." }.isSuccess
+    private fun saveActiveContext() {
+        val id = activeOperationId ?: return
+        val plan = currentPlan
+        val facts = answers.toMap()
+        val context = conversationSnapshot()
+        val accepted = acceptedResponseJson
+        val response = contextResponseJson
+        writeOperations { latest -> latest.map { operation ->
+            if (operation.id != id) operation
+            else (if (plan != null && plan.serviceId == operation.plan.serviceId) reconcilePlan(operation, plan, facts) else operation)
+                .copy(answers = facts, conversation = context, acceptedResponseJson = accepted ?: operation.acceptedResponseJson,
+                    contextResponseJson = response, updatedAt = System.currentTimeMillis())
+        } }
+    }
+    private fun reconcilePlan(operation: Operation, plan: GuidancePlan, facts: Map<String, String>): Operation {
+        val reconciled = PlanReconciler.reconcile(operation, plan, facts)
+        if (reconciled.completedStepIds != operation.completedStepIds || reconciled.checkedRequirementIds != operation.checkedRequirementIds) {
+            notice = "تغيرت إجابة أو مهمة تؤثر على التقدم؛ أُعيد فتح الجزء المتأثر فقط وبقي العمل غير المتأثر محفوظاً."
+        }
+        return reconciled
+    }
+    private fun writeOperations(transform: (List<Operation>) -> List<Operation>) {
+        if (loading || !storageReadable) { notice = "الحفظ غير متاح حتى تُقرأ البيانات المحلية بنجاح."; return }
+        viewModelScope.launch {
+            writes.withLock {
+                val previousId = activeOperationId
+                val previousSelection = selection
+                val previousDestination = destination
+                val next = transform(operations)
+                try {
+                    withContext(Dispatchers.IO) { store.save(next) }
+                    operations = next
+                    saveSession()
+                } catch (error: CancellationException) { throw error }
+                catch (error: Exception) {
+                    activeOperationId = previousId; selection = previousSelection; destination = previousDestination
+                    notice = "فشل الحفظ؛ بقيت الخطة والمحادثة ظاهرتين والبيانات المحفوظة السابقة محفوظة."
+                }
+            }
+        }
+    }
+
+    private fun restoreOperation(operation: Operation) {
+        generation++; responseJob?.cancel(); isResponding = false
+        activeOperationId = operation.id
+        answers = operation.answers
+        messages = operation.conversation.ifEmpty { listOf(ChatMessage("تم استئناف المعاملة المحفوظة. يمكن تصحيح إجاباتها دون حذف التقدم غير المتأثر.")) }
+        currentPlan = operation.plan
+        acceptedResponseJson = operation.acceptedResponseJson
+        contextResponseJson = operation.contextResponseJson ?: operation.acceptedResponseJson
+        questions = emptyList(); suggestedPrompts = catalog.startPrompts
+        contextResponseJson?.let { raw ->
+            try {
+                val response = codec.decode(raw); validator.validate(response)
+                questions = response.questions; suggestedPrompts = response.suggestedPrompts
+                if (response.kind == ResponseKind.UNSUPPORTED || response.caseSummary.knownFacts.none { it.key == "issue" && it.value == "lost" }) currentPlan = null
+            } catch (error: Exception) { notice = "الخطة المحفوظة معروضة كما كانت؛ سياق الرد يحتاج مراجعة قبل استخدامه." }
+        }
+        saveSession()
+    }
+    private fun conversationSnapshot(): List<ChatMessage> = messages.toList()
+    private fun saveSession() {
+        if (loading || !storageReadable) return
+        val raw = JSONObject().put("version", 1).put("activeOperationId", activeOperationId ?: JSONObject.NULL)
+            .put("draft", draft).put("acceptedResponseJson", acceptedResponseJson ?: JSONObject.NULL)
+            .put("contextResponseJson", contextResponseJson ?: JSONObject.NULL).put("answers", JSONObject(answers))
+            .put("messages", JSONArray().also { array -> messages.forEach { array.put(JSONObject().put("text", it.text).put("fromUser", it.fromUser)) } }).toString()
+        viewModelScope.launch {
+            writes.withLock {
+                try { withContext(Dispatchers.IO) { store.saveSession(raw) } }
+                catch (error: CancellationException) { throw error }
+                catch (error: Exception) { notice = "تعذر حفظ سياق المحادثة؛ المعاملات المحفوظة لم تُحذف." }
+            }
+        }
+    }
+    private fun restoreSession(raw: String) {
+        val session = JSONObject(raw)
+        require(session.getInt("version") == 1)
+        activeOperationId = if (session.isNull("activeOperationId")) null else session.getString("activeOperationId").takeIf { id -> operations.any { it.id == id } }
+        draft = session.optString("draft")
+        val storedAnswers = session.getJSONObject("answers")
+        answers = storedAnswers.keys().asSequence().associateWith { storedAnswers.getString(it) }
+        val storedMessages = session.getJSONArray("messages")
+        messages = (0 until storedMessages.length()).map { storedMessages.getJSONObject(it).let { item -> ChatMessage(item.getString("text"), item.getBoolean("fromUser")) } }
+        acceptedResponseJson = if (session.isNull("acceptedResponseJson")) null else session.getString("acceptedResponseJson")
+        contextResponseJson = if (session.isNull("contextResponseJson")) null else session.getString("contextResponseJson")
+        acceptedResponseJson?.let { val accepted = codec.decode(it); validator.validate(accepted); currentPlan = catalog.toDomain(accepted) }
+        contextResponseJson?.let { val context = codec.decode(it); validator.validate(context)
+            questions = context.questions; suggestedPrompts = context.suggestedPrompts
+            if (context.kind == ResponseKind.UNSUPPORTED || context.caseSummary.knownFacts.none { it.key == "issue" && it.value == "lost" }) currentPlan = null
+        }
+    }
 }

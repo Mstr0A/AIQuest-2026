@@ -1,0 +1,22 @@
+{
+  "version": "repo-review-2026-10-09-v1",
+  "service_id": "lost_family_book",
+  "sources": [
+    {
+      "id": "cspd-lost-family-book-electronic",
+      "title": "CSPD electronic lost-family-book card — recorded inspection",
+      "url": "https://cspd.gov.jo/AR/ListDetails/الخدمات_الالكترونية/42/10",
+      "version": "recorded-inspection-2026-10-09",
+      "accessed_at": "2026-10-09",
+      "provenance": "docs/daleelak/sources.md, Pilot references. This is the supplied review summary, not a verbatim service-card excerpt or a newly fetched rule.",
+      "reviewed_excerpt": "Body read. Supports the selected pilot and identifies an electronic route, a police-report prerequisite and conditional follow-up. No portrait listed. Substantive revision date and actual execution unverified.",
+      "supported_rules": ["electronic_route_exists", "police_report_prerequisite"],
+      "gaps": [
+        "لا تتضمن الملفات المراجعة النص الكامل لشروط الفروع داخل الأردن وخارجها أو تكرار الفقدان.",
+        "لا تتضمن الملفات المراجعة تفاصيل الرسوم أو صيغة تقديم البلاغ أو زمن الإنجاز.",
+        "المتابعة مشروطة بحسب المصدر، لكن شروطها وخطواتها الكاملة غير متاحة في السجل المرفق.",
+        "لا توجد أماكن موثقة أو بيانات توافر مواعيد."
+      ]
+    }
+  ]
+}
