@@ -4,6 +4,8 @@
 
 DALEELAK helps people describe what they need in ordinary language, understand the relevant procedure and organize its completion. The assistant asks questions that affect the route, presents a dependency flowchart, explains each step's requirements and supplies separate checklists. Users save their operations locally and return to the next action.
 
+**Assistant focus:** understand the problem and select its documented solution path. Back-and-forth establishes issue details, not a general profile of the person. The supplied documents are the only authority for government procedures. Ask a personal category only when a reviewed rule makes it necessary to choose a route or requirement; do not collect a biography, identifiers or unrelated preferences. If the documents do not establish a rule, state the gap rather than guessing or extending the interview.
+
 The intended outcome is less uncertainty about what to do, what to bring and where to go. Reduced visits, completion time, adoption and nationwide coverage are intended benefits, not measured results.
 
 ## Intended users and pilot

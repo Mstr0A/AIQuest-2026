@@ -12,7 +12,9 @@ Voice-to-text targets everyday Jordanian Arabic, English and mixed speech, and f
 
 ## 2. Clarify and confirm
 
-Ask questions that change the procedure or next action. Reuse answers already provided. For the flagship, relevant distinctions include lost/damaged, inside Jordan/abroad, first/repeat loss, applicant relationship, relevant identity/account availability and prerequisites already completed. Do not demand unnecessary identifying numbers merely to explain a procedure.
+Ask questions that change a documented procedure or next action. Reuse answers already provided. For the flagship, relevant distinctions include lost/damaged, inside Jordan/abroad, first/repeat loss and prerequisites already completed. Ask applicant relationship or identity/account availability only when the supplied rule makes the answer necessary for the selected route. Do not demand identifying numbers merely to explain a procedure.
+
+The conversation is about the issue and its solution, not personal onboarding. Do not ask a name, occupation, life history, general preferences or unrelated demographic details. A useful question can explain which documented route or requirement its answer changes. Location for nearest-place ranking can be supplied separately in the Places interface rather than becoming a general profile in chat. Missing government rules remain source gaps; repeated personal questions cannot fill them.
 
 Show a concise case summary with a correction action. Missing facts remain explicit. A user who has already completed a prerequisite can enter halfway through the process.
 
