@@ -1,0 +1,189 @@
+# Native UI components
+
+Jetpack Compose Material 3 supplies Card, OutlinedCard, Button, TextButton, TextField, Checkbox and FilterChip. No web framework or custom CSS is used. Native icon vectors and the home operation-entry primitive follow.
+
+## android/app/src/main/java/com/a0/daleelak/ui/components/DaleelakIcons.kt
+
+```kotlin
+package com.a0.daleelak.ui.components
+
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.PathBuilder
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
+
+/** Native vector icons; no additional icon dependency. */
+object DaleelakIcons {
+    val Home = outline("Home") {
+        moveTo(3f, 10f); lineTo(12f, 3f); lineTo(21f, 10f)
+        moveTo(5f, 9f); lineTo(5f, 21f); lineTo(10f, 21f)
+        lineTo(10f, 14f); lineTo(14f, 14f); lineTo(14f, 21f)
+        lineTo(19f, 21f); lineTo(19f, 9f)
+    }
+    val History = outline("History") {
+        moveTo(5f, 3f); lineTo(19f, 3f); lineTo(19f, 21f); lineTo(5f, 21f); close()
+        moveTo(9f, 8f); lineTo(15f, 8f)
+        moveTo(9f, 12f); lineTo(15f, 12f)
+        moveTo(9f, 16f); lineTo(13f, 16f)
+    }
+    val Current = outline("Current") {
+        circle(); moveTo(12f, 7f); lineTo(12f, 12f); lineTo(15f, 14f)
+    }
+    val Finished = outline("Finished") {
+        circle(); moveTo(8f, 12f); lineTo(11f, 15f); lineTo(16f, 9f)
+    }
+    val Add = outline("Add") {
+        moveTo(12f, 5f); lineTo(12f, 19f); moveTo(5f, 12f); lineTo(19f, 12f)
+    }
+    val Places = outline("Places") {
+        moveTo(12f, 21f)
+        curveTo(9f, 17f, 5f, 13f, 5f, 9f); curveTo(5f, 5f, 8f, 3f, 12f, 3f)
+        curveTo(16f, 3f, 19f, 5f, 19f, 9f); curveTo(19f, 13f, 15f, 17f, 12f, 21f); close()
+        moveTo(14f, 9f); curveTo(14f, 12f, 10f, 12f, 10f, 9f)
+        curveTo(10f, 6f, 14f, 6f, 14f, 9f); close()
+    }
+    val Microphone = outline("Microphone") {
+        moveTo(9f, 6f); curveTo(9f, 2f, 15f, 2f, 15f, 6f)
+        lineTo(15f, 11f); curveTo(15f, 15f, 9f, 15f, 9f, 11f); close()
+        moveTo(6f, 10f); curveTo(6f, 19f, 18f, 19f, 18f, 10f)
+        moveTo(12f, 17f); lineTo(12f, 21f); moveTo(8f, 21f); lineTo(16f, 21f)
+    }
+    val Keyboard = outline("Keyboard") {
+        moveTo(3f, 5f); lineTo(21f, 5f); lineTo(21f, 19f); lineTo(3f, 19f); close()
+        moveTo(7f, 9f); lineTo(8f, 9f); moveTo(11f, 9f); lineTo(12f, 9f)
+        moveTo(15f, 9f); lineTo(17f, 9f); moveTo(7f, 12f); lineTo(8f, 12f)
+        moveTo(11f, 12f); lineTo(12f, 12f); moveTo(15f, 12f); lineTo(17f, 12f)
+        moveTo(8f, 16f); lineTo(16f, 16f)
+    }
+    val Speaker = outline("Speaker") {
+        moveTo(3f, 9f); lineTo(7f, 9f); lineTo(12f, 5f); lineTo(12f, 19f)
+        lineTo(7f, 15f); lineTo(3f, 15f); close()
+        moveTo(16f, 8f); curveTo(19f, 10f, 19f, 14f, 16f, 16f)
+        moveTo(19f, 5f); curveTo(24f, 9f, 24f, 15f, 19f, 19f)
+    }
+
+    private fun outline(name: String, block: PathBuilder.() -> Unit): ImageVector =
+        ImageVector.Builder(name, 24.dp, 24.dp, 24f, 24f).apply {
+            path(stroke = SolidColor(Color.Black), strokeLineWidth = 1.7f,
+                strokeLineCap = StrokeCap.Round, strokeLineJoin = StrokeJoin.Round, block = block)
+        }.build()
+
+    private fun PathBuilder.circle() {
+        moveTo(21f, 12f); curveTo(21f, 17f, 17f, 21f, 12f, 21f)
+        curveTo(7f, 21f, 3f, 17f, 3f, 12f); curveTo(3f, 7f, 7f, 3f, 12f, 3f)
+        curveTo(17f, 3f, 21f, 7f, 21f, 12f); close()
+    }
+}
+
+```
+
+## android/app/src/main/java/com/a0/daleelak/features/home/HomeScreen.kt
+
+```kotlin
+package com.a0.daleelak.features.home
+
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
+import com.a0.daleelak.ui.components.DaleelakIcons
+
+/** Entry point for starting a conversation or returning to saved operations. */
+@Composable
+fun HomeScreen(
+    totalCount: Int,
+    currentCount: Int,
+    finishedCount: Int,
+    onNewOperation: () -> Unit,
+    onHistory: () -> Unit,
+    onCurrent: () -> Unit,
+    onFinished: () -> Unit,
+    onPlaces: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    LazyColumn(
+        modifier = modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(top = 24.dp, bottom = 24.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("شو بدك تنجز اليوم؟", style = MaterialTheme.typography.headlineMedium)
+                Text("ابدأ معاملة جديدة، أو كمل من وين وقفت.",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+        item {
+            Button(onClick = onNewOperation,
+                modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp),
+                shape = RoundedCornerShape(16.dp),
+                contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp)) {
+                Icon(DaleelakIcons.Add, contentDescription = null)
+                Spacer(Modifier.width(8.dp))
+                Text("معاملة جديدة", style = MaterialTheme.typography.titleMedium)
+            }
+        }
+        item {
+            Text("معاملاتك", style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(top = 12.dp))
+        }
+        item {
+            OperationEntry("المعاملات الحالية", "الجديدة والجارية", currentCount,
+                DaleelakIcons.Current, onCurrent)
+        }
+        item {
+            OperationEntry("المعاملات المنتهية", "اللي أكملت متابعتها", finishedCount,
+                DaleelakIcons.Finished, onFinished)
+        }
+        item {
+            OperationEntry("سجل المعاملات", "كل معاملاتك المحفوظة", totalCount,
+                DaleelakIcons.History, onHistory)
+        }
+        item {
+            TextButton(onClick = onPlaces, modifier = Modifier.heightIn(min = 48.dp)) {
+                Icon(DaleelakIcons.Places, contentDescription = null, modifier = Modifier.size(20.dp))
+                Spacer(Modifier.width(8.dp))
+                Text("الأماكن ذات الصلة")
+            }
+        }
+    }
+}
+
+@Composable
+private fun OperationEntry(
+    title: String, description: String, count: Int, icon: ImageVector, onClick: () -> Unit,
+) {
+    OutlinedCard(onClick = onClick, modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.surface)) {
+        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Surface(shape = RoundedCornerShape(12.dp),
+                color = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer) {
+                Icon(icon, contentDescription = null, modifier = Modifier.padding(12.dp).size(24.dp))
+            }
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Text(title, style = MaterialTheme.typography.titleMedium)
+                Text(description, style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            Text(count.toString(), style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary)
+        }
+    }
+}
+
+```

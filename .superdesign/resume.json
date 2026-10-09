@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "targets": {
+    "native:home-chat-journey": {
+      "targetKind": "existing-ui",
+      "projectId": "63aa42fd-4f82-49d4-b314-99fafe99596b",
+      "baselineDraftId": "0683c6d4-f357-48fb-afb9-df448ea6e634",
+      "activeDraftId": "0683c6d4-f357-48fb-afb9-df448ea6e634",
+      "designSystemPath": ".superdesign/design-system.md",
+      "contextFiles": [
+        ".superdesign/design-system.md",
+        "android/app/src/main/java/com/a0/daleelak/ui/theme/Color.kt",
+        "android/app/src/main/java/com/a0/daleelak/ui/theme/Type.kt",
+        "android/app/src/main/java/com/a0/daleelak/app/DaleelakApp.kt",
+        "android/app/src/main/java/com/a0/daleelak/features/home/HomeScreen.kt",
+        "android/app/src/main/java/com/a0/daleelak/features/assistant/AssistantScreen.kt",
+        "android/app/src/main/java/com/a0/daleelak/features/operations/OperationsScreen.kt",
+        "android/app/src/main/java/com/a0/daleelak/features/journey/JourneyScreen.kt",
+        "android/app/src/main/java/com/a0/daleelak/ui/components/DaleelakIcons.kt"
+      ],
+      "fingerprints": {
+        ".superdesign/design-system.md": "9986145fef1f6c3a62d0591b8f34efdfa7fcda66c992540fe92ba3d7f5f57064",
+        "android/app/src/main/java/com/a0/daleelak/ui/theme/Color.kt": "8bed97b6d401e369a654380d4264352be8dbebc9625b782bcb60a2820af307df",
+        "android/app/src/main/java/com/a0/daleelak/ui/theme/Type.kt": "669d5f3652db4b6177b7c9c32bfcc154313b200de28293c524d337bce2b21ee0",
+        "android/app/src/main/java/com/a0/daleelak/app/DaleelakApp.kt": "7db54d5babc25d4a7a6cd62b987aff2aedd8ada2e10ff27233325a9d71b97ddc",
+        "android/app/src/main/java/com/a0/daleelak/features/home/HomeScreen.kt": "70aece35a67c3e89fd7c93f49cbe322f2744c814c8e76d426bd3692db96e7fa6",
+        "android/app/src/main/java/com/a0/daleelak/features/assistant/AssistantScreen.kt": "b2d7d2486fe5c3dd75722933138a2c12d544672b4119d99efc35bf8f7eaf4706",
+        "android/app/src/main/java/com/a0/daleelak/features/operations/OperationsScreen.kt": "11bbef810a8cda23cc34151fbde409ef01add8e911de9a53943b8c982d0bd515",
+        "android/app/src/main/java/com/a0/daleelak/features/journey/JourneyScreen.kt": "169350fdc82c3dba6bf01210c05bae0501afc3d589d1fbb618f1653ebc624b55",
+        "android/app/src/main/java/com/a0/daleelak/ui/components/DaleelakIcons.kt": "899826d44c992109f1e16ab2d7528b3acf860076fe83968a9f7825e2486e0353"
+      },
+      "components": [
+        {
+          "name": "AppHeader",
+          "id": "d4387e21-d7ad-4c07-961c-24695d3b9e92",
+          "sourcePath": "android/app/src/main/java/com/a0/daleelak/app/DaleelakApp.kt"
+        }
+      ],
+      "drafts": {
+        "0683c6d4-f357-48fb-afb9-df448ea6e634": {
+          "title": "DALEELAK Native Android Review Prototype",
+          "visualDirection": "Faithful native reference: minimalist Navy and Sky, RTL home, voice-first chat and snapping cards",
+          "currentVersion": 2
+        }
+      },
+      "updatedAt": "2026-10-09T20:17:50.679924+00:00"
+    }
+  }
+}

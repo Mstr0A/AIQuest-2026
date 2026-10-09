@@ -22,3 +22,5 @@ Read README.md, product-brief.md, app-flow.md, ai-response-contract.md and sourc
 - Another agent may push commits. Preserve their work, inspect/fetch upstream before integration when access permits, and never force-push to resolve a shared-history mismatch. Stage only the files you changed; coordinate conflicting edits.
 - The user now authorizes beginning native UI implementation, supplying the design incrementally. Read work-plan.md for separate UI and assistant/state ownership. Implement the confirmed home/voice-first direction while preserving source boundaries. Live government transactions and outreach remain unauthorized.
 - Do not add or run implementation tests unless the user asks. No tests were run while preparing this documentation bundle.
+
+- Latest usage directive: be more careful with model/design spending. Proposed Codex-orchestrator/OpenRouter-worker workflow is in coding-workflow.md; provider/key/budget are not configured. Hold further paid design generation while deciding costs. Do not send entire conversation/research to workers; use small owned-file task packets and bounded calls. This does not select the app runtime AI provider.
