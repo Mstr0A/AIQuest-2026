@@ -18,6 +18,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.IOException
 import java.util.UUID
 
 enum class Destination { ASSISTANT, OPERATIONS, LOCATIONS }
@@ -52,11 +53,14 @@ class DaleelakViewModel(
             draftSaveJob?.cancel()
             if (!loading) draftSaveJob = viewModelScope.launch { delay(300); saveSession() }
         }
-    var messages by mutableStateOf(listOf(ChatMessage("أهلاً! التغطية الحالية لدفتر العائلة المفقود. المحرك محلي ومحدود بالملاحظات المراجعة، وليس AI متصلاً.")))
+    var messages by mutableStateOf(listOf(ChatMessage("أهلاً! التغطية الحالية لدفتر العائلة المفقود، والإرشاد يستند إلى الوثائق المحلية المراجعة.")))
         private set
     var operations by mutableStateOf(emptyList<Operation>())
         private set
     var notice by mutableStateOf<String?>(null)
+    /** Session-only credential for the optional in-app OpenRouter classifier; never persisted. */
+    var openRouterApiKey by mutableStateOf("")
+        private set
     var currentPlan by mutableStateOf<GuidancePlan?>(null)
         private set
     var suggestedPrompts by mutableStateOf(catalog.startPrompts)
@@ -64,6 +68,7 @@ class DaleelakViewModel(
     var isResponding by mutableStateOf(false)
         private set
     val showPlan: Boolean get() = currentPlan != null
+    val hasOpenRouterKey: Boolean get() = openRouterApiKey.isNotBlank()
     val selected: Operation? get() = operations.firstOrNull { it.id == selection }
     var selectedId: String?
         get() = selection
@@ -89,6 +94,12 @@ class DaleelakViewModel(
         }
     }
 
+    fun configureOpenRouterApiKey(value: String) {
+        openRouterApiKey = value.trim()
+        notice = if (openRouterApiKey.isBlank()) "عاد المساعد للوضع المحلي المحدود."
+            else "تم تفعيل فهم الرسائل عبر OpenRouter لهذه الجلسة فقط؛ لا يُحفظ المفتاح."
+    }
+
     /** Draft stays editable and is cleared only after a validated response succeeds. */
     fun send(text: String = draft) {
         if (text.isBlank() || isResponding) return
@@ -97,12 +108,14 @@ class DaleelakViewModel(
         val previousDraft = draft
         val ticket = generation
         val request = AssistantRequest(submitted, messages, answers, currentPlan, questions)
+        val activeGateway = openRouterApiKey.takeIf { it.isNotBlank() }
+            ?.let { OpenRouterAssistant(catalog, it) } ?: gateway
         isResponding = true
         responseJob = viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.Default) {
                     // Even typed gateways must pass the unchanged JSON schema and semantic checks.
-                    val parsed = codec.decode(codec.encode(gateway.respond(request)))
+                    val parsed = codec.decode(codec.encode(activeGateway.respond(request)))
                     validator.validate(parsed)
                     parsed
                 }
@@ -137,7 +150,8 @@ class DaleelakViewModel(
             } catch (error: Exception) {
                 if (ticket == generation) {
                     if (draft == previousDraft && previousDraft.isBlank()) draft = submitted
-                    notice = "تعذر قبول الرد. بقيت رسالتك والخطة السابقة؛ حاول مجدداً. هذا خطأ استجابة وليس خدمة غير مدعومة."
+                    notice = if (error is IOException && !error.message.isNullOrBlank()) error.message
+                        else "تعذر قبول الرد. بقيت رسالتك والخطة السابقة؛ حاول مجدداً. هذا خطأ استجابة وليس خدمة غير مدعومة."
                 }
             } finally {
                 if (ticket == generation) isResponding = false
