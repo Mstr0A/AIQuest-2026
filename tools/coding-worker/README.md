@@ -52,7 +52,9 @@ see [first-run result](../../docs/daleelak/worker-first-run.md).
   failures and missing-cost responses: at most 20 attempts per ledger. Reservations
   are not automatically refunded even when actual billed cost is smaller.
 - `usage.cost`, when supplied, is recorded separately as actual cost. Missing cost
-  is unknown, not zero. Locking prevents simultaneous workers in this checkout.
+  is unknown, not zero. Locking serializes ledger reservations/results, while HTTP
+  requests for separate tasks may overlap. The orchestrator checks that task file
+  ownership is disjoint before launch; the runner does not enforce global task ownership.
 - This is a local spending guard, not an account-wide billing guarantee. For an
   enforced billing limit, set a $1 limit on a dedicated key in OpenRouter. Do not
   delete/reset the ledger to keep retrying; review costs and agree a new budget.
@@ -61,6 +63,13 @@ The first live request succeeded, both Python scripts passed syntax checks and t
 isolated mocked smoke checks passed. The proposed Kotlin patch needed two reviewer
 corrections before application; native compilation/device testing remains pending.
 Keep human/orchestrator review for each task.
+
+The next batch uses `chat-state.json` (AssistantScreen only) and
+`journey-details.json` (JourneyScreen only). Both were requested concurrently and
+returned valid proposals. Chat needed review corrections; journey returned no edits
+with an incorrect claim that small requested UI additions were forbidden. The
+orchestrator completed those changes locally without retries. See the current
+batch result in [work-plan.md](../../docs/daleelak/work-plan.md).
 
 References: [provider price/parameter routing](https://openrouter.ai/docs/guides/routing/provider-selection),
 [usage and cost response](https://openrouter.ai/docs/api_reference/overview),

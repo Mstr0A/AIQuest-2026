@@ -1,0 +1,18 @@
+{
+  "id": "chat-state",
+  "goal": "Connect the current chat UI to the already-implemented reviewed ViewModel state without changing the ViewModel or adding features.",
+  "allowed_files": ["android/app/src/main/java/com/a0/daleelak/features/assistant/AssistantScreen.kt"],
+  "context_files": [
+    "android/AGENTS.md",
+    "android/app/src/main/java/com/a0/daleelak/app/DaleelakViewModel.kt",
+    "android/app/src/main/java/com/a0/daleelak/domain/Models.kt"
+  ],
+  "acceptance_criteria": [
+    "Remove DemoCatalog imports/reads. Render a non-null snapshot of model.currentPlan, not a fixture. Use model.suggestedPrompts, whose exactly-three contract is already enforced by state.",
+    "The plan card shows its title and summary if nonblank, and all nonblank uncertainties as explicitly missing/uncertain information. Do not imply a partial documented plan is a full procedure. Preserve illustrative labeling when plan.illustrative is true.",
+    "Display the accepted plan's step titles and keep model.savePlan as the save action. Hide the card when currentPlan is null.",
+    "Show restrained Arabic busy feedback from model.isResponding; disable Send and Save while responding. Keep draft editable and visible so a user can prepare/correct text.",
+    "Preserve Navy/Sky theme, RTL, exactly three contextual suggestions, voice-first microphone placeholder, visible messages, optional keyboard, existing listening placeholder and all original callbacks.",
+    "Do not add audio implementation, network calls, tests, dependencies, procedural facts or new ViewModel methods. Include all required imports. Return small exact edits for this file only."
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "journey-details",
+  "goal": "Present available sourced plan metadata and conditional/helpful requirements clearly inside the existing snapping journey cards, without changing state or dependencies.",
+  "allowed_files": ["android/app/src/main/java/com/a0/daleelak/features/journey/JourneyScreen.kt"],
+  "context_files": ["android/AGENTS.md", "android/app/src/main/java/com/a0/daleelak/domain/Models.kt"],
+  "acceptance_criteria": [
+    "In the overview card show nonblank operation.plan.summary and every nonblank operation.plan.uncertainties item with an Arabic gaps/uncertainties label. Do not imply a partial plan covers the entire procedure.",
+    "In overview requirements and individual step checklist rows distinguish necessity == helpful from required, and show nonblank condition whenever supplied. Do not invent a condition or change whether the checkbox is enabled.",
+    "Preserve all ready parallel-task logic, dependency completion gates, future browsing, VerticalPager snapping, checklist categories/formats, booking simulation, deletion and source disclosure.",
+    "Preserve the reviewed accessible toggleable requirement rows: visible Checkbox, null child callback, full row owning exactly one toggle event, Role.Checkbox, 48dp minimum and completed-operation disabled state.",
+    "Use only existing model strings/fields, restrained typography and Navy/Sky roles. Do not add source/place accessors, network calls, dependencies, tests or procedures.",
+    "Include required imports. Return small exact edits for this file only; no edits to shared components, ViewModel/domain/data/build or AssistantScreen."
+  ]
+}

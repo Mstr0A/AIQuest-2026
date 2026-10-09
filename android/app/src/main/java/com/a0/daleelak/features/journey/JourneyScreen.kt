@@ -64,6 +64,15 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                         0 -> {
                             item {
                                 Text("اللي تقدر تتابعه الآن", style = MaterialTheme.typography.headlineSmall)
+                                if (operation.plan.summary.isNotBlank()) Text(operation.plan.summary)
+                                val uncertainties = operation.plan.uncertainties.filter { it.isNotBlank() }
+                                if (uncertainties.isNotEmpty()) {
+                                    Text("تفاصيل تحتاج تأكيد", style = MaterialTheme.typography.titleSmall)
+                                    uncertainties.forEach { uncertainty ->
+                                        Text("• $uncertainty", style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    }
+                                }
                                 Text(if (readySteps.size > 1)
                                     "هاي المهام متاحة بنفس الوقت. شوفها مع بعض قبل ما ترتّب مشوارك."
                                 else "شوف الخطوة المتاحة ومتطلباتها قبل ما تبدأ.")
@@ -91,6 +100,13 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                                     Text(category.label(), style = MaterialTheme.typography.titleMedium)
                                     items.forEach { requirement ->
                                         Text("• ${requirement.label}", style = MaterialTheme.typography.bodyMedium)
+                                        requirement.necessityLabel().takeIf { it.isNotBlank() }?.let {
+                                            Text(it, style = MaterialTheme.typography.labelSmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                        }
+                                        requirement.condition?.takeIf { it.isNotBlank() }?.let {
+                                            Text("ينطبق إذا: $it", style = MaterialTheme.typography.bodySmall)
+                                        }
                                     }
                                 }
                             }
@@ -169,6 +185,13 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                                                 onCheckedChange = null, modifier = Modifier.size(48.dp))
                                             Column(Modifier.weight(1f).padding(top = 12.dp)) {
                                                 Text(requirement.label)
+                                                requirement.necessityLabel().takeIf { it.isNotBlank() }?.let {
+                                                    Text(it, style = MaterialTheme.typography.labelSmall,
+                                                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                                }
+                                                requirement.condition?.takeIf { it.isNotBlank() }?.let {
+                                                    Text("ينطبق إذا: $it", style = MaterialTheme.typography.bodySmall)
+                                                }
                                                 if (requirement.format != RequirementFormat.UNSPECIFIED) {
                                                     Text(requirement.format.label(), style = MaterialTheme.typography.bodySmall,
                                                         color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -219,6 +242,13 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
         title = { Text("حذف المعاملة؟") }, text = { Text("سيتم حذف تقدمها من هذا الجهاز.") },
         confirmButton = { TextButton(onClick = { model.deleteSelected(); confirmDelete = false }) { Text("حذف") } },
         dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text("إلغاء") } })
+}
+
+private fun Requirement.necessityLabel(): String = when (necessity) {
+    "required" -> "مطلوب"
+    "helpful" -> "مفيد للتحضير"
+    "conditional" -> "مطلوب حسب الحالة"
+    else -> ""
 }
 
 private fun ChecklistCategory.label(): String = when (this) {

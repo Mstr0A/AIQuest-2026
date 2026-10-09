@@ -15,11 +15,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.a0.daleelak.app.DaleelakViewModel
-import com.a0.daleelak.data.DemoCatalog
 import com.a0.daleelak.ui.components.DaleelakIcons
 
 @Composable
 fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
+    val plan = model.currentPlan
     val listState = rememberLazyListState()
     var showTyping by rememberSaveable { mutableStateOf(false) }
     val keyboard = LocalSoftwareKeyboardController.current
@@ -30,7 +30,7 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
             keyboard?.show()
         }
     }
-    LaunchedEffect(model.messages.size, model.showPlan) {
+    LaunchedEffect(model.messages.size, plan, model.isResponding) {
         if (listState.layoutInfo.totalItemsCount > 0) listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
     }
     Column(modifier.fillMaxWidth()) {
@@ -58,20 +58,38 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                     }
                 }
             }
-            if (model.showPlan) item {
+            if (model.isResponding) item {
+                Row(Modifier.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
+                    Text("جارٍ تجهيز الرد…", style = MaterialTheme.typography.bodySmall)
+                }
+            }
+            if (plan != null) item {
                 Card(Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(DemoCatalog.plan.title, style = MaterialTheme.typography.titleMedium)
-                        Text("نموذج عرض للخطة؛ ليس إجراءً حكومياً موثقاً.")
-                        DemoCatalog.plan.steps.forEach { Text(it.title) }
-                        Button(onClick = model::savePlan) { Text("حفظ الخطة ومتابعة الخطوات") }
+                        Text(plan.title, style = MaterialTheme.typography.titleMedium)
+                        if (plan.illustrative) Text("نموذج عرض للخطة؛ ليس إجراءً حكومياً موثقاً.")
+                        if (plan.summary.isNotBlank()) Text(plan.summary)
+                        val uncertainties = plan.uncertainties.filter { it.isNotBlank() }
+                        if (uncertainties.isNotEmpty()) {
+                            Text("تفاصيل تحتاج تأكيد", style = MaterialTheme.typography.titleSmall)
+                            uncertainties.forEach { uncertainty ->
+                                Text("• $uncertainty", style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            }
+                        }
+                        plan.steps.forEach { Text(it.title) }
+                        Button(onClick = model::savePlan, enabled = !model.isResponding) {
+                            Text("حفظ الخطة ومتابعة الخطوات")
+                        }
                     }
                 }
             }
             item {
                 Column {
                     Text("اقتراحات", style = MaterialTheme.typography.labelMedium)
-                    DemoCatalog.prompts.forEach { prompt ->
+                    model.suggestedPrompts.forEach { prompt ->
                         TextButton(onClick = { model.draft = prompt }) { Text(prompt) }
                     }
                 }
@@ -108,7 +126,8 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                 }
             }
             if (model.draft.isNotBlank()) {
-                Button(onClick = { model.send() }, modifier = Modifier.fillMaxWidth()) { Text("إرسال") }
+                Button(onClick = { model.send() }, enabled = !model.isResponding,
+                    modifier = Modifier.fillMaxWidth()) { Text("إرسال") }
             }
             Text("الصوت قريباً · الكتابة متاحة الآن", style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)

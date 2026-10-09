@@ -1,5 +1,52 @@
 # Skeleton review and parallel work plan
 
+## Current parallel batch — 2026-10-09, U-041
+
+User requests multiple explicitly separate atomic/larger worker tasks and building/running
+the app; U-042 selects a real phone over an emulator. Use two OpenRouter Qwen workers,
+not Codex-native model slots. Each proposes edits; only the orchestrator applies them.
+
+| Owner | Task | Exact writable file |
+| --- | --- | --- |
+| Worker A, task `chat-state` | Replace fixture reads with accepted plan/contextual prompts; show busy state and documented gaps | `features/assistant/AssistantScreen.kt` |
+| Worker B, task `journey-details` | Show sourced summary/uncertainties and conditional/helpful checklist metadata while preserving snapping/dependencies/accessibility | `features/journey/JourneyScreen.kt` |
+| Orchestrator | Review both diffs/baselines, integrate, build APK and install/launch on the selected phone | Worker tooling/docs; accepted edits to the two files above |
+| Existing external agent | Owns assistant/state/provider and build/manifest source changes | Existing ownership below; no new external messages sent |
+
+Freeze the current public ViewModel/domain interface during this batch. Workers may
+read explicit context files but cannot change them, common components, build files,
+manifest, schema, source data or each other's screen. Shared changes go through the
+orchestrator after both tasks finish. This prevents same-file edits, not all possible
+behavioral integration problems; review/build still required. No third worker needed
+before verified place/source/voice interfaces exist. Keep each task to one reviewable
+screen change, up to two calls; share the existing local $1 reservation ledger.
+
+Task packets: `tools/coding-worker/chat-state.json` and `journey-details.json`.
+The runner now locks only ledger updates, allowing independent HTTP requests to
+overlap without duplicating/reseting spending limits. No worker writes live code.
+
+### Batch result
+
+Both requests completed concurrently, with one shared ledger: Chat $0.0019834848
+(6,896 input / 1,470 output tokens); Journey $0.0006916932 (4,469 / 203).
+Batch total $0.002675178; all three live calls total $0.0039155688.
+Local reservations total $0.15, leaving $0.85; billed costs are separate.
+
+Chat's proposal partially satisfied the task but used `!!`, omitted busy feedback,
+did not disable Save and blocked the typing toggle while busy. The orchestrator
+used a nullable immutable plan snapshot, completed busy/save behavior and retained
+editing. Journey returned no edits, incorrectly interpreting the task as forbidding
+requested UI additions. The orchestrator completed its screen changes locally,
+and clarified the worker instruction to allow task-requested UI changes. No paid
+retries. Both final screens preserve dependencies, source boundaries and voice
+placeholders. Concurrent requests do work; these results still require review and
+do not establish reliable unattended implementation.
+
+User selected USB phone testing. User-local build tools are installed under
+`~/.local/share/daleelak-dev`: Temurin JDK 17, Gradle 9.3.1 and Android command-line
+tools, each archive verified against its publisher checksum. Android 36.1 SDK
+and build tools installation/assembly are underway; no APK/device run yet.
+
 Recorded 2026-10-09 after fetching Android skeleton commit `9567827`. Local merge `85cc601` preserves that skeleton and the Android/Kotlin skills commit `8d9328b`. This is a code inspection and proposed work assignment; no implementation, build, or tests were run for this review.
 
 ## What exists
