@@ -54,4 +54,4 @@ Interpret everyday Arabic, select relevant questions, map answers to reviewed co
 
 ## Open choices
 
-UI layout, palette, AI provider/model, transcription method, framework, location catalog, verified hours/service coverage and final reviewed branch records. The earlier Teal and Sand palette was an assistant recommendation, not a user selection.
+UI layout, AI provider/model, transcription method, framework, location catalog, verified hours/service coverage and final reviewed branch records. Minimalist UI is required; Navy and Sky is the user-selected palette. The earlier Teal and Sand recommendation is superseded.
