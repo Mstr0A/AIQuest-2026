@@ -17,6 +17,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.a0.daleelak.app.DaleelakViewModel
 import com.a0.daleelak.domain.*
+import com.a0.daleelak.ui.components.SourceReferences
 import kotlinx.coroutines.launch
 
 /** Snapping cards preserve the dependency graph without drawing a flowchart. */
@@ -215,8 +216,11 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                             if (references.isNotEmpty()) item {
                                 var showSources by rememberSaveable(step.id) { mutableStateOf(false) }
                                 TextButton(onClick = { showSources = !showSources }) { Text("مصادر الخطوة") }
-                                if (showSources) Text("تفاصيل المراجع غير متاحة بعد في هذه النسخة.",
-                                    style = MaterialTheme.typography.bodySmall)
+                                if (showSources) SourceReferences(
+                                    sourceIds = references,
+                                    sourceVersions = operation.plan.sourceVersions,
+                                    modifier = Modifier.fillMaxWidth(),
+                                )
                             }
                             item {
                                 OutlinedButton(onClick = { model.toggleStep(step.id) },
