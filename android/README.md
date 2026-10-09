@@ -1,7 +1,7 @@
 # DALEELAK Android skeleton
 
 Native Android, Kotlin and Jetpack Compose, using the generated IntelliJ project.
-The current scaffold is Arabic-first and uses the template's Material theme; the final visual identity is undecided.
+The current scaffold is Arabic-first and uses the template's Material theme. The user-selected Navy and Sky palette is documented but not yet implemented; exact UI layout remains pending.
 
 ## Implemented skeleton
 
@@ -27,6 +27,8 @@ app/src/main/java/com/a0/daleelak/
 ```
 
 ## Next integration work
+
+Read [the skeleton review and work split](../docs/daleelak/work-plan.md) before parallel changes. UI ownership and assistant/state ownership are separate; coordinate the additive ViewModel interface.
 
 The conversation and plan are **illustrative layout fixtures, not official procedural guidance**.
 The microphone control currently explains the pending adapter; it does not record or transcribe.

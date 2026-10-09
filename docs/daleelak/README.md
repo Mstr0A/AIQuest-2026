@@ -15,6 +15,7 @@ DALEELAK is the team's Society-sector AI Quest 2026 concept. The current flagshi
 7. [Voice and demo integrations](voice-and-demo-integrations.md): dictation pipeline and simulated Sanad actions.
 8. [Visual direction and palette options](visual-direction.md): required minimalist UI and the selected Navy and Sky palette.
 9. [Installed UI skills](skills.md): project Android/Material You and Kotlin guidance, sources and limits.
+10. [Skeleton review and work split](work-plan.md): inspected Android code, remaining gaps, file ownership and the other agent's task.
 
 ## Current versus future
 
@@ -22,6 +23,6 @@ DALEELAK is the team's Society-sector AI Quest 2026 concept. The current flagshi
 
 **Future real capabilities:** integration inside Sanad, actual booking, Sanad/in-person route comparison and tutorials, and personal-document reminder data. Where shown in the current demo, integration-dependent actions are placeholders, not verified capabilities.
 
-**Minimalist UI is required. Navy and Sky is the user-selected palette.** Exact layout is undecided; the user will supply their UI vision. This folder contains product documentation and a proposed contract, not an implemented app. JSON shape constraints do not by themselves establish factual correctness.
+**Minimalist UI is required. Navy and Sky is the user-selected palette.** Exact layout is undecided; the user will supply their UI vision. A native Kotlin/Compose skeleton now exists in `../../android/`; it uses illustrative guidance, scripted chat and template colors. These docs describe intended behavior, not proof that every feature is implemented. JSON shape constraints do not by themselves establish factual correctness.
 
 Scope owner: user/team. Latest directive received 2026-10-09. Approximately 11 practical build hours was the earlier user-reported constraint; remaining time has not been remeasured.
