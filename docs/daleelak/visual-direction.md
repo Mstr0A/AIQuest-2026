@@ -1,6 +1,18 @@
 # Visual direction — minimalist UI
 
-**User requirement: minimalist UI.** Reaffirmed 2026-10-09. The user will outline their exact UI vision later. Another agent is building the app skeleton in a separate local checkout; these notes are a planning handoff, not a layout specification or app implementation.
+**User requirement: minimalist UI.** Reaffirmed 2026-10-09. Native UI implementation has begun; the user supplies their vision incrementally. The other agent owns assistant/state integration in a separate checkout.
+
+## Confirmed home and chat direction
+
+- Home is the starting screen. A prominent new-operation action opens a fresh conversation.
+- Separate entries open all operation history, current operations and finished operations. Current includes new and ongoing saved operations; finished means locally user-confirmed completed, not government approval.
+- Counts come from saved local operations. Returning home and Android Back preserve operation data. The existing Locations destination remains available through a secondary home action.
+- Chat is voice first: microphone is the main input control, text remains visible, and typing/keyboard appears on demand.
+- Spoken replies are the intended default once audio output is connected. Readable text remains present, with stop/replay controls planned for actual playback.
+- This UI increment does not record, transcribe or synthesize audio. Microphone and listening controls explain their pending status; typed input still works. Do not simulate active recording or playback.
+- Navy and Sky is implemented as a fixed light theme for the demo. Dynamic wallpaper colors are disabled. Dark-mode design is still pending.
+
+Recorded 2026-10-09, user directives to begin implementation with home navigation, followed by voice-first chat direction. The remaining screen arrangements will evolve with further user direction.
 
 ## Selected palette — Navy and Sky
 

@@ -1,11 +1,13 @@
 # DALEELAK Android skeleton
 
 Native Android, Kotlin and Jetpack Compose, using the generated IntelliJ project.
-The current scaffold is Arabic-first and uses the template's Material theme. The user-selected Navy and Sky palette is documented but not yet implemented; exact UI layout remains pending.
+The current app is Arabic-first and uses the selected fixed Navy and Sky Material theme. Home and voice-first chat controls are implemented; remaining UI evolves with the user's direction.
 
 ## Implemented skeleton
 
-- Assistant, Operations and Locations destinations with Android back handling.
+- Home entry point with new operation/chat, all history, current operations and finished operations; Locations remains accessible.
+- Fixed Navy and Sky light theme, native vector icons, RTL layout and Android back handling.
+- Voice-first chat controls with readable messages and optional keyboard typing. Input/output audio remain labeled placeholders.
 - Editable typed composer, exactly three suggested prompts, and scripted demo clarification.
 - Save/resume operations; new/ongoing/completed filters; per-step progress and a dependency stepper.
 - Versioned on-device persistence with plan snapshots, checklist selections, answers and labeled demo events.
@@ -32,6 +34,7 @@ Read [the skeleton review and work split](../docs/daleelak/work-plan.md) before 
 
 The conversation and plan are **illustrative layout fixtures, not official procedural guidance**.
 The microphone control currently explains the pending adapter; it does not record or transcribe.
+The listening control also explains pending playback; no spoken replies are generated yet.
 The location catalog is intentionally empty pending verified entries. No invented centre, hours, map links or distances.
 No AI/network integration, credentials, live bookings, submissions, accounts or government status access.
 
@@ -60,6 +63,8 @@ and `ANDROID_USER_HOME` pointing to the project's ignored `.android` directory. 
 not required project environment settings for the normal desktop user.
 
 ## Coordination record — 2026-10-09
+
+The user authorized beginning UI implementation, starting with home navigation, then requested voice-first chat with optional typing and readable text. This agent changed only UI files and documentation. No ViewModel/domain/data or build wiring was changed. Java and Gradle executables are unavailable in this shell, so this increment was not compiled or run; no tests were added or run.
 
 The user authorized the Android skeleton and selected native Android after dropping KMP.
 Original project path: `C:\Users\damar\IdeaProjects\Daleelak`. Repository project path: `android/`.

@@ -14,3 +14,10 @@ The current plan is a UI fixture; read the proposed schema before connecting AI 
 Another agent is working on the linked repository. Check local changes and attempt pulls frequently.
 Do not overwrite concurrent work or assume remote synchronization when network access fails.
 Canonical docs live in ../docs/daleelak. Read those current files rather than the original IntelliJ project snapshot.
+
+Latest UI direction: home opens new-operation chat and all/current/finished operation lists.
+Current includes new/ongoing local operations; finished means user-confirmed completion.
+Chat defaults to voice controls, keeps text readable, and reveals keyboard typing on demand.
+Audio input is explicitly deferred; current microphone/listening controls are honest placeholders.
+Spoken replies should be the default after playback is implemented, retaining text and stop/replay controls.
+Use the fixed minimalist Navy and Sky theme. UI files remain separate from the other agent's ViewModel/domain/data ownership.

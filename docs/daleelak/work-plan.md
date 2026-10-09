@@ -4,6 +4,8 @@ Recorded 2026-10-09 after fetching Android skeleton commit `9567827`. Local merg
 
 ## What exists
 
+**UI update, 2026-10-09:** the user authorized implementation. Home navigation, operation filters, fixed Navy and Sky theme and voice-first chat controls are now implemented. Audio capture/transcription/playback remain pending; UI controls disclose that status. The snapshot below describes the original skeleton before this increment. UI-only home routing preserves the other agent's existing destination enum and ViewModel methods.
+
 - Native Android, Kotlin, Jetpack Compose, Material 3, package `com.a0.daleelak`.
 - Assistant, Operations and Locations destinations; Arabic-first RTL shell.
 - Local operation snapshots, checklist selections, dependency-aware step completion, history filters, completion/reopening and deletion.
@@ -52,7 +54,7 @@ The UI groups `Requirement.category`, shows `Requirement.format` only when known
 ## Order of work
 
 1. Share this assignment and agree to the additive ViewModel interface. Keep the existing demo runnable while provider setup is unresolved.
-2. This agent prepares Navy and Sky theme roles and UI components; exact screen arrangements follow Eyas's UI vision. Disable dynamic colors for the selected demo identity. Keep the existing three destinations until the user specifies otherwise.
+2. This agent implements Navy and Sky theme roles and UI components following Eyas's incremental UI vision. The user now specifies home as the entry point, with new chat and all/current/finished operation links. Chat is voice first, with optional keyboard and visible text. Spoken replies are intended by default after audio integration. Dynamic colors stay disabled.
 3. Other agent prepares reviewed pilot source records, JSON DTO/parser/validator and structured assistant state. Preserve the distinction between unsupported coverage and transport failure. Source-supported clarification only; no general profiling.
 4. Other agent connects the selected AI provider through a credential-safe arrangement. Provider/model and hosting remain unchosen; do not put secrets in the APK or assume a new paid service is authorized.
 5. Integrate accepted plans, save/resume context and replan reconciliation. Then connect verified places and editable dictation. Keep booking as labeled local simulation.
