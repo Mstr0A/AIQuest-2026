@@ -8,7 +8,7 @@ The user starts a new conversation or opens an existing operation. Show three su
 
 Initial examples: “ضاع دفتر العيلة، شو أعمل؟”, “شو الأوراق المطلوبة لتعويض دفتر العائلة؟”, “عندي بلاغ فقدان، شو الخطوة الجاية؟”. These are examples for the pilot, not measured popular questions.
 
-Voice-to-text fills an editable message. Let the user correct the transcript before sending. Denied microphone permission, unsupported transcription or transcription failure leaves typed input available.
+Voice-to-text targets everyday Jordanian Arabic, English and mixed speech, and fills an editable message. Let the user correct the transcript before sending. Denied microphone permission, unsupported transcription or transcription failure leaves typed input available. The proposed short-recording pipeline is specified in [voice and demo integrations](voice-and-demo-integrations.md).
 
 ## 2. Clarify and confirm
 
@@ -52,7 +52,7 @@ Persist operation ID, goal/title, answers, conversation context needed to resume
 
 ## 7. Future routes, booking and reminders
 
-Future Sanad integration adds route choice, Sanad tutorials, booking and consented personal-document reminders. A reminder opens a draft contextual conversation and confirms circumstances before planning. Public open data does not contain a user's document-expiry dates.
+Real Sanad integration adds route choice, Sanad tutorials, booking and consented personal-document reminders. In the demo, Sanad-dependent controls remain interactive placeholders returning local fake responses. Their confirmation and history entries remain labeled simulated and never establish official progress. A reminder demonstration may use a fictional local event; public open data does not contain a user's document-expiry dates.
 
 ## Demo sequence
 
@@ -63,4 +63,4 @@ Future Sanad integration adds route choice, Sanad tutorials, booking and consent
 5. Change one relevant answer and show the revised requirements.
 6. Show user-reported progress and complete/reopen the operation.
 
-No booking is needed in the current demo. UI layout remains undecided.
+Include the requested booking/Sanad placeholders using small local handlers, rather than implementing real integrations. UI layout remains undecided, with a minimalist preference.

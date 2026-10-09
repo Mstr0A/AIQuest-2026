@@ -7,7 +7,8 @@ Read README.md, product-brief.md, app-flow.md, ai-response-contract.md and sourc
 - Local storage only, no accounts. Runtime information comes through the AI API; do not add other live APIs without user direction.
 - Preserve voice-to-text, exactly three suggested prompts, new/ongoing/completed history, flowchart, per-step requirements/checklists and up to three nearest relevant map options.
 - Relevant locations must be sorted using established distance/availability data. Do not invent places, service capabilities, hours, booking slots or measured popularity.
-- Sanad integration, booking, Sanad/in-person route comparison/tutorials and proactive personal reminders are future development. Earlier booking-in-core suggestions are superseded.
+- Latest user clarification: retain booking and other Sanad-dependent controls as interactive demo placeholders returning labeled local fake responses. Real Sanad integration, booking and personal-data access remain future. Do not remove placeholders merely because their real APIs are unavailable. Read voice-and-demo-integrations.md.
+- Dictation targets everyday Jordanian Arabic, English and mixed speech. Preserve an editable transcript and typed fallback. Separate transcription from the chat response contract; do not promise unmeasured dialect accuracy.
 - UI and palette are undecided. Teal and Sand was an assistant suggestion, not a user selection.
 - Separate sourced procedural facts, user answers, product proposals, simulations and unknowns. Cite source IDs/versions for procedural claims.
 - The AI response contract is proposed. Validate shape and semantic constraints in the app; do not equate structured JSON with accurate requirements.

@@ -21,7 +21,8 @@ People navigating Jordanian government services, including users unfamiliar with
 | Places per step | Show up to three nearest relevant options with clickable map links. |
 | Locations section | Government service centres and relevant shops, sorted by distance and available information about availability. |
 | Persistence | Save operations and progress in local storage; group history as new, ongoing or completed. |
-| Voice | Provide voice-to-text so users can dictate the problem. |
+| Voice | Dictation for everyday Jordanian Arabic, English and mixed speech; transcript is editable before sending. Dialect accuracy remains unverified. |
+| Demo integrations | Keep booking and other Sanad-dependent controls as interactive placeholders that produce clearly labeled local fake responses. |
 | Suggested prompts | Show three relevant prompts; claim popularity only if supported by actual data. |
 | AI output | Use a documented structured response shape rather than relying on arbitrary prose. |
 
@@ -43,7 +44,7 @@ Photo/studio requirements are generic examples for applicable transactions. The 
 2. Choice between Sanad and in-person routes, with brief Sanad tutorials.
 3. Personal expiry/required-document notifications that open a contextual procedure conversation.
 
-These replace earlier suggestions that booking should be part of the core demo. No live bookings, personal government records, payments, submissions or status feeds have been established.
+Latest user clarification retains **simulated booking and other Sanad-dependent placeholders in the demo**. Their real integrations remain future. No live bookings, personal government records, payments, submissions or status feeds have been established. See [voice and demo integrations](voice-and-demo-integrations.md).
 
 ## AI contribution
 

@@ -12,12 +12,13 @@ DALEELAK is the team's Society-sector AI Quest 2026 concept. The current flagshi
 4. [JSON Schema](ai-response.schema.json): proposed response shape.
 5. [Grounding sources](sources.md): usable references, provenance and known gaps.
 6. [Agent instructions](AGENTS.md): constraints future contributors must preserve.
+7. [Voice and demo integrations](voice-and-demo-integrations.md): dictation pipeline and simulated Sanad actions.
 
 ## Current versus future
 
-**Current demo:** local storage, no accounts, conversation/clarification, flowchart, per-step checklists, up to three relevant nearby map options, a locations view, voice-to-text, three suggested prompts and new/ongoing/completed history. Information is returned through the AI API. Location/source reference data can be bundled locally.
+**Current demo:** local storage, no accounts, conversation/clarification, flowchart, per-step checklists, up to three relevant nearby map options, a locations view, voice-to-text targeting Jordanian Arabic/English/mixed speech, three suggested prompts and new/ongoing/completed history. Sanad-dependent features including booking remain interactive placeholders returning labeled local fake responses. Information is returned through the AI API. Location/source reference data can be bundled locally.
 
-**Future:** integration inside Sanad, booking, Sanad/in-person route comparison and tutorials, and proactive personal-document reminders.
+**Future real capabilities:** integration inside Sanad, actual booking, Sanad/in-person route comparison and tutorials, and personal-document reminder data. Where shown in the current demo, integration-dependent actions are placeholders, not verified capabilities.
 
 UI layout and palette are **undecided**. This folder contains product documentation and a proposed contract, not an implemented app. JSON shape constraints do not by themselves establish factual correctness.
 
