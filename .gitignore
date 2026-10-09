@@ -1,2 +1,3 @@
 .superdesign/tmp/
 .coding-worker/
+tools/coding-worker/__pycache__/

@@ -16,7 +16,7 @@ DALEELAK is the team's Society-sector AI Quest 2026 concept. The current flagshi
 8. [Visual direction and palette options](visual-direction.md): required minimalist UI and the selected Navy and Sky palette.
 9. [Installed UI skills](skills.md): project Android/Material You and Kotlin guidance, sources and limits.
 10. [Skeleton review and work split](work-plan.md): inspected Android code, remaining gaps, file ownership and the other agent's task.
-11. [Coding workflow and costs](coding-workflow.md): Codex orchestration with a scoped OpenRouter coding worker; [runner setup](../../tools/coding-worker/README.md) and first task are prepared, with no inference request yet.
+11. [Coding workflow and costs](coding-workflow.md): Codex orchestration with a scoped OpenRouter coding worker; [runner setup](../../tools/coding-worker/README.md) and [first-run result](worker-first-run.md), including actual cost and review corrections.
 
 ## Current versus future
 

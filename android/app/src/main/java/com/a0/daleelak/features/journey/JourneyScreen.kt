@@ -7,11 +7,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.a0.daleelak.app.DaleelakViewModel
 import com.a0.daleelak.domain.*
@@ -149,10 +151,22 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                                 if (requirements.isNotEmpty()) {
                                     item { Text(category.label(), style = MaterialTheme.typography.titleMedium) }
                                     requirements.forEach { requirement -> item(key = requirement.id) {
-                                        Row(verticalAlignment = Alignment.Top) {
-                                            Checkbox(checked = requirement.id in operation.checkedRequirementIds,
-                                                enabled = operation.status != OperationStatus.COMPLETED,
-                                                onCheckedChange = { model.toggleRequirement(requirement.id) })
+                                        val checked = requirement.id in operation.checkedRequirementIds
+                                        val enabled = operation.status != OperationStatus.COMPLETED
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .heightIn(min = 48.dp)
+                                                .toggleable(
+                                                    value = checked,
+                                                    enabled = enabled,
+                                                    role = Role.Checkbox,
+                                                    onValueChange = { model.toggleRequirement(requirement.id) }
+                                                ),
+                                            verticalAlignment = Alignment.Top
+                                        ) {
+                                            Checkbox(checked = checked, enabled = enabled,
+                                                onCheckedChange = null, modifier = Modifier.size(48.dp))
                                             Column(Modifier.weight(1f).padding(top = 12.dp)) {
                                                 Text(requirement.label)
                                                 if (requirement.format != RequirementFormat.UNSPECIFIED) {

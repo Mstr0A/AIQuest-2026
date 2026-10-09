@@ -1,6 +1,6 @@
 # Cost-conscious coding workflow
 
-User requests, 2026-10-09 (U-038/U-039): be more careful with usage, consider this Codex agent as orchestrator and an open model through the user's OpenRouter key for implementation, then explain how to start. A lightweight local runner and first task packet are prepared in [tools/coding-worker](../../tools/coding-worker/README.md). This is development tooling, not selection of DALEELAK's runtime government assistant or speech provider. No OpenRouter inference call has been made and no API key has been collected.
+User requests, 2026-10-09 (U-038/U-039): be more careful with usage, consider this Codex agent as orchestrator and an open model through the user's OpenRouter key for implementation, then explain how to start. A lightweight local runner and first task packet are prepared in [tools/coding-worker](../../tools/coding-worker/README.md). U-040 authorized a test: one live request succeeded for $0.0012403908, followed by review and local corrections. See [first-run result](worker-first-run.md). This is development tooling, not selection of DALEELAK's runtime government assistant or speech provider. The key is local and was not collected through chat or committed.
 
 ## Suggested worker
 
@@ -25,11 +25,11 @@ Codex planning/review still consumes the current Codex allowance. Small task pac
 
 ## Keys and budget
 
-Store the worker key locally through an environment variable or the prepared hidden-prompt setup script, not chat, committed code, the Android APK or the design canvas. The script saves `~/.config/daleelak/openrouter.key` with mode 0600. No key has been supplied. The runner has a suggested $1 local reservation budget, retaining $0.05 per attempt, two calls per task ID, 60 KB input and 6,000 output-token limits; actual reported cost is tracked separately. This suggested default is not a user-selected account-wide billing limit. A dedicated OpenRouter key limit is needed for account-side enforcement. No paid worker call is authorized merely by preparing this tooling.
+Store the worker key locally through an environment variable or the prepared hidden-prompt setup script, not chat, committed code, the Android APK or the design canvas. The script saves `~/.config/daleelak/openrouter.key` with mode 0600. A private local key was available for the U-040 test. The runner has a suggested $1 local reservation budget, retaining $0.05 per attempt, two calls per task ID, 60 KB input and 6,000 output-token limits; actual reported cost is tracked separately. This default is not an account-wide billing limit. A dedicated OpenRouter key limit is needed for account-side enforcement. One $0.05 reservation was retained; $0.95 remains. Preparing tooling alone does not authorize spending; U-040 authorized the first test.
 
 ## First task and next action
 
-Prepared `checklist-accessibility.json` allows changes only to `features/journey/JourneyScreen.kt`: make the requirement label/row one accessible checkbox target, while preserving progress and completed-operation disabled state. This is an orchestrator-selected first task, not an additional user feature request. Other-agent file ownership is unchanged. Configure the key in the user's terminal, then agree the first bounded request; Codex runs it, reviews the diff against baseline hashes and applies accepted edits. No runner execution, tests, API inference or native build occurred during setup.
+`checklist-accessibility.json` allows changes only to `features/journey/JourneyScreen.kt`: make the requirement label/row one accessible checkbox target, while preserving progress and completed-operation disabled state. U-040 authorized the first request/test. The worker returned a proposal; review caught a missing import and removed checkbox graphic. The orchestrator corrected/applied the edit without a second paid call. Other-agent ownership is unchanged. Runner syntax and isolated smoke checks passed; native compile/device verification remains pending. No further framework work is needed to use this workflow.
 
 ## Design usage record
 

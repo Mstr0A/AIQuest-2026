@@ -27,7 +27,8 @@ The first task makes requirement rows accessible and tappable in JourneyScreen.
 It does not change the other agent's assistant/state files. Outputs are in ignored
 `.coding-worker/<run-id>/`: proposal, proposed files, unified diff, baseline hashes,
 task and usage. The runner never changes live app files, executes model commands,
-commits or pushes. No worker request has been made while preparing this tooling.
+commits or pushes. The first live request subsequently succeeded under U-040;
+see [first-run result](../../docs/daleelak/worker-first-run.md).
 
 ## Review and apply
 
@@ -56,8 +57,10 @@ commits or pushes. No worker request has been made while preparing this tooling.
   enforced billing limit, set a $1 limit on a dedicated key in OpenRouter. Do not
   delete/reset the ledger to keep retrying; review costs and agree a new budget.
 
-The runner and its first request have not been executed or tested. Provider/schema
-compatibility and Kotlin patch quality remain unmeasured until the first task.
+The first live request succeeded, both Python scripts passed syntax checks and ten
+isolated mocked smoke checks passed. The proposed Kotlin patch needed two reviewer
+corrections before application; native compilation/device testing remains pending.
+Keep human/orchestrator review for each task.
 
 References: [provider price/parameter routing](https://openrouter.ai/docs/guides/routing/provider-selection),
 [usage and cost response](https://openrouter.ai/docs/api_reference/overview),
