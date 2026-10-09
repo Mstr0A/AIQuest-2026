@@ -9,7 +9,7 @@ The current app is Arabic-first and uses the selected fixed Navy and Sky Materia
 - Fixed Navy and Sky light theme, native vector icons, RTL layout and Android back handling.
 - Voice-first chat controls with readable messages and optional keyboard typing. Input/output audio remain labeled placeholders.
 - Editable typed composer, exactly three suggested prompts, and scripted demo clarification.
-- Save/resume operations; new/ongoing/completed filters; per-step progress and a dependency stepper.
+- Save/resume operations; new/ongoing/completed filters; per-step progress and snapping step cards with a current parallel-task overview.
 - Versioned on-device persistence with plan snapshots, checklist selections, answers and labeled demo events.
 - Local simulated booking, completion/reopening, and confirmed deletion.
 - ViewModel ownership of state, independent domain types, local catalog boundary, assistant/transcription interfaces.
@@ -22,7 +22,7 @@ app/src/main/java/com/a0/daleelak/
   domain/                 models and integration interfaces
   data/                   illustrative catalog and local persistence
   features/assistant/     messages and editable composer
-  features/journey/       stepper and requirements
+  features/journey/       snapping cards, current overview and checklists
   features/operations/    history and filters
   features/locations/     location catalog empty state
   ui/theme/               existing generated Material theme

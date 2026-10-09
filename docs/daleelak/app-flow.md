@@ -20,7 +20,7 @@ Show a concise case summary with a correction action. Missing facts remain expli
 
 ## 3. Present a plan
 
-The response provides stable step identifiers, dependencies and source-linked requirements. The app renders a flowchart and can offer the same content as a numbered list. Highlight the next actionable step and distinguish tasks from waiting for an external response.
+The response provides stable step identifiers, dependencies and source-linked requirements. Latest user direction replaces the flowchart visual with snapping UI cards. Begin with a current-stage overview covering every ready, unfinished task, including parallel tasks, so the user can see what to prepare now. Each step card fills the available screen area and snaps into place; users may scroll ahead to upcoming cards. Browsing does not mark completion or bypass dependencies. Provide previous/next controls as an alternative to gestures. Highlight current tasks and distinguish actions from waiting where reviewed data supports that distinction.
 
 Illustrative flagship outline: clarify/prepare, complete required prerequisite, submit through the official channel, await a response, complete the required follow-up, receive readiness information, collect and finish. Additional official instructions may create an action-required state. Exact procedures, fees and formats must stay grounded; do not invent an authority's internal workflow.
 
@@ -65,4 +65,4 @@ Real Sanad integration adds route choice, Sanad tutorials, booking and consented
 5. Change one relevant answer and show the revised requirements.
 6. Show user-reported progress and complete/reopen the operation.
 
-Include the requested booking/Sanad placeholders using small local handlers, rather than implementing real integrations. UI layout remains undecided, with a minimalist preference.
+Include the requested booking/Sanad placeholders using small local handlers, rather than implementing real integrations. UI evolves incrementally: home navigation, voice-first chat and snapping cards are specified; minimalism remains required. Possible improvement: use verified locations to plan a whole trip for the current parallel-task stage. This is not an implemented route planner.

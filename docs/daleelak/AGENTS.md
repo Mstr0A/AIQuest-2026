@@ -5,7 +5,7 @@ Read README.md, product-brief.md, app-flow.md, ai-response-contract.md and sourc
 - The user-selected name is DALEELAK. Mandatory domain: Society, in Jordan.
 - Current flagship is lost family book. Do not silently broaden reviewed coverage to all government procedures.
 - Local storage only, no accounts. Runtime information comes through the AI API; do not add other live APIs without user direction.
-- Preserve voice-to-text, exactly three suggested prompts, new/ongoing/completed history, flowchart, per-step requirements/checklists and up to three nearest relevant map options.
+- Preserve voice-to-text, exactly three suggested prompts, new/ongoing/completed history, snapping step cards, per-step requirements/checklists and up to three nearest relevant map options. Latest direction supersedes the earlier flowchart visual: show all current parallel tasks in an overview and allow browsing upcoming cards without bypassing dependencies. Location-based planning for the entire current-stage trip is a possible improvement only.
 - Relevant locations must be sorted using established distance/availability data. Do not invent places, service capabilities, hours, booking slots or measured popularity.
 - Latest user clarification: retain booking and other Sanad-dependent controls as interactive demo placeholders returning labeled local fake responses. Real Sanad integration, booking and personal-data access remain future. Do not remove placeholders merely because their real APIs are unavailable. Read voice-and-demo-integrations.md.
 - Dictation targets everyday Jordanian Arabic, English and mixed speech. Preserve an editable transcript and typed fallback. Separate transcription from the chat response contract; do not promise unmeasured dialect accuracy.

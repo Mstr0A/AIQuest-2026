@@ -14,6 +14,14 @@
 
 Recorded 2026-10-09, user directives to begin implementation with home navigation, followed by voice-first chat direction. The remaining screen arrangements will evolve with further user direction.
 
+## Confirmed step-card direction
+
+After clarification, show operational steps as cards instead of a drawn flowchart. Keep dependency data for readiness/progress; the presentation changes, not the prerequisite rules.
+
+The first card summarizes all ready, unfinished tasks, including tasks that can proceed in parallel, with a grouped brief of requirements. Subsequent cards each occupy the available screen area and snap vertically. Upcoming cards remain browsable; reading them does not complete them or bypass prerequisites. Long cards scroll internally; explicit previous/next controls support users who cannot swipe. Vertical direction is the initial implementation choice and can change with user feedback.
+
+**Possible improvement: plan the whole current-stage trip using location.** Use the current parallel-task overview to eventually assemble relevant stops, requirements and a suggested outing. This is a future opportunity, not a shipped route planner or verified itinerary. First establish reviewed place/service coverage and a user-selected origin; runtime API boundaries still apply.
+
 ## Selected palette — Navy and Sky
 
 **User-selected 2026-10-09:** Navy and Sky. This replaces the earlier Teal and Sand recommendation. [See the saved palette swatches](palette-options.svg).

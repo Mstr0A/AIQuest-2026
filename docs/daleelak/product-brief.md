@@ -2,7 +2,7 @@
 
 ## Idea
 
-DALEELAK helps people describe what they need in ordinary language, understand the relevant procedure and organize its completion. The assistant asks questions that affect the route, presents a dependency flowchart, explains each step's requirements and supplies separate checklists. Users save their operations locally and return to the next action.
+DALEELAK helps people describe what they need in ordinary language, understand the relevant procedure and organize its completion. The assistant asks questions that affect the route, presents snapping step cards with a current-task overview, explains each step's requirements and supplies separate checklists. Users save their operations locally and return to the next action.
 
 **Assistant focus:** understand the problem and select its documented solution path. Back-and-forth establishes issue details, not a general profile of the person. The supplied documents are the only authority for government procedures. Ask a personal category only when a reviewed rule makes it necessary to choose a route or requirement; do not collect a biography, identifiers or unrelated preferences. If the documents do not establish a rule, state the gap rather than guessing or extending the interview.
 
@@ -17,7 +17,7 @@ People navigating Jordanian government services, including users unfamiliar with
 | Feature | Concrete behavior |
 | --- | --- |
 | Conversation | Interpret the user's problem and ask relevant clarifying questions until a usable route is understood. |
-| Plan | Display an ordered dependency flowchart; a list can provide the same content accessibly. |
+| Plan | Display snapping cards, beginning with all current parallel tasks; allow viewing future steps without bypassing prerequisites. |
 | Step details | Explain prerequisites and additional requirements, including physical/digital format where known. |
 | Checklists | Separate documents, actions, payments/commitments and relevant visits within the steps. |
 | Places per step | Show up to three nearest relevant options with clickable map links. |
