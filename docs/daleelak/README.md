@@ -14,6 +14,7 @@ DALEELAK is the team's Society-sector AI Quest 2026 concept. The current flagshi
 6. [Agent instructions](AGENTS.md): constraints future contributors must preserve.
 7. [Voice and demo integrations](voice-and-demo-integrations.md): dictation pipeline and simulated Sanad actions.
 8. [Visual direction and palette options](visual-direction.md): required minimalist UI and the selected Navy and Sky palette.
+9. [Installed UI skills](skills.md): project Android/Material You and Kotlin guidance, sources and limits.
 
 ## Current versus future
 
