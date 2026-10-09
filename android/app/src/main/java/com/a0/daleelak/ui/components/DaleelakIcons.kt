@@ -62,7 +62,7 @@ object DaleelakIcons {
     private fun outline(name: String, block: PathBuilder.() -> Unit): ImageVector =
         ImageVector.Builder(name, 24.dp, 24.dp, 24f, 24f).apply {
             path(stroke = SolidColor(Color.Black), strokeLineWidth = 1.7f,
-                strokeLineCap = StrokeCap.Round, strokeLineJoin = StrokeJoin.Round, block = block)
+                strokeLineCap = StrokeCap.Round, strokeLineJoin = StrokeJoin.Round, pathBuilder = block)
         }.build()
 
     private fun PathBuilder.circle() {

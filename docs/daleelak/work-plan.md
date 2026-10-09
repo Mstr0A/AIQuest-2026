@@ -45,7 +45,12 @@ do not establish reliable unattended implementation.
 User selected USB phone testing. User-local build tools are installed under
 `~/.local/share/daleelak-dev`: Temurin JDK 17, Gradle 9.3.1 and Android command-line
 tools, each archive verified against its publisher checksum. Android 36.1 SDK
-and build tools installation/assembly are underway; no APK/device run yet.
+and build tools are installed. `:app:assembleDebug` passed after fixing the existing
+icon helper's named parameter from `block` to `pathBuilder`; APK signature verification
+passed (v2), package `com.a0.daleelak`, min SDK 26, target 36. The APK is 9.3 MB at
+`android/app/build/outputs/apk/debug/app-debug.apk`. No device run yet: this shell is
+containerized and `/dev/bus/usb` is absent. A normal-terminal install/launch helper
+is `tools/android/run-phone.sh`; the user has been given that concrete command.
 
 Recorded 2026-10-09 after fetching Android skeleton commit `9567827`. Local merge `85cc601` preserves that skeleton and the Android/Kotlin skills commit `8d9328b`. This is a code inspection and proposed work assignment; no implementation, build, or tests were run for this review.
 

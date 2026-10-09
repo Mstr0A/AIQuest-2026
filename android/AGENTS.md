@@ -10,7 +10,10 @@ Do not add or run implementation tests without a user request; compiling/debug a
 Preserve local-only operations, no accounts, exactly three prompts, voice adapter boundary,
 lost-family-book scope and labeled interactive Sanad/booking simulations.
 No invented procedural facts, places, requirements, fees, hours, booking slots or official outcomes.
-The current plan is a UI fixture; read the proposed schema before connecting AI output.
+Accepted plans now come from the reviewed local catalog and validated structured
+assistant state; the runtime assistant is deterministic, not a connected AI.
+Chat consumes currentPlan/suggestedPrompts/isResponding instead of DemoCatalog fixtures.
+Preserve the unchanged wire schema and source/graph/ID validation before connecting AI output.
 Another agent is working on the linked repository. Check local changes and attempt pulls frequently.
 Do not overwrite concurrent work or assume remote synchronization when network access fails.
 Canonical docs live in ../docs/daleelak. Read those current files rather than the original IntelliJ project snapshot.
@@ -21,3 +24,11 @@ Chat defaults to voice controls, keeps text readable, and reveals keyboard typin
 Audio input is explicitly deferred; current microphone/listening controls are honest placeholders.
 Spoken replies should be the default after playback is implemented, retaining text and stop/replay controls.
 Use the fixed minimalist Navy and Sky theme. UI files remain separate from the other agent's ViewModel/domain/data ownership.
+
+U-041–U-043 authorize separate worker tasks, build/run and immediate source push.
+Two separate chat/journey worker calls were reviewed and completed locally; source
+batch pushed as 3c72157. User selected USB phone deployment. Local assembly now
+succeeded after fixing DaleelakIcons pathBuilder parameter; APK signing verified.
+This shell is containerized without /dev/bus/usb or /dev/kvm, so device install/launch
+must run from the normal desktop terminal with tools/android/run-phone.sh.
+No successful phone run is confirmed yet. No general implementation tests were added.

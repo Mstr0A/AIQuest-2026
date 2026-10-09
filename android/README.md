@@ -1,5 +1,33 @@
 # DALEELAK Android skeleton
 
+## Current status — 2026-10-09
+
+Home, voice-first controls, snapping cards and local operation history are implemented.
+Chat now consumes the other agent's accepted `currentPlan`, contextual `suggestedPrompts`
+and `isResponding` state; it no longer renders DemoCatalog fixtures. The runtime
+assistant is a limited reviewed local matcher, not a connected AI. Plans are partial
+and show their source gaps; journey cards show conditional/helpful requirements.
+Resumable conversation/state and validated response handling are implemented in the
+assistant/state layer. Audio and real location records remain pending.
+
+`:app:assembleDebug` succeeded here after correcting an icon-helper parameter name.
+APK: `app/build/outputs/apk/debug/app-debug.apk` (approximately 9.3 MB), verified v2
+signature, package `com.a0.daleelak`, min API 26 / target 36. No phone run confirmed.
+The agent shell cannot access USB; in the normal desktop terminal, from this folder:
+
+```sh
+bash ../tools/android/run-phone.sh
+```
+
+See [device/build notes](../tools/android/README.md) and the
+[current worker ownership/result](../docs/daleelak/work-plan.md).
+No general implementation tests were added for this build/run request.
+
+## Original skeleton snapshot — historical
+
+The remaining sections record the original scaffold and earlier verification limits;
+current status above and the linked work plan supersede them.
+
 Native Android, Kotlin and Jetpack Compose, using the generated IntelliJ project.
 The current app is Arabic-first and uses the selected fixed Navy and Sky Material theme. Home and voice-first chat controls are implemented; remaining UI evolves with the user's direction.
 
