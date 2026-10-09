@@ -13,6 +13,7 @@ DALEELAK is the team's Society-sector AI Quest 2026 concept. The current flagshi
 5. [Grounding sources](sources.md): usable references, provenance and known gaps.
 6. [Agent instructions](AGENTS.md): constraints future contributors must preserve.
 7. [Voice and demo integrations](voice-and-demo-integrations.md): dictation pipeline and simulated Sanad actions.
+8. [Visual direction and palette options](visual-direction.md): required minimalist UI and the saved color recommendation.
 
 ## Current versus future
 
@@ -20,6 +21,6 @@ DALEELAK is the team's Society-sector AI Quest 2026 concept. The current flagshi
 
 **Future real capabilities:** integration inside Sanad, actual booking, Sanad/in-person route comparison and tutorials, and personal-document reminder data. Where shown in the current demo, integration-dependent actions are placeholders, not verified capabilities.
 
-UI layout and palette are **undecided**. This folder contains product documentation and a proposed contract, not an implemented app. JSON shape constraints do not by themselves establish factual correctness.
+**Minimalist UI is required.** Exact layout and final palette are undecided; the user will supply their UI vision. Teal and Sand is the saved assistant recommendation. This folder contains product documentation and a proposed contract, not an implemented app. JSON shape constraints do not by themselves establish factual correctness.
 
 Scope owner: user/team. Latest directive received 2026-10-09. Approximately 11 practical build hours was the earlier user-reported constraint; remaining time has not been remeasured.

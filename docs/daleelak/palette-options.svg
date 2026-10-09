@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="570" viewBox="0 0 980 570" role="img" aria-labelledby="title desc">
+  <title id="title">Three proposed palettes for the government guidance app</title>
+  <desc id="desc">Teal and Sand, Navy and Sky, and Olive and Cream. Each row shows primary action, text, page background, soft surface, and accent colors.</desc>
+  <rect width="980" height="570" fill="#ffffff"/>
+  <g font-family="sans-serif" fill="#0F172A">
+    <text x="34" y="42" font-size="25" font-weight="700">Government guidance · palette options</text>
+    <text x="34" y="68" font-size="14" fill="#475569">Proposed combinations · no palette selected</text>
+    <g font-size="13" fill="#475569">
+      <text x="40" y="98">PRIMARY ACTION</text><text x="225" y="98">TEXT</text><text x="410" y="98">BACKGROUND</text><text x="595" y="98">SOFT SURFACE</text><text x="780" y="98">ACCENT</text>
+    </g>
+    <text x="34" y="128" font-size="19" font-weight="700">1. Teal and Sand — recommended</text>
+    <g>
+      <rect x="34" y="140" width="175" height="70" rx="10" fill="#0F766E"/>
+      <rect x="219" y="140" width="175" height="70" rx="10" fill="#0F172A"/>
+      <rect x="404" y="140" width="175" height="70" rx="10" fill="#F8FAFC" stroke="#CBD5E1"/>
+      <rect x="589" y="140" width="175" height="70" rx="10" fill="#CCFBF1"/>
+      <rect x="774" y="140" width="175" height="70" rx="10" fill="#D4A373"/>
+    </g>
+    <g font-size="15"><text x="40" y="234">#0F766E</text><text x="225" y="234">#0F172A</text><text x="410" y="234">#F8FAFC</text><text x="595" y="234">#CCFBF1</text><text x="780" y="234">#D4A373</text></g>
+    <text x="34" y="278" font-size="19" font-weight="700">2. Navy and Sky</text>
+    <g>
+      <rect x="34" y="290" width="175" height="70" rx="10" fill="#1E3A8A"/>
+      <rect x="219" y="290" width="175" height="70" rx="10" fill="#0F172A"/>
+      <rect x="404" y="290" width="175" height="70" rx="10" fill="#F8FAFC" stroke="#CBD5E1"/>
+      <rect x="589" y="290" width="175" height="70" rx="10" fill="#DBEAFE"/>
+      <rect x="774" y="290" width="175" height="70" rx="10" fill="#F59E0B"/>
+    </g>
+    <g font-size="15"><text x="40" y="384">#1E3A8A</text><text x="225" y="384">#0F172A</text><text x="410" y="384">#F8FAFC</text><text x="595" y="384">#DBEAFE</text><text x="780" y="384">#F59E0B</text></g>
+    <text x="34" y="428" font-size="19" font-weight="700">3. Olive and Cream</text>
+    <g>
+      <rect x="34" y="440" width="175" height="70" rx="10" fill="#3F6212"/>
+      <rect x="219" y="440" width="175" height="70" rx="10" fill="#292524"/>
+      <rect x="404" y="440" width="175" height="70" rx="10" fill="#FAF7F0" stroke="#CBD5E1"/>
+      <rect x="589" y="440" width="175" height="70" rx="10" fill="#ECFCCB"/>
+      <rect x="774" y="440" width="175" height="70" rx="10" fill="#C47A4A"/>
+    </g>
+    <g font-size="15"><text x="40" y="534">#3F6212</text><text x="225" y="534">#292524</text><text x="410" y="534">#FAF7F0</text><text x="595" y="534">#ECFCCB</text><text x="780" y="534">#C47A4A</text></g>
+  </g>
+</svg>
