@@ -65,12 +65,12 @@ class DaleelakViewModel(
             draftSaveJob?.cancel()
             if (!loading) draftSaveJob = viewModelScope.launch { delay(300); saveSession() }
         }
-    var messages by mutableStateOf(listOf(ChatMessage("أهلاً! التغطية الحالية لدفتر العائلة المفقود، والإرشاد يستند إلى الوثائق المحلية المراجعة.")))
+    var messages by mutableStateOf(listOf(ChatMessage("أهلاً! بإمكاني إرشادك لشهادة ولادة مسجلة، تصديق وثيقة، تحديث عنوان التبليغات أو الجزء الموثق لدفتر مفقود. المصدر دليل 2024؛ تحقق من القواعد الحالية.")))
         private set
     var operations by mutableStateOf(emptyList<Operation>())
         private set
     var notice by mutableStateOf<String?>(null)
-    /** Embedded demo credential; UI overrides remain session-only. */
+    /** The local demo debug build can supply an embedded credential; UI overrides remain session-only. */
     var openRouterApiKey by mutableStateOf(BuildConfig.OPENROUTER_DEMO_KEY)
         private set
     var voiceState by mutableStateOf(VoiceState.IDLE)
@@ -282,7 +282,7 @@ class DaleelakViewModel(
                     }
                     ResponseKind.CLARIFICATION -> {
                         // A correction that makes the goal unclear must not keep presenting an old recommendation.
-                        if (answers["issue"] != "lost") { currentPlan = null; acceptedResponseJson = null }
+                        currentPlan = null; acceptedResponseJson = null
                     }
                     ResponseKind.UNSUPPORTED -> {
                         currentPlan = null
@@ -443,7 +443,7 @@ class DaleelakViewModel(
             try {
                 val response = codec.decode(raw); validator.validate(response)
                 questions = response.questions; suggestedPrompts = response.suggestedPrompts
-                if (response.kind == ResponseKind.UNSUPPORTED || response.caseSummary.knownFacts.none { it.key == "issue" && it.value == "lost" }) currentPlan = null
+                if (response.kind == ResponseKind.UNSUPPORTED || response.kind != ResponseKind.PLAN) currentPlan = null
             } catch (error: Exception) { notice = "الخطة المحفوظة معروضة كما كانت؛ سياق الرد يحتاج مراجعة قبل استخدامه." }
         }
         saveSession()

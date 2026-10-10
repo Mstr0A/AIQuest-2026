@@ -7,6 +7,7 @@ import java.util.Locale
 /** Bounded, offline intent matcher pending provider choice; not advertised as live AI. */
 class LocalReviewedAssistant(private val catalog: ReviewedCatalog) : AssistantGateway {
     override suspend fun respond(request: AssistantRequest): AssistantResponse {
+        AdditionalReviewedAssistant(catalog).respond(request)?.let { return it }
         val text = normalize(request.message)
         val answers = request.answers.toMutableMap()
         val mentionsBook = ("دفتر" in text && ("عائل" in text || "عيل" in text)) || "family book" in text || "family booklet" in text
@@ -41,11 +42,11 @@ class LocalReviewedAssistant(private val catalog: ReviewedCatalog) : AssistantGa
             return partialWithGap(answers)
         }
         if (answers["issue"] in listOf("damaged", "other")) return AssistantResponse(kind = ResponseKind.UNSUPPORTED,
-            message = "الوثائق المراجعة المتاحة هنا تغطي دفتر العائلة المفقود فقط. لا أستطيع تحديد إجراء هذه الخدمة من السجل المرفق.",
+            message = "لا يوجد مسار مراجع لهذه الخدمة في السجل المرفق.",
             caseSummary = summary, suggestedPrompts = catalog.startPrompts,
             uncertainties = listOf("لا يوجد سجل قواعد مراجع للخدمة المطلوبة."))
         if (answers["issue"] != "lost") return AssistantResponse(kind = ResponseKind.CLARIFICATION,
-            message = "خلينا نحدد المشكلة التي تريد حلها؛ التغطية الحالية لدفتر العائلة المفقود.", caseSummary = summary,
+            message = "خلينا نحدد الخدمة التي تحتاجها ضمن الوثائق المراجعة.", caseSummary = summary,
             questions = listOf(catalog.goalQuestion), suggestedPrompts = catalog.startPrompts)
         if (answers["police_report"] == null) return AssistantResponse(kind = ResponseKind.CLARIFICATION,
             message = catalog.reportQuestion.text + "\n" + catalog.reportQuestion.reason, caseSummary = summary,

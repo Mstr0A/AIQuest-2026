@@ -1,5 +1,8 @@
 # DALEELAK
 
+> **Current scope:** Three separate reviewed 2024 services are now implemented: registered-birth certificate, CSPD-document certification and declared-address update. See [three-service demo](three-service-demo.md). Earlier lost-book-only prototype scenarios below are historical; the deployed classifier now accepts five bounded fact fields.
+
+
 **An AI guide that turns a citizen's government-service goal into a clear, personalized plan with requirements, relevant places and saved progress.**
 
 DALEELAK is the team's Society-sector AI Quest 2026 concept. The current flagship journey is replacing a lost family book (دفتر العائلة). The hackathon app demonstrates a potential future Sanad extension. It does not perform government transactions or establish access to protected Sanad APIs.

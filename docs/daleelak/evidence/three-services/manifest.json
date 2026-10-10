@@ -1,0 +1,23 @@
+{
+  "source_pdf_sha256": "78f69da93f19e8896c73a7a7d999ed5b7b6e8c6f3d4eaea720c2ad449cf87c23",
+  "visually_reviewed_pdf_pages": [
+    16,
+    17,
+    130,
+    132,
+    133
+  ],
+  "live_service_requests_succeeded_before_key_publication": 3,
+  "later_live_rerun": "HTTP 401; no replacement key available",
+  "inputs_sha256": {
+    "android/app/src/main/assets/guidance/additional-services.json": "51951fe33af3da1d10dc335a809a899791af045c5ab2b7aba6fdf58fcae63f24",
+    "android/app/src/main/java/com/a0/daleelak/ai/OpenRouterAssistant.kt": "1ce5f3c95d7794fa444fc89d675d3b0d8676c2d64a1e7a1b47c6ef92f246e5ee"
+  },
+  "scope": "Real app gateway and validators on JVM. No on-device walkthrough in this turn. Historical 2024 rules; current execution unverified.",
+  "final_run": {
+    "tests": 7,
+    "failures": 0,
+    "skipped": 0,
+    "replacement_key_kept_local": true
+  }
+}

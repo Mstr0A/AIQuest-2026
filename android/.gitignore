@@ -8,3 +8,5 @@ local.properties
 *.keystore
 
 demo-secrets.properties
+
+.kotlin/

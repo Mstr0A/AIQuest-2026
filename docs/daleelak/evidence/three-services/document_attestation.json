@@ -1,0 +1,163 @@
+{
+  "schema_version": "1.0",
+  "suggested_prompts": [
+    "بدي أصدق صورة وثيقة صادرة عن الأحوال",
+    "شو لازم آخذ معي للتصديق؟",
+    "بدي أعدل العنوان المصرح به"
+  ],
+  "source_ids": ["cspd-2024-document_attestation"],
+  "kind": "plan",
+  "test_scope": "Real OpenRouterAssistant classification, local reviewed plan, codec and validator; JVM execution, no Android UI walkthrough",
+  "questions": [],
+  "case_summary": {
+    "goal": "تصديق صورة وثيقة صادرة عن الأحوال",
+    "known_facts": [
+      {
+        "source_ids": [],
+        "origin": "user",
+        "value": "document_attestation",
+        "key": "issue"
+      },
+      {
+        "source_ids": [],
+        "origin": "user",
+        "value": "cspd",
+        "key": "document_origin"
+      }
+    ],
+    "unresolved_facts": []
+  },
+  "message": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 130؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+  "plan": {
+    "summary": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 130؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+    "route": "in_person",
+    "service_id": "document_attestation",
+    "title": "تصديق صورة وثيقة صادرة عن الأحوال",
+    "steps": [
+      {
+        "actor": "user",
+        "checklists": {
+          "visits": [],
+          "payments_and_commitments": [],
+          "documents": [
+            {
+              "source_ids": ["cspd-2024-document_attestation"],
+              "condition": null,
+              "format": "original",
+              "id": "attestation_original",
+              "label": "أصل الوثيقة المراد تصديقها",
+              "necessity": "required"
+            },
+            {
+              "source_ids": ["cspd-2024-document_attestation"],
+              "condition": null,
+              "format": "paper_copy",
+              "id": "attestation_copy",
+              "label": "صورة واضحة على ورق تصوير",
+              "necessity": "required"
+            },
+            {
+              "source_ids": ["cspd-2024-document_attestation"],
+              "condition": null,
+              "format": "unspecified",
+              "id": "attestation_identity",
+              "label": "البطاقة الشخصية لطالب الخدمة",
+              "necessity": "required"
+            }
+          ],
+          "actions": []
+        },
+        "source_ids": ["cspd-2024-document_attestation"],
+        "depends_on": [],
+        "place_ids": [],
+        "id": "attestation_prepare",
+        "title": "تجهيز الأصل والصورة والهوية",
+        "explanation": "جهز أصل الوثيقة الصادرة عن الدائرة وصورة واضحة على ورق تصوير؛ لا تقبل صورة فاكس. هذا المسار لا يصدق ترجمة معهد ترجمة.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      },
+      {
+        "actor": "user",
+        "checklists": {
+          "visits": [{
+            "source_ids": ["cspd-2024-document_attestation"],
+            "condition": null,
+            "format": "unspecified",
+            "id": "attestation_office",
+            "label": "مراجعة مكتب للأحوال المدنية والجوازات",
+            "necessity": "required"
+          }],
+          "payments_and_commitments": [],
+          "documents": [],
+          "actions": []
+        },
+        "source_ids": ["cspd-2024-document_attestation"],
+        "depends_on": ["attestation_prepare"],
+        "place_ids": [],
+        "id": "attestation_visit",
+        "title": "مراجعة مكتب خدمة الجمهور",
+        "explanation": "راجع مكتب الأحوال المدنية والجوازات وأبرز أصول الوثائق المطلوبة وصورها.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      },
+      {
+        "actor": "user",
+        "checklists": {
+          "visits": [],
+          "payments_and_commitments": [],
+          "documents": [],
+          "actions": []
+        },
+        "source_ids": ["cspd-2024-document_attestation"],
+        "depends_on": ["attestation_visit"],
+        "place_ids": [],
+        "id": "attestation_submit",
+        "title": "تقديم الوثيقة والصورة للاستعلامات",
+        "explanation": "قدم الوثيقة والصورة لموظف الاستعلامات لإجراء التصديق.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      },
+      {
+        "actor": "authority",
+        "checklists": {
+          "visits": [],
+          "payments_and_commitments": [],
+          "documents": [],
+          "actions": []
+        },
+        "source_ids": ["cspd-2024-document_attestation"],
+        "depends_on": ["attestation_submit"],
+        "place_ids": [],
+        "id": "attestation_check",
+        "title": "مطابقة الصورة مع الوثيقة",
+        "explanation": "يدقق الموظف معلومات الصورة مع الوثائق.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      },
+      {
+        "actor": "user",
+        "checklists": {
+          "visits": [],
+          "payments_and_commitments": [],
+          "documents": [],
+          "actions": [{
+            "source_ids": ["cspd-2024-document_attestation"],
+            "condition": null,
+            "format": "unspecified",
+            "id": "attestation_stamp",
+            "label": "تأكيد طوابع 250 فلساً المذكورة في الرسم بسبب تعارض خانة الرسوم",
+            "necessity": "required"
+          }]
+        },
+        "source_ids": ["cspd-2024-document_attestation"],
+        "depends_on": ["attestation_check"],
+        "place_ids": [],
+        "id": "attestation_collect",
+        "title": "استلام الوثيقة المصدقة وتأكيد الطوابع",
+        "explanation": "يذكر الرسم تسليم الوثيقة بعد التصديق وإلصاق طوابع بقيمة 250 فلساً، بينما خانة الرسوم تنفي الرسوم؛ أكد المطلوب من المكتب قبل الدفع.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      }
+    ]
+  },
+  "uncertainties": [
+    "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+    "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+    "يوجد تعارض داخل صفحة 130: خانة الرسوم تقول لا يوجد رسوم، والرسم يذكر طوابع بقيمة 250 فلساً؛ يجب تأكيد المطلوب من المكتب دون افتراض إجمالي."
+  ]
+}

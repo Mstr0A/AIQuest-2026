@@ -1,5 +1,8 @@
 # Presentation scenarios and actual AI flow
 
+> **Current scope:** Three separate reviewed 2024 services are now implemented: registered-birth certificate, CSPD-document certification and declared-address update. See [three-service demo](three-service-demo.md). Earlier lost-book-only prototype scenarios below are historical; the deployed classifier now accepts five bounded fact fields.
+
+
 ## Source coverage
 
 Three government references are recorded in sources.md: the 2024 CSPD directory PDF, the CSPD service index, and the electronic lost-family-book card. They are not three complete service datasets loaded into the app. Only a narrow inspection summary of the lost-book card is currently bundled. The preserved PDF has a broader service index, but its procedures have not been turned into reviewed app rules. Expanding coverage requires exact excerpt review, condition/dependency extraction and updated catalog/validation.

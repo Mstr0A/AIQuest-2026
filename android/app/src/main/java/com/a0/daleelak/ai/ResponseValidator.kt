@@ -6,10 +6,27 @@ import com.a0.daleelak.data.ReviewedCatalog
 class ResponseValidator(private val catalog: ReviewedCatalog) {
     fun validate(response: AssistantResponse) {
         require(response.suggestedPrompts.size == 3 && response.suggestedPrompts.all { it.isNotBlank() })
-        require(response.suggestedPrompts.all { it in catalog.startPrompts || it in catalog.reportQuestion.options ||
-            it == "مش متأكد إذا عندي بلاغ" }) { "Unreviewed prompt" }
-        fun sources(ids: List<String>) { require(ids.all { it in catalog.sourceIds }) { "Unknown source ID" } }
+        require(response.suggestedPrompts.all { it in catalog.allowedPrompts }) { "Unreviewed prompt" }
+        fun sources(ids: List<String>) { require(ids.all { id -> catalog.sources.any { it.id == id } }) { "Unknown source ID" } }
         sources(response.sourceIds)
+        val service = catalog.additionalServices.firstOrNull { s -> response.caseSummary.knownFacts.any { it.key == "issue" && it.value == s.id } }
+        if (service != null) {
+            val facts = response.caseSummary.knownFacts
+            require(facts.map { it.key }.distinct().size == facts.size)
+            require(facts.all { it.origin == "user" && it.sourceIds.isEmpty() &&
+                (it.key == "issue" && it.value == service.id || it.key == service.requiredFact && it.value in service.allowedValues) })
+            require(response.caseSummary.goal == service.response.plan!!.title)
+            require(response.sourceIds == service.response.sourceIds)
+            require(response.uncertainties == service.response.uncertainties)
+            val answer = facts.firstOrNull { it.key == service.requiredFact }?.value
+            require(response.caseSummary.unresolvedFacts == if (answer == null) listOf(service.question.text) else emptyList())
+            when (response.kind) {
+                ResponseKind.PLAN -> require(answer == service.supportedValue && response.questions.isEmpty() && response.plan == service.response.plan)
+                ResponseKind.CLARIFICATION -> require(answer == null && response.plan == null && response.questions == listOf(service.question))
+                ResponseKind.UNSUPPORTED -> require(answer != null && answer != service.supportedValue && response.plan == null && response.questions.isEmpty())
+            }
+            return
+        }
         require(response.caseSummary.knownFacts.map { it.key }.distinct().size == response.caseSummary.knownFacts.size)
         response.caseSummary.knownFacts.forEach { fact ->
             sources(fact.sourceIds)

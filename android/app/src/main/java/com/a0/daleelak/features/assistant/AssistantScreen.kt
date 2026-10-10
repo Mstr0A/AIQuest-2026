@@ -24,9 +24,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -43,9 +40,6 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
     val plan = model.currentPlan
     val listState = rememberLazyListState()
     var showTyping by rememberSaveable { mutableStateOf(false) }
-    var showApiKeyDialog by rememberSaveable { mutableStateOf(false) }
-    var apiKeyDraft by remember { mutableStateOf("") }
-    var voicePresetDraft by remember { mutableStateOf(model.voicePreset) }
     val keyboard = LocalSoftwareKeyboardController.current
     val typingFocus = remember { FocusRequester() }
     var listening by rememberSaveable { mutableStateOf(false) }
@@ -158,14 +152,11 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                 TextButton(onClick = { model.configureReadReplies(!model.readReplies) }) {
                     Text(if (model.readReplies) "كتم" else "صوت")
                 }
-                TextButton(onClick = { showApiKeyDialog = true }) {
-                    Text(if (model.hasOpenRouterKey) "AI مفعّل" else "إعداد AI")
-                }
-                TextButton(onClick = {
-                    recognizer?.cancel(); listening = false; shouldStartListening = false
-                    model.newConversation(); showTyping = false; keyboard?.hide()
-                }) {
-                    Text("محادثة جديدة")
+                if (model.messages.any { it.fromUser }) {
+                    TextButton(onClick = {
+                        recognizer?.cancel(); listening = false; shouldStartListening = false
+                        model.newConversation(); showTyping = false; keyboard?.hide()
+                    }) { Text("محادثة جديدة") }
                 }
             }
         }
@@ -277,54 +268,13 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
             }
             Text(when {
                 model.hasOpenRouterKey -> "الصوت عبر OpenRouter. سجّل حتى ٣٠ ثانية، وراجع النص قبل إرساله. صوت الرد مولّد آلياً."
-                recognizer == null -> "فعّل مفتاح OpenRouter لاستخدام الصوت، أو اكتب رسالتك."
+                recognizer == null -> "خدمة الصوت غير متاحة في هذه النسخة، اكتب رسالتك."
                 else -> "الإملاء يضيف النص للمراجعة ولا يرسله تلقائياً. قد يعالج جهازك الصوت عبر خدمة التعرف."
             }, style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
-    if (showApiKeyDialog) {
-        AlertDialog(
-            onDismissRequest = { showApiKeyDialog = false },
-            title = { Text("OpenRouter · لهذه الجلسة") },
-            text = {
-                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Text("يستخدم التطبيق OpenRouter لفهم الرسائل، وتفريغ التسجيل بعد إنهائه، وقراءة الردود. راجع النص قبل إرساله. تبقى الخطوات الحكومية من الوثائق المحلية المراجعة، والمفتاح لهذه الجلسة فقط.")
-                    OutlinedTextField(
-                        value = apiKeyDraft,
-                        onValueChange = { apiKeyDraft = it },
-                        label = { Text("مفتاح OpenRouter") },
-                        singleLine = true,
-                        visualTransformation = PasswordVisualTransformation(),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                    OutlinedTextField(value = voicePresetDraft, onValueChange = { voicePresetDraft = it },
-                        label = { Text("الصوت (اسم أو معرّف ElevenLabs)") }, singleLine = true,
-                        modifier = Modifier.fillMaxWidth())
-                    if (model.hasOpenRouterKey) Text("اترك الحقل فارغاً ثم اختر مسح المفتاح لتعطيل الاتصال.", style = MaterialTheme.typography.bodySmall)
-                }
-            },
-            confirmButton = {
-                TextButton(onClick = {
-                    if (apiKeyDraft.isNotBlank()) model.configureOpenRouterApiKey(apiKeyDraft)
-                    model.configureVoicePreset(voicePresetDraft)
-                    apiKeyDraft = ""
-                    showApiKeyDialog = false
-                }) { Text("تفعيل") }
-            },
-            dismissButton = {
-                Row {
-                    if (model.hasOpenRouterKey) TextButton(onClick = {
-                        model.configureOpenRouterApiKey("")
-                        apiKeyDraft = ""
-                        showApiKeyDialog = false
-                    }) { Text("مسح المفتاح") }
-                    TextButton(onClick = { apiKeyDraft = ""; showApiKeyDialog = false }) { Text("إلغاء") }
-                }
-            },
-        )
-    }
+
 }
 
 private fun joinTranscript(existing: String, spoken: String): String =

@@ -1,0 +1,692 @@
+{
+  "version": "reviewed-2026-10-10-three-services",
+  "sources": [
+    {
+      "id": "cspd-2024-birth_certificate",
+      "title": "إصدار شهادة ولادة لواقعة مسجلة — دليل 2024 ص 16–17",
+      "url": "https://opendata.gov.jo/dataset/MIGRATED-2620-2024/resource/fb6d7f83-665e-4966-91c3-389a90037fe0/download/-2024.pdf#page=16",
+      "version": "2024-reviewed-2026-10-10",
+      "accessed_at": "2026-10-10",
+      "provenance": "Supplied official 2024 PDF; text and workflow diagrams visually reviewed. SHA256 78f69da93f19e8896c73a7a7d999ed5b7b6e8c6f3d4eaea720c2ad449cf87c23",
+      "reviewed_excerpt": "لا يقبل الاستدعاء إلا من صاحب العلاقة أو أحد أفراد الأسرة البالغين. أن تكون الواقعة مسجلة حاسوبياً؛ غير المسجلة تحول للمكتب المسجل فيه القيد. دفتر العائلة للأردنيين أو البطاقة المبين عليها الرقم الوطني؛ البطاقة الشخصية للمستدعي الأردني؛ إثبات الشخصية لغير الأردني؛ الشهادة القديمة غير المسجلة إن وجدت. تحديد لغة الشهادة العربية أو الإنجليزية. رسوم الشهادة 1 دينار.\nإجراءات الرسم: 1 مكتب خدمة الجمهور: إبراز الوثائق وتدقيقها والحصول على الدور. 2 موظف قبول المعاملات: مطابقة المعلومات وقبول الطلب على النظام. 3 أمين الصندوق: الرسوم القانونية. 4 تحويل الطلب للطباعة. 5 ختم وتسليم الشهادة بعد تسليم الوصل المالي.",
+      "supported_rules": [
+        "reviewed_in_person_workflow"
+      ],
+      "gaps": [
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق."
+      ]
+    },
+    {
+      "id": "cspd-2024-document_attestation",
+      "title": "تصديق صورة وثيقة صادرة عن الأحوال — دليل 2024 ص 130",
+      "url": "https://opendata.gov.jo/dataset/MIGRATED-2620-2024/resource/fb6d7f83-665e-4966-91c3-389a90037fe0/download/-2024.pdf#page=130",
+      "version": "2024-reviewed-2026-10-10",
+      "accessed_at": "2026-10-10",
+      "provenance": "Supplied official 2024 PDF; text and workflow diagrams visually reviewed. SHA256 78f69da93f19e8896c73a7a7d999ed5b7b6e8c6f3d4eaea720c2ad449cf87c23",
+      "reviewed_excerpt": "الوثيقة المراد تصديقها وصورة عنها والبطاقة الشخصية لطالب الخدمة. الصورة واضحة وعلى ورق تصوير؛ لا تقبل صورة الفاكس. تصدق وثائق الدائرة بالعربية أو الإنجليزية وصورها، لا ترجمة معهد ترجمة. خانة الرسوم تقول لا يوجد رسوم؛ الرسم يذكر طوابع خدمة بقيمة 250 فلساً.\nإجراءات الرسم: 1 خدمة الجمهور: إبراز الأصول وصورها. 2 تقديم الوثيقة والصورة لموظف الاستعلامات. 3 تدقيق الصورة مع الوثائق. 4 تسليم الوثيقة بعد التصديق وإلصاق طوابع خدمة بقيمة 250 فلساً.",
+      "supported_rules": [
+        "reviewed_in_person_workflow"
+      ],
+      "gaps": [
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+        "يوجد تعارض داخل صفحة 130: خانة الرسوم تقول لا يوجد رسوم، والرسم يذكر طوابع بقيمة 250 فلساً؛ يجب تأكيد المطلوب من المكتب دون افتراض إجمالي."
+      ]
+    },
+    {
+      "id": "cspd-2024-declared_address",
+      "title": "تحديث العنوان المصرح به للتبليغات — دليل 2024 ص 132–133",
+      "url": "https://opendata.gov.jo/dataset/MIGRATED-2620-2024/resource/fb6d7f83-665e-4966-91c3-389a90037fe0/download/-2024.pdf#page=132",
+      "version": "2024-reviewed-2026-10-10",
+      "accessed_at": "2026-10-10",
+      "provenance": "Supplied official 2024 PDF; text and workflow diagrams visually reviewed. SHA256 78f69da93f19e8896c73a7a7d999ed5b7b6e8c6f3d4eaea720c2ad449cf87c23",
+      "reviewed_excerpt": "يقدم الطلب من رب الأسرة أو من ينوب عنه. إقرار من رب الأسرة أو الزوجة أو من ينوب عنهم ونموذج العنوان المصرح به. الإبلاغ خلال ثلاثين يوماً من تغيير العنوان؛ يذكر الدليل غرامة 10 دنانير بعد ذلك، ولا رسوم للخدمة. العنوان المصرح به للتبليغات القضائية والإدارية والمالية ولا يظهر على الوثائق إذا اختلف عن مكان الإقامة المثبت. طلب الجهات الحكومية كتاب رسمي، وهو مسار منفصل.\nإجراءات الرسم: 1 خدمة الجمهور: تعبئة نموذج العنوان والحصول على الدور. 2 موظف قبول المعاملات: إدخال البيانات في قاعدة برنامج العنوان. 3 حفظ المعاملات في ملفات خاصة. 4 حفظ الكتب الحكومية؛ خاص بطلبات الجهات. 5 تحويل المعاملة لمكتب الأرشفة.",
+      "supported_rules": [
+        "reviewed_in_person_workflow"
+      ],
+      "gaps": [
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+        "هذا تحديث عنوان التبليغات وليس تغيير مكان الإقامة المثبت على الوثائق.",
+        "الكتب الرسمية تخص طلبات الجهات الحكومية وليست متطلباً إضافياً للمواطن في السيناريو الحالي."
+      ]
+    }
+  ],
+  "services": [
+    {
+      "id": "birth_certificate",
+      "required_fact": "birth_registered",
+      "allowed_values": [
+        "yes",
+        "no",
+        "unknown"
+      ],
+      "supported_value": "yes",
+      "question": {
+        "id": "birth_registered",
+        "text": "هل واقعة الولادة مسجلة حاسوبياً لدى الأحوال المدنية؟",
+        "options": [
+          "نعم، مسجلة حاسوبياً",
+          "لا، غير مسجلة",
+          "مش متأكد"
+        ],
+        "reason": "الدليل يشترط التسجيل الحاسوبي؛ الواقعة غير المسجلة تحول إلى المكتب المسجل فيه القيد."
+      },
+      "response": {
+        "schema_version": "1.0",
+        "kind": "plan",
+        "message": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 16–17؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+        "case_summary": {
+          "goal": "إصدار شهادة ولادة لواقعة مسجلة",
+          "known_facts": [],
+          "unresolved_facts": []
+        },
+        "questions": [],
+        "plan": {
+          "title": "إصدار شهادة ولادة لواقعة مسجلة",
+          "service_id": "birth_certificate",
+          "route": "in_person",
+          "summary": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 16–17؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+          "steps": [
+            {
+              "id": "certificate_prepare",
+              "title": "تجهيز وثائقك وتحديد لغة الشهادة",
+              "explanation": "الطلب لصاحب العلاقة أو أحد أفراد الأسرة البالغين. اختر العربية أو الإنجليزية؛ غير الأردني يراجع انطباق فئة المقيمين الذين حصلت لهم ولادة داخل المملكة.",
+              "actor": "user",
+              "depends_on": [],
+              "checklists": {
+                "documents": [
+                  {
+                    "id": "certificate_identity",
+                    "label": "البطاقة الشخصية للمستدعي الأردني",
+                    "necessity": "conditional",
+                    "condition": "إذا كان المستدعي أردنياً",
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-birth_certificate"
+                    ]
+                  },
+                  {
+                    "id": "certificate_record",
+                    "label": "دفتر العائلة أو بطاقة مبين عليها الرقم الوطني",
+                    "necessity": "conditional",
+                    "condition": "للأردنيين",
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-birth_certificate"
+                    ]
+                  },
+                  {
+                    "id": "certificate_nonjordanian_id",
+                    "label": "إثبات الشخصية لغير الأردني",
+                    "necessity": "conditional",
+                    "condition": "إذا كان المستدعي غير أردني",
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-birth_certificate"
+                    ]
+                  },
+                  {
+                    "id": "certificate_old",
+                    "label": "الشهادة القديمة غير المسجلة حاسوبياً إن وجدت",
+                    "necessity": "conditional",
+                    "condition": "إذا وجدت",
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-birth_certificate"
+                    ]
+                  }
+                ],
+                "actions": [
+                  {
+                    "id": "certificate_language",
+                    "label": "تحديد العربية أو الإنجليزية للشهادة",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-birth_certificate"
+                    ]
+                  }
+                ],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-birth_certificate"
+              ]
+            },
+            {
+              "id": "certificate_visit",
+              "title": "مراجعة خدمة الجمهور والحصول على الدور",
+              "explanation": "أبرز الوثائق المطلوبة لمكتب خدمة الجمهور لتدقيقها واعتمادها والحصول على رقم الدور.",
+              "actor": "user",
+              "depends_on": [
+                "certificate_prepare"
+              ],
+              "checklists": {
+                "documents": [],
+                "actions": [],
+                "payments_and_commitments": [],
+                "visits": [
+                  {
+                    "id": "certificate_office",
+                    "label": "مراجعة مكتب للأحوال المدنية والجوازات",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-birth_certificate"
+                    ]
+                  }
+                ]
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-birth_certificate"
+              ]
+            },
+            {
+              "id": "certificate_accept",
+              "title": "مطابقة المعلومات وقبول الطلب",
+              "explanation": "يراجع موظف قبول المعاملات المعلومات مع الطلب ويقبله على النظام حسب الأصول.",
+              "actor": "authority",
+              "depends_on": [
+                "certificate_visit"
+              ],
+              "checklists": {
+                "documents": [],
+                "actions": [],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-birth_certificate"
+              ]
+            },
+            {
+              "id": "certificate_pay",
+              "title": "دفع رسم الشهادة",
+              "explanation": "راجع أمين الصندوق؛ الدليل 2024 يذكر ديناراً واحداً لإصدار الشهادة. احتفظ بالوصل المالي.",
+              "actor": "user",
+              "depends_on": [
+                "certificate_accept"
+              ],
+              "checklists": {
+                "documents": [],
+                "actions": [],
+                "payments_and_commitments": [
+                  {
+                    "id": "certificate_fee",
+                    "label": "رسم إصدار الشهادة: 1 دينار حسب دليل 2024",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-birth_certificate"
+                    ]
+                  }
+                ],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-birth_certificate"
+              ]
+            },
+            {
+              "id": "certificate_print",
+              "title": "طباعة الشهادة",
+              "explanation": "تحول الدائرة الطلب إلى قسم الطباعة لطباعة الوثيقة.",
+              "actor": "authority",
+              "depends_on": [
+                "certificate_pay"
+              ],
+              "checklists": {
+                "documents": [],
+                "actions": [],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-birth_certificate"
+              ]
+            },
+            {
+              "id": "certificate_collect",
+              "title": "استلام الشهادة المختومة",
+              "explanation": "تختم الشهادة وتسلم لك بعد إبراز الوصل المالي لموظف التسليم.",
+              "actor": "user",
+              "depends_on": [
+                "certificate_print"
+              ],
+              "checklists": {
+                "documents": [],
+                "actions": [
+                  {
+                    "id": "certificate_receipt",
+                    "label": "إبراز الوصل المالي لموظف التسليم",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-birth_certificate"
+                    ]
+                  }
+                ],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-birth_certificate"
+              ]
+            }
+          ]
+        },
+        "suggested_prompts": [
+          "بدي شهادة ولادة لواقعة مسجلة",
+          "شو الوثائق المطلوبة لشهادة الولادة؟",
+          "بدي أصدق صورة وثيقة صادرة عن الأحوال"
+        ],
+        "source_ids": [
+          "cspd-2024-birth_certificate"
+        ],
+        "uncertainties": [
+          "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+          "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق."
+        ]
+      }
+    },
+    {
+      "id": "document_attestation",
+      "required_fact": "document_origin",
+      "allowed_values": [
+        "cspd",
+        "translation",
+        "other",
+        "unknown"
+      ],
+      "supported_value": "cspd",
+      "question": {
+        "id": "document_origin",
+        "text": "هل أصل الوثيقة صادر عن دائرة الأحوال المدنية والجوازات؟",
+        "options": [
+          "نعم، صادر عن الأحوال",
+          "ترجمة من مكتب ترجمة",
+          "صادر عن جهة ثانية",
+          "مش متأكد"
+        ],
+        "reason": "هذا المسار يصدق وثائق الدائرة وصورها؛ لا يشمل ترجمة صادرة عن معهد ترجمة."
+      },
+      "response": {
+        "schema_version": "1.0",
+        "kind": "plan",
+        "message": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 130؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+        "case_summary": {
+          "goal": "تصديق صورة وثيقة صادرة عن الأحوال",
+          "known_facts": [],
+          "unresolved_facts": []
+        },
+        "questions": [],
+        "plan": {
+          "title": "تصديق صورة وثيقة صادرة عن الأحوال",
+          "service_id": "document_attestation",
+          "route": "in_person",
+          "summary": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 130؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+          "steps": [
+            {
+              "id": "attestation_prepare",
+              "title": "تجهيز الأصل والصورة والهوية",
+              "explanation": "جهز أصل الوثيقة الصادرة عن الدائرة وصورة واضحة على ورق تصوير؛ لا تقبل صورة فاكس. هذا المسار لا يصدق ترجمة معهد ترجمة.",
+              "actor": "user",
+              "depends_on": [],
+              "checklists": {
+                "documents": [
+                  {
+                    "id": "attestation_original",
+                    "label": "أصل الوثيقة المراد تصديقها",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "original",
+                    "source_ids": [
+                      "cspd-2024-document_attestation"
+                    ]
+                  },
+                  {
+                    "id": "attestation_copy",
+                    "label": "صورة واضحة على ورق تصوير",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "paper_copy",
+                    "source_ids": [
+                      "cspd-2024-document_attestation"
+                    ]
+                  },
+                  {
+                    "id": "attestation_identity",
+                    "label": "البطاقة الشخصية لطالب الخدمة",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-document_attestation"
+                    ]
+                  }
+                ],
+                "actions": [],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-document_attestation"
+              ]
+            },
+            {
+              "id": "attestation_visit",
+              "title": "مراجعة مكتب خدمة الجمهور",
+              "explanation": "راجع مكتب الأحوال المدنية والجوازات وأبرز أصول الوثائق المطلوبة وصورها.",
+              "actor": "user",
+              "depends_on": [
+                "attestation_prepare"
+              ],
+              "checklists": {
+                "documents": [],
+                "actions": [],
+                "payments_and_commitments": [],
+                "visits": [
+                  {
+                    "id": "attestation_office",
+                    "label": "مراجعة مكتب للأحوال المدنية والجوازات",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-document_attestation"
+                    ]
+                  }
+                ]
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-document_attestation"
+              ]
+            },
+            {
+              "id": "attestation_submit",
+              "title": "تقديم الوثيقة والصورة للاستعلامات",
+              "explanation": "قدم الوثيقة والصورة لموظف الاستعلامات لإجراء التصديق.",
+              "actor": "user",
+              "depends_on": [
+                "attestation_visit"
+              ],
+              "checklists": {
+                "documents": [],
+                "actions": [],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-document_attestation"
+              ]
+            },
+            {
+              "id": "attestation_check",
+              "title": "مطابقة الصورة مع الوثيقة",
+              "explanation": "يدقق الموظف معلومات الصورة مع الوثائق.",
+              "actor": "authority",
+              "depends_on": [
+                "attestation_submit"
+              ],
+              "checklists": {
+                "documents": [],
+                "actions": [],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-document_attestation"
+              ]
+            },
+            {
+              "id": "attestation_collect",
+              "title": "استلام الوثيقة المصدقة وتأكيد الطوابع",
+              "explanation": "يذكر الرسم تسليم الوثيقة بعد التصديق وإلصاق طوابع بقيمة 250 فلساً، بينما خانة الرسوم تنفي الرسوم؛ أكد المطلوب من المكتب قبل الدفع.",
+              "actor": "user",
+              "depends_on": [
+                "attestation_check"
+              ],
+              "checklists": {
+                "documents": [],
+                "actions": [
+                  {
+                    "id": "attestation_stamp",
+                    "label": "تأكيد طوابع 250 فلساً المذكورة في الرسم بسبب تعارض خانة الرسوم",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-document_attestation"
+                    ]
+                  }
+                ],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-document_attestation"
+              ]
+            }
+          ]
+        },
+        "suggested_prompts": [
+          "بدي أصدق صورة وثيقة صادرة عن الأحوال",
+          "شو لازم آخذ معي للتصديق؟",
+          "بدي أعدل العنوان المصرح به"
+        ],
+        "source_ids": [
+          "cspd-2024-document_attestation"
+        ],
+        "uncertainties": [
+          "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+          "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+          "يوجد تعارض داخل صفحة 130: خانة الرسوم تقول لا يوجد رسوم، والرسم يذكر طوابع بقيمة 250 فلساً؛ يجب تأكيد المطلوب من المكتب دون افتراض إجمالي."
+        ]
+      }
+    },
+    {
+      "id": "declared_address",
+      "required_fact": "address_authority",
+      "allowed_values": [
+        "authorized",
+        "other",
+        "unknown"
+      ],
+      "supported_value": "authorized",
+      "question": {
+        "id": "address_authority",
+        "text": "هل ستقدم الطلب بصفتك رب الأسرة أو من ينوب عنه؟",
+        "options": [
+          "أنا رب الأسرة",
+          "أنوب عن رب الأسرة",
+          "لا",
+          "مش متأكد"
+        ],
+        "reason": "الدليل يذكر تقديم الطلب من رب الأسرة أو من ينوب عنه؛ لا حاجة للاسم أو الرقم الوطني هنا."
+      },
+      "response": {
+        "schema_version": "1.0",
+        "kind": "plan",
+        "message": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 132–133؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+        "case_summary": {
+          "goal": "تحديث العنوان المصرح به للتبليغات",
+          "known_facts": [],
+          "unresolved_facts": []
+        },
+        "questions": [],
+        "plan": {
+          "title": "تحديث العنوان المصرح به للتبليغات",
+          "service_id": "declared_address",
+          "route": "in_person",
+          "summary": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 132–133؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+          "steps": [
+            {
+              "id": "address_prepare",
+              "title": "تجهيز نموذج العنوان والإقرار",
+              "explanation": "جهز نموذج العنوان المصرح به وإقرار رب الأسرة أو الزوجة أو من ينوب عنهم. قدم الطلب كرب الأسرة أو ممثل عنه؛ هذا عنوان للتبليغات لا تغيير مكان الإقامة على الوثائق.",
+              "actor": "user",
+              "depends_on": [],
+              "checklists": {
+                "documents": [
+                  {
+                    "id": "address_form",
+                    "label": "نموذج العنوان المصرح به",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-declared_address"
+                    ]
+                  },
+                  {
+                    "id": "address_declaration",
+                    "label": "إقرار رب الأسرة أو الزوجة أو من ينوب عنهم",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-declared_address"
+                    ]
+                  }
+                ],
+                "actions": [
+                  {
+                    "id": "address_deadline",
+                    "label": "الدليل يذكر الإبلاغ خلال 30 يوماً وغرامة 10 دنانير للتأخر؛ تحقق من المكتب ولا تفترض أنها مستحقة عليك",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-declared_address"
+                    ]
+                  }
+                ],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-declared_address"
+              ]
+            },
+            {
+              "id": "address_visit",
+              "title": "تعبئة النموذج ومراجعة خدمة الجمهور",
+              "explanation": "راجع خدمة الجمهور، عبئ النموذج الخاص بالعنوان المصرح به واحصل على رقم الدور.",
+              "actor": "user",
+              "depends_on": [
+                "address_prepare"
+              ],
+              "checklists": {
+                "documents": [],
+                "actions": [],
+                "payments_and_commitments": [],
+                "visits": [
+                  {
+                    "id": "address_office",
+                    "label": "مراجعة مكتب للأحوال المدنية والجوازات",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-2024-declared_address"
+                    ]
+                  }
+                ]
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-declared_address"
+              ]
+            },
+            {
+              "id": "address_enter",
+              "title": "إدخال العنوان في قاعدة البيانات",
+              "explanation": "يراجع موظف قبول المعاملات الطلب على الكاونتر لإدخاله في قاعدة بيانات برنامج العنوان المصرح به.",
+              "actor": "authority",
+              "depends_on": [
+                "address_visit"
+              ],
+              "checklists": {
+                "documents": [],
+                "actions": [],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-declared_address"
+              ]
+            },
+            {
+              "id": "address_archive",
+              "title": "حفظ المعاملة وأرشفتها",
+              "explanation": "يحفظ المكتب المعاملة في ملفات خاصة ثم يحولها للأرشفة. خطوات حفظ الكتب الحكومية في الرسم لا تخص طلب المواطن الحالي.",
+              "actor": "authority",
+              "depends_on": [
+                "address_enter"
+              ],
+              "checklists": {
+                "documents": [],
+                "actions": [],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-2024-declared_address"
+              ]
+            }
+          ]
+        },
+        "suggested_prompts": [
+          "أنا رب الأسرة وبدي أحدث العنوان المصرح به",
+          "هل هذا التعديل يغير عنوان الوثائق؟",
+          "بدي شهادة ولادة لواقعة مسجلة"
+        ],
+        "source_ids": [
+          "cspd-2024-declared_address"
+        ],
+        "uncertainties": [
+          "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+          "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+          "هذا تحديث عنوان التبليغات وليس تغيير مكان الإقامة المثبت على الوثائق.",
+          "الكتب الرسمية تخص طلبات الجهات الحكومية وليست متطلباً إضافياً للمواطن في السيناريو الحالي."
+        ]
+      }
+    }
+  ]
+}

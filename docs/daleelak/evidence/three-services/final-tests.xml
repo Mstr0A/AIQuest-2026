@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.a0.daleelak.ThreeServiceLiveTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-10T07:35:20.027Z" hostname="LEGION" time="5.174">
+  <properties/>
+  <testcase name="fabricatedProcedureCannotPassWithValidReference" classname="com.a0.daleelak.ThreeServiceLiveTest" time="0.065"/>
+  <testcase name="birthCertificate" classname="com.a0.daleelak.ThreeServiceLiveTest" time="2.066"/>
+  <testcase name="declaredAddress" classname="com.a0.daleelak.ThreeServiceLiveTest" time="1.818"/>
+  <testcase name="missingFactsAskOnlyReviewedQuestions" classname="com.a0.daleelak.ThreeServiceLiveTest" time="0.004"/>
+  <testcase name="legacyLostBookStillProducesItsReviewedPlan" classname="com.a0.daleelak.ThreeServiceLiveTest" time="0.009"/>
+  <testcase name="documentAttestation" classname="com.a0.daleelak.ThreeServiceLiveTest" time="1.201"/>
+  <testcase name="unsupportedBranchesDoNotReuseHappyPlan" classname="com.a0.daleelak.ThreeServiceLiveTest" time="0.008"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

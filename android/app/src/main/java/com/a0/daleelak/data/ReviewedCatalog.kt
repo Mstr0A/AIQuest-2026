@@ -4,6 +4,7 @@ import android.content.res.AssetManager
 import com.a0.daleelak.ai.*
 import com.a0.daleelak.domain.*
 import org.json.JSONObject
+import org.json.JSONArray
 
 data class ReviewedSource(
     val id: String, val title: String, val url: String, val version: String,
@@ -11,13 +12,28 @@ data class ReviewedSource(
     val supportedRules: List<String>, val gaps: List<String>,
 )
 
-/** Only the supplied source summary is bundled; no remote document is fetched at runtime. */
-class ReviewedCatalog(assets: AssetManager) {
-    val schema: JSONObject = JSONObject(assets.open("guidance/ai-response.schema.json").bufferedReader().use { it.readText() })
-    private val root = JSONObject(assets.open("guidance/reviewed-sources.json").bufferedReader().use { it.readText() })
-    val version: String = root.getString("version")
+data class AdditionalService(val id: String, val requiredFact: String, val allowedValues: List<String>,
+    val supportedValue: String, val question: ClarificationQuestion, val response: AssistantResponse)
+
+/** Bundled source summary and three reviewed 2024 cards; no remote document fetch at runtime. */
+class ReviewedCatalog private constructor(schemaText: String, sourceText: String, additionalText: String) {
+    constructor(assets: AssetManager) : this(
+        assets.open("guidance/ai-response.schema.json").bufferedReader().use { it.readText() },
+        assets.open("guidance/reviewed-sources.json").bufferedReader().use { it.readText() },
+        assets.open("guidance/additional-services.json").bufferedReader().use { it.readText() })
+    companion object {
+        fun fromReviewedJson(schema: String, sources: String, additional: String) = ReviewedCatalog(schema, sources, additional)
+    }
+    val schema: JSONObject = JSONObject(schemaText)
+    private val root = JSONObject(sourceText)
+    private val additionalRoot = JSONObject(additionalText)
+    val version: String = root.getString("version") + "+" + additionalRoot.getString("version")
     val serviceId: String = root.getString("service_id")
-    val sources: List<ReviewedSource> = root.getJSONArray("sources").let { entries ->
+    val sources: List<ReviewedSource> = JSONArray().also { all ->
+        listOf(root, additionalRoot).forEach { record -> record.getJSONArray("sources").let { entries ->
+            (0 until entries.length()).forEach { all.put(entries.getJSONObject(it)) }
+        } }
+    }.let { entries ->
         (0 until entries.length()).map { index -> entries.getJSONObject(index).let { source ->
             ReviewedSource(source.getString("id"), source.getString("title"), source.getString("url"),
                 source.getString("version"), source.getString("accessed_at"), source.getString("provenance"),
@@ -25,15 +41,30 @@ class ReviewedCatalog(assets: AssetManager) {
         } }
     }
     val places: List<Place> = emptyList()
-    val sourceIds = sources.map { it.id }
-    val gaps = sources.flatMap { it.gaps }
-    val startPrompts = listOf("ضاع دفتر العيلة، شو أعمل؟", "شو الأوراق المطلوبة لتعويض دفتر العائلة؟", "عندي بلاغ فقدان، شو الخطوة الجاية؟")
+    val sourceIds = root.getJSONArray("sources").let { entries -> (0 until entries.length()).map { entries.getJSONObject(it).getString("id") } }
+    val gaps = sources.filter { it.id in sourceIds }.flatMap { it.gaps }
+    val additionalServices = additionalRoot.getJSONArray("services").let { entries ->
+        val codec = ContractCodec(schema)
+        (0 until entries.length()).map { index -> entries.getJSONObject(index).let { service ->
+            val q = service.getJSONObject("question")
+            AdditionalService(service.getString("id"), service.getString("required_fact"),
+                service.getJSONArray("allowed_values").strings(), service.getString("supported_value"),
+                ClarificationQuestion(q.getString("id"), q.getString("text"), q.getJSONArray("options").strings(), q.getString("reason")),
+                codec.decode(service.getJSONObject("response").toString()))
+        } }
+    }
+    val allowedPrompts get() = startPrompts + legacyStartPrompts + reportQuestion.options + listOf("مش متأكد إذا عندي بلاغ") +
+        additionalServices.flatMap { it.response.suggestedPrompts + it.question.options }
+    private val legacyStartPrompts = listOf("ضاع دفتر العيلة، شو أعمل؟", "شو الأوراق المطلوبة لتعويض دفتر العائلة؟", "عندي بلاغ فقدان، شو الخطوة الجاية؟")
+    val startPrompts = listOf("بدي شهادة ولادة لواقعة مسجلة", "بدي أصدق صورة وثيقة صادرة عن الأحوال", "أنا رب الأسرة وبدي أحدث العنوان المصرح به")
     val reportQuestion = ClarificationQuestion("police_report", "هل عندك بلاغ فقدان من الشرطة؟",
         listOf("عندي بلاغ فقدان", "لسه ما عندي بلاغ", "مش متأكد"),
         "المصدر المراجع يذكر البلاغ كمتطلب سابق؛ الإجابة تحدد إذا نبدأ بالبلاغ أو بالقناة الإلكترونية.")
-    val goalQuestion = ClarificationQuestion("issue", "هل المطلوب تعويض دفتر عائلة مفقود؟",
+    val goalQuestion = ClarificationQuestion("issue", "أي مشكلة تريد حلها؟",
+        listOf("شهادة ولادة لواقعة مسجلة", "تصديق صورة وثيقة", "تحديث العنوان المصرح به", "دفتر عائلة مفقود", "خدمة ثانية"), "لتحديد الخدمة التي تغطيها الوثائق المراجعة دون تخمين.")
+    private val legacyGoalQuestion = ClarificationQuestion("issue", "هل المطلوب تعويض دفتر عائلة مفقود؟",
         listOf("نعم، دفتر عائلة مفقود", "دفتر تالف", "خدمة ثانية"), "لتحديد إذا المشكلة ضمن الخدمة التي تغطيها الوثائق المراجعة.")
-    val approvedQuestions = listOf(goalQuestion, reportQuestion)
+    val approvedQuestions = listOf(goalQuestion, reportQuestion, legacyGoalQuestion)
 
     // These are narrow app-authored paraphrases of the supplied recorded inspection.
     // Full procedure/branch/fee records are NOT implied by these templates.
@@ -55,7 +86,7 @@ class ReviewedCatalog(assets: AssetManager) {
                         RequirementFormat.valueOf(item.format.uppercase()), item.sourceIds, item.necessity, item.condition)
                 } }, step.sourceIds, step.placeIds, step.actor, step.completionEvidence)
         }, illustrative = false, summary = plan.summary, route = plan.route,
-            uncertainties = response.uncertainties, sourceVersions = sources.associate { it.id to it.version })
+            uncertainties = response.uncertainties, sourceVersions = sources.filter { it.id in response.sourceIds }.associate { it.id to it.version })
     }
     private fun checklists(documents: List<ChecklistItemDto> = emptyList(), actions: List<ChecklistItemDto> = emptyList()) =
         linkedMapOf("documents" to documents, "actions" to actions, "payments_and_commitments" to emptyList(), "visits" to emptyList())

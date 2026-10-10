@@ -1,3 +1,7 @@
+# Current service coverage
+
+Read docs/daleelak/three-service-demo.md first. AdditionalReviewedAssistant and guidance/additional-services.json add three distinct historical service cards. OpenRouterAssistant extracts five fields, and ResponseValidator accepts only exact reviewed per-service plans. UI key entry is removed; debug builds embed a locally supplied key from the ignored secrets file. Earlier notes below are historical; preserve legacy lost-book records.
+
 # Assistant/state handoff — 2026-10-09
 
 The assigned state-layer work is implemented here. UI files were not edited.

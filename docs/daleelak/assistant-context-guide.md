@@ -1,5 +1,8 @@
 # Preparing DALEELAK context
 
+> **Current scope:** Three separate reviewed 2024 services are now implemented: registered-birth certificate, CSPD-document certification and declared-address update. See [three-service demo](three-service-demo.md). Earlier lost-book-only prototype scenarios below are historical; the deployed classifier now accepts five bounded fact fields.
+
+
 ## Current limits
 
 The bundled source is an inspection summary, not the full government service card or the 2024 directory. It establishes two rules for one service. The three core tests therefore cover branches of **one service**, not three different government services.

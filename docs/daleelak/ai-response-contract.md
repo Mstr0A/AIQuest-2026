@@ -1,5 +1,8 @@
 # AI response contract — v1.0
 
+> **Current scope:** Three separate reviewed 2024 services are now implemented: registered-birth certificate, CSPD-document certification and declared-address update. See [three-service demo](three-service-demo.md). Earlier lost-book-only prototype scenarios below are historical; the deployed classifier now accepts five bounded fact fields.
+
+
 ## What is implemented
 
 The Android app already uses this response envelope, JSON shape validation (`ContractCodec`), reviewed-content validation (`ResponseValidator`) and a presenter that rebuilds procedural prose from accepted facts and the reviewed catalog. The live model currently extracts issue facts; local reviewed templates construct the full response. The full-envelope model prompt below is a separately tested prototype, not deployed Android behavior.
