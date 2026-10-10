@@ -1,6 +1,7 @@
 package com.a0.daleelak.app
 
 import android.content.Context
+import com.a0.daleelak.BuildConfig
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -69,8 +70,8 @@ class DaleelakViewModel(
     var operations by mutableStateOf(emptyList<Operation>())
         private set
     var notice by mutableStateOf<String?>(null)
-    /** Session-only credential for the in-app classifier and speech APIs; never persisted. */
-    var openRouterApiKey by mutableStateOf("")
+    /** Embedded demo credential; UI overrides remain session-only. */
+    var openRouterApiKey by mutableStateOf(BuildConfig.OPENROUTER_DEMO_KEY)
         private set
     var voiceState by mutableStateOf(VoiceState.IDLE)
         private set

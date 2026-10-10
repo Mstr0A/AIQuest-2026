@@ -1,7 +1,14 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
 }
+
+val demoSecrets = Properties().apply {
+    rootProject.file("demo-secrets.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
+}
+val demoKeyLiteral = "\"" + demoSecrets.getProperty("OPENROUTER_DEMO_KEY", "").replace("\\", "\\\\").replace("\"", "\\\"") + "\""
 
 android {
     namespace = "com.a0.daleelak"
@@ -18,10 +25,15 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        buildConfigField("String", "OPENROUTER_DEMO_KEY", "\"\"")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "OPENROUTER_DEMO_KEY", demoKeyLiteral)
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -33,6 +45,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
