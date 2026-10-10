@@ -126,3 +126,15 @@ The user replaces the flowchart visual with cards. UI now uses Compose VerticalP
 **Possible improvement only:** location-based whole-trip planning for the current parallel-task stage. The other agent should preserve dependency/source/place identifiers that could support this later, without adding a live routing API or invented itinerary now.
 
 Superdesign sign-in to Personal succeeded. The canvas is https://superdesign.dev/teams/ade11b66-72b7-4b09-995e-39eb882d8599/projects/63aa42fd-4f82-49d4-b314-99fafe99596b. Selected source context is documented under `.superdesign/context-files.md`; this is a browser review artifact, while the product remains native Android. No native compilation or runtime inspection is established; Java and Gradle are not available in this shell. No tests were added or run.
+# Current status — 2026-10-10, U-053
+
+Voice input/output and the OpenRouter issue classifier are implemented. The user
+accepts the three real-recording speech results. Four Android integration tests
+passed. Home/history, step cards, local save/resume and booking simulation exist.
+
+Remaining demo work: complete the reviewed lost-family-book source details;
+replace the locations placeholder with verified relevant places, distance sorting
+and map links; perform one full real-phone journey. This is a status recommendation,
+not a new user-selected scope. Real Sanad integration, expiry reminders and trip
+planning remain future work. Earlier pending voice/build notes below are historical.
+
