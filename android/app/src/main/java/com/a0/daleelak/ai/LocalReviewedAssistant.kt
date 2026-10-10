@@ -5,16 +5,16 @@ import com.a0.daleelak.domain.AssistantGateway
 import java.util.Locale
 
 /** Bounded, offline intent matcher pending provider choice; not advertised as live AI. */
-class LocalReviewedAssistant(private val catalog: ReviewedCatalog) : AssistantGateway {
+class LocalReviewedAssistant(private val catalog: ReviewedCatalog, private val trustClassifiedIssue: Boolean = false) : AssistantGateway {
     override suspend fun respond(request: AssistantRequest): AssistantResponse {
-        AdditionalReviewedAssistant(catalog).respond(request)?.let { return it }
+        AdditionalReviewedAssistant(catalog, matchMessageIntent = !trustClassifiedIssue).respond(request)?.let { return it }
         val text = normalize(request.message)
         val answers = request.answers.toMutableMap()
         val mentionsBook = ("دفتر" in text && ("عائل" in text || "عيل" in text)) || "family book" in text || "family booklet" in text
         val pendingReport = request.pendingQuestions.any { it.id == "police_report" }
         val lost = listOf("ضاع", "ضايع", "مفقود", "فقدان", "lost", "loss", "فقدت").any { it in text }
         val damaged = listOf("تالف", "تلف", "damaged").any { it in text }
-        when {
+        if (!trustClassifiedIssue) when {
             damaged && (mentionsBook || answers["issue"] == "lost") -> answers["issue"] = "damaged"
             mentionsBook && lost -> answers["issue"] = "lost"
             listOf("خدمه ثانيه", "خدمة ثانية", "passport", "جواز", "رخصه", "بطاقه", "هويه").any { it in text } -> {

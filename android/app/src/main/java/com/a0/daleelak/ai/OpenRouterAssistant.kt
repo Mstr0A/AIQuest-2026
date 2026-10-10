@@ -17,7 +17,8 @@ class OpenRouterAssistant(
 ) : AssistantGateway {
     override suspend fun respond(request: AssistantRequest): AssistantResponse = withContext(Dispatchers.IO) {
         val recognized = classify(request)
-        val updatedFacts = request.answers.toMutableMap()
+        val changedIssue = recognized.issue != null && recognized.issue != request.answers["issue"]
+        val updatedFacts = if (changedIssue) mutableMapOf<String, String>() else request.answers.toMutableMap()
         recognized.issue?.let { updatedFacts["issue"] = it }
         recognized.policeReport?.let { updatedFacts["police_report"] = it }
         recognized.additionalFacts.forEach { (key, value) -> updatedFacts[key] = value }
@@ -37,8 +38,9 @@ class OpenRouterAssistant(
         val localRequest = request.copy(
             message = listOf(request.message, signals.joinToString(" ")).filter(String::isNotBlank).joinToString(" "),
             answers = updatedFacts,
+            pendingQuestions = if (changedIssue) emptyList() else request.pendingQuestions,
         )
-        LocalReviewedAssistant(catalog).respond(localRequest)
+        LocalReviewedAssistant(catalog, trustClassifiedIssue = true).respond(localRequest)
     }
 
     private suspend fun classify(request: AssistantRequest): RecognizedFacts = withContext(Dispatchers.IO) {
@@ -54,6 +56,7 @@ class OpenRouterAssistant(
         try {
             val systemPrompt = """Interpret the latest user message only to identify explicit facts for routing this app's narrow pilot.
 Return exactly one JSON object with exactly these five fields: {"issue":null,"police_report":null,"birth_registered":null,"document_origin":null,"address_authority":null}.
+A new explicit request takes precedence over known_issue. Never keep the previous service merely because a question about it is pending. University graduation documents and Tawjihi/high-school certificates are education documents, not CSPD-issued documents: certification of those is issue=other and document_origin=other. A lost passport is issue=other, never document_attestation. Use null for issue only for a genuine follow-up that does not name a different service.
 Allowed issue values: null, "lost", "damaged", "other", "birth_certificate", "document_attestation", "declared_address".
 Use birth_certificate for obtaining a certificate of an already registered birth, not registering a new birth. Use document_attestation for certifying a copy of a document. Use declared_address for updating the declared address for official notices, not changing residence printed on identity documents.
 Allowed birth_registered: null/yes/no/unknown; only explicit computerized registration status.
