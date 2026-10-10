@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.input.KeyboardType
@@ -29,17 +30,22 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import com.a0.daleelak.app.DaleelakViewModel
+import com.a0.daleelak.app.VoiceState
 import com.a0.daleelak.ui.components.DaleelakIcons
 
 @Composable
 fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     val plan = model.currentPlan
     val listState = rememberLazyListState()
     var showTyping by rememberSaveable { mutableStateOf(false) }
     var showApiKeyDialog by rememberSaveable { mutableStateOf(false) }
     var apiKeyDraft by remember { mutableStateOf("") }
+    var voicePresetDraft by remember { mutableStateOf(model.voicePreset) }
     val keyboard = LocalSoftwareKeyboardController.current
     val typingFocus = remember { FocusRequester() }
     var listening by rememberSaveable { mutableStateOf(false) }
@@ -51,8 +57,23 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
         }.getOrNull()
     }
     val speechPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        if (granted) shouldStartListening = true
+        if (granted) {
+            if (model.hasOpenRouterKey) model.startCloudDictation() else shouldStartListening = true
+        }
         else model.notice = "لم يُسمح باستخدام الميكروفون. تقدر تكتب رسالتك بدلاً من ذلك."
+    }
+
+    DisposableEffect(lifecycleOwner, model, recognizer) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_STOP) {
+                model.stopVoice()
+                recognizer?.cancel()
+                listening = false
+                shouldStartListening = false
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     DisposableEffect(recognizer, model) {
@@ -89,6 +110,7 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
             }
         })
         onDispose {
+            model.stopVoice()
             recognizer?.cancel()
             recognizer?.destroy()
             listening = false
@@ -133,10 +155,16 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.SpaceBetween) {
             Text("المساعد", style = MaterialTheme.typography.titleMedium)
             Row(verticalAlignment = Alignment.CenterVertically) {
+                TextButton(onClick = { model.configureReadReplies(!model.readReplies) }) {
+                    Text(if (model.readReplies) "كتم" else "صوت")
+                }
                 TextButton(onClick = { showApiKeyDialog = true }) {
                     Text(if (model.hasOpenRouterKey) "AI مفعّل" else "إعداد AI")
                 }
-                TextButton(onClick = { model.newConversation(); showTyping = false; keyboard?.hide() }) {
+                TextButton(onClick = {
+                    recognizer?.cancel(); listening = false; shouldStartListening = false
+                    model.newConversation(); showTyping = false; keyboard?.hide()
+                }) {
                     Text("محادثة جديدة")
                 }
             }
@@ -149,10 +177,18 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                         Text(if (message.fromUser) "أنت" else "دليلك · تجربة", style = MaterialTheme.typography.labelSmall)
                         Text(message.text)
                         if (!message.fromUser) {
-                            TextButton(onClick = { model.notice = "الاستماع للردود غير متاح بعد في النسخة التجريبية. الرد مكتوب أمامك." }) {
+                            val activeReply = model.playingReplyText == message.text
+                            TextButton(onClick = {
+                                recognizer?.cancel(); listening = false; shouldStartListening = false
+                                model.playReply(message.text)
+                            }) {
                                 Icon(DaleelakIcons.Speaker, contentDescription = null, modifier = Modifier.size(18.dp))
                                 Spacer(Modifier.width(6.dp))
-                                Text("استماع · قريباً")
+                                Text(when {
+                                    activeReply && model.voiceState == VoiceState.PREPARING_REPLY -> "إلغاء تجهيز الصوت"
+                                    activeReply && model.voiceState == VoiceState.PLAYING_REPLY -> "إيقاف"
+                                    else -> "استماع"
+                                })
                             }
                         }
                     }
@@ -210,14 +246,21 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically) {
                 Button(onClick = {
                     keyboard?.hide()
-                    if (listening) recognizer?.stopListening()
+                    if (model.voiceState == VoiceState.RECORDING) model.finishCloudDictation()
+                    else if (listening) recognizer?.stopListening()
                     else if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-                        shouldStartListening = true
+                        if (model.hasOpenRouterKey) model.startCloudDictation() else shouldStartListening = true
                     } else speechPermission.launch(Manifest.permission.RECORD_AUDIO)
-                }, modifier = Modifier.weight(1f).heightIn(min = 56.dp), shape = RoundedCornerShape(16.dp), enabled = recognizer != null) {
+                }, modifier = Modifier.weight(1f).heightIn(min = 56.dp), shape = RoundedCornerShape(16.dp),
+                    enabled = (model.hasOpenRouterKey || recognizer != null) && !model.isResponding && model.voiceState != VoiceState.TRANSCRIBING) {
                     Icon(DaleelakIcons.Microphone, contentDescription = null)
                     Spacer(Modifier.width(8.dp))
-                    Text(if (listening) "إنهاء الإملاء" else "احكي لدليلك")
+                    Text(when {
+                        model.voiceState == VoiceState.TRANSCRIBING -> "جارٍ تفريغ الصوت…"
+                        model.voiceState == VoiceState.RECORDING -> "إنهاء التسجيل"
+                        listening -> "إنهاء الإملاء"
+                        else -> "احكي لدليلك"
+                    })
                 }
                 OutlinedButton(onClick = {
                     showTyping = !showTyping
@@ -229,10 +272,14 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                 }
             }
             if (model.draft.isNotBlank()) {
-                Button(onClick = { model.send() }, enabled = !model.isResponding,
+                Button(onClick = { model.send() }, enabled = !model.isResponding && !model.isDictating && !listening,
                     modifier = Modifier.fillMaxWidth()) { Text("إرسال") }
             }
-            Text(if (recognizer == null) "خدمة التعرف الصوتي غير متاحة على هذا الجهاز." else "الإملاء يضيف النص للمراجعة ولا يرسله تلقائياً. قد يعالج جهازك الصوت عبر خدمة التعرف.", style = MaterialTheme.typography.labelSmall,
+            Text(when {
+                model.hasOpenRouterKey -> "الصوت عبر OpenRouter. سجّل حتى ٣٠ ثانية، وراجع النص قبل إرساله. صوت الرد مولّد آلياً."
+                recognizer == null -> "فعّل مفتاح OpenRouter لاستخدام الصوت، أو اكتب رسالتك."
+                else -> "الإملاء يضيف النص للمراجعة ولا يرسله تلقائياً. قد يعالج جهازك الصوت عبر خدمة التعرف."
+            }, style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
@@ -242,7 +289,7 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
             title = { Text("OpenRouter · لهذه الجلسة") },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Text("يرسل التطبيق آخر رسالة وسياقاً محدوداً من إجابات الحالة (نوع المشكلة ووجود البلاغ) فقط. لا يرسل سجل المحادثة أو معلومات شخصية أخرى. تبقى الخطوات الحكومية من السجل المحلي المراجع، ولا يُحفظ المفتاح بعد إغلاق التطبيق.")
+                    Text("يستخدم التطبيق OpenRouter لفهم الرسائل، وتفريغ التسجيل بعد إنهائه، وقراءة الردود. راجع النص قبل إرساله. تبقى الخطوات الحكومية من الوثائق المحلية المراجعة، والمفتاح لهذه الجلسة فقط.")
                     OutlinedTextField(
                         value = apiKeyDraft,
                         onValueChange = { apiKeyDraft = it },
@@ -252,12 +299,16 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         modifier = Modifier.fillMaxWidth(),
                     )
+                    OutlinedTextField(value = voicePresetDraft, onValueChange = { voicePresetDraft = it },
+                        label = { Text("الصوت (اسم أو معرّف ElevenLabs)") }, singleLine = true,
+                        modifier = Modifier.fillMaxWidth())
                     if (model.hasOpenRouterKey) Text("اترك الحقل فارغاً ثم اختر مسح المفتاح لتعطيل الاتصال.", style = MaterialTheme.typography.bodySmall)
                 }
             },
             confirmButton = {
                 TextButton(onClick = {
                     if (apiKeyDraft.isNotBlank()) model.configureOpenRouterApiKey(apiKeyDraft)
+                    model.configureVoicePreset(voicePresetDraft)
                     apiKeyDraft = ""
                     showApiKeyDialog = false
                 }) { Text("تفعيل") }

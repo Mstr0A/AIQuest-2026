@@ -1,5 +1,18 @@
 # DALEELAK Android skeleton
 
+## Voice implementation — 2026-10-10
+
+One session-only OpenRouter key enables Scribe v2 dictation, Eleven v4 Turbo
+spoken replies and the existing issue classifier. Dictation works without an
+Android recognition service, keeps the transcript editable and never auto-sends.
+Procedural replies still pass the reviewed local contract and source validator.
+Real Jordanian accent/recognition quality requires user evaluation.
+
+See [credentials, current costs and live checks](../docs/daleelak/openrouter-voice-implementation.md).
+Build with `bash ../tools/android/build-local.sh`; install on Waydroid with
+`bash ../tools/android/run-phone.sh 192.168.240.112:5555`. Older status below is
+historical and does not describe the current voice implementation.
+
 ## Current status — 2026-10-09
 
 Home, voice-first controls, snapping cards and local operation history are implemented.

@@ -1,5 +1,6 @@
 package com.a0.daleelak.app
 
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,6 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.a0.daleelak.ai.*
 import com.a0.daleelak.data.LocalOperationStore
 import com.a0.daleelak.domain.*
+import com.a0.daleelak.voice.OpenRouterSpeech
+import com.a0.daleelak.voice.PcmRecording
+import com.a0.daleelak.voice.ReplyAudioPlayer
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -22,17 +26,24 @@ import java.io.IOException
 import java.util.UUID
 
 enum class Destination { ASSISTANT, OPERATIONS, LOCATIONS }
+enum class VoiceState { IDLE, RECORDING, TRANSCRIBING, PREPARING_REPLY, PLAYING_REPLY }
 
 /** Owns accepted guidance and user-reported progress; providers cannot own either. */
 class DaleelakViewModel(
     private val store: LocalOperationStore,
     private val gateway: AssistantGateway = LocalReviewedAssistant(store.catalog),
+    private val voiceContext: Context? = null,
 ) : ViewModel() {
     private val catalog = store.catalog
     private val codec = ContractCodec(catalog.schema)
     private val validator = ResponseValidator(catalog)
     private val writes = Mutex()
     private var responseJob: Job? = null
+    private var voiceJob: Job? = null
+    private var recording: PcmRecording? = null
+    private var voiceGeneration = 0
+    private var voiceForeground = false
+    private var replyCache: Pair<String, ByteArray>? = null
     private var draftSaveJob: Job? = null
     private var generation = 0
     private var loading = true
@@ -58,9 +69,18 @@ class DaleelakViewModel(
     var operations by mutableStateOf(emptyList<Operation>())
         private set
     var notice by mutableStateOf<String?>(null)
-    /** Session-only credential for the optional in-app OpenRouter classifier; never persisted. */
+    /** Session-only credential for the in-app classifier and speech APIs; never persisted. */
     var openRouterApiKey by mutableStateOf("")
         private set
+    var voiceState by mutableStateOf(VoiceState.IDLE)
+        private set
+    var playingReplyText by mutableStateOf<String?>(null)
+        private set
+    var readReplies by mutableStateOf(true)
+        private set
+    var voicePreset by mutableStateOf(OpenRouterSpeech.DEFAULT_VOICE)
+        private set
+    val isDictating: Boolean get() = voiceState == VoiceState.RECORDING || voiceState == VoiceState.TRANSCRIBING
     var currentPlan by mutableStateOf<GuidancePlan?>(null)
         private set
     var suggestedPrompts by mutableStateOf(catalog.startPrompts)
@@ -69,6 +89,7 @@ class DaleelakViewModel(
         private set
     val showPlan: Boolean get() = currentPlan != null
     val hasOpenRouterKey: Boolean get() = openRouterApiKey.isNotBlank()
+    val readyForInput: Boolean get() = !loading
     val selected: Operation? get() = operations.firstOrNull { it.id == selection }
     var selectedId: String?
         get() = selection
@@ -95,15 +116,140 @@ class DaleelakViewModel(
     }
 
     fun configureOpenRouterApiKey(value: String) {
+        stopVoice()
+        replyCache = null
         openRouterApiKey = value.trim()
         notice = if (openRouterApiKey.isBlank()) "عاد المساعد للوضع المحلي المحدود."
             else "تم تفعيل فهم الرسائل عبر OpenRouter لهذه الجلسة فقط؛ لا يُحفظ المفتاح."
+    }
+
+    fun configureVoicePreset(value: String) {
+        val preset = value.trim().ifEmpty { OpenRouterSpeech.DEFAULT_VOICE }
+        if (!preset.matches(Regex("[a-zA-Z0-9_-]{1,80}"))) {
+            notice = "اسم الصوت غير صالح. استخدم اسماً أو معرّفاً من ElevenLabs."
+            return
+        }
+        stopVoice()
+        replyCache = null
+        voicePreset = preset
+    }
+
+    fun configureReadReplies(enabled: Boolean) {
+        readReplies = enabled
+        if (!enabled && voiceState in setOf(VoiceState.PREPARING_REPLY, VoiceState.PLAYING_REPLY)) stopVoice()
+    }
+
+    fun onVoiceForegroundChanged(enabled: Boolean) {
+        voiceForeground = enabled
+        if (!enabled) stopVoice()
+    }
+
+    fun startCloudDictation() {
+        if (!voiceForeground || !hasOpenRouterKey || isResponding) return
+        stopVoice()
+        val ticket = voiceGeneration
+        val key = openRouterApiKey
+        val before = draft
+        val capture = PcmRecording()
+        recording = capture
+        voiceState = VoiceState.RECORDING
+        voiceJob = viewModelScope.launch {
+            try {
+                val clip = capture.capture()
+                if (!clip.hasSignal) throw IOException("ما وصلني كلام واضح. لم نرسل التسجيل؛ جرّب مرة ثانية أو اكتب رسالتك.")
+                acceptTranscript(clip.wav, "audio/wav", key, before, ticket)
+            } catch (error: CancellationException) { throw error }
+            catch (error: Exception) {
+                if (ticket == voiceGeneration) notice = error.message ?: "تعذر الإملاء. بقي نصك؛ تقدر تكتب رسالتك."
+            } finally {
+                if (ticket == voiceGeneration) { voiceState = VoiceState.IDLE; recording = null }
+            }
+        }
+    }
+
+    fun finishCloudDictation() {
+        if (voiceState != VoiceState.RECORDING) return
+        voiceState = VoiceState.TRANSCRIBING
+        recording?.stop()
+    }
+
+    /** Same editable-composer boundary for an already captured clip and instrumentation fixtures. */
+    fun transcribeClip(audio: ByteArray, mimeType: String) {
+        if (!voiceForeground || !hasOpenRouterKey || isResponding) return
+        stopVoice()
+        val ticket = voiceGeneration
+        val key = openRouterApiKey
+        val before = draft
+        voiceState = VoiceState.TRANSCRIBING
+        voiceJob = viewModelScope.launch {
+            try { acceptTranscript(audio, mimeType, key, before, ticket) }
+            catch (error: CancellationException) { throw error }
+            catch (error: Exception) { if (ticket == voiceGeneration) notice = error.message ?: "تعذر تفريغ التسجيل؛ بقي النص." }
+            finally { if (ticket == voiceGeneration) voiceState = VoiceState.IDLE }
+        }
+    }
+
+    private suspend fun acceptTranscript(audio: ByteArray, mimeType: String, key: String, before: String, ticket: Int) {
+        if (ticket != voiceGeneration) return
+        voiceState = VoiceState.TRANSCRIBING
+        val transcript = OpenRouterSpeech(key).transcribe(audio, mimeType)
+        if (ticket != voiceGeneration) return
+        // Preserve edits made while the request was pending; never auto-send captured speech.
+        val existing = if (draft == before) before else draft
+        draft = listOf(existing.trim(), transcript.trim()).filter(String::isNotEmpty).joinToString(" ")
+        notice = "راجع النص أو عدّله، ثم اضغط إرسال."
+    }
+
+    fun playReply(text: String) {
+        val context = voiceContext ?: return
+        if (!voiceForeground) return
+        if (!hasOpenRouterKey) { notice = "فعّل مفتاح OpenRouter للاستماع للرد."; return }
+        if (playingReplyText == text && voiceState in setOf(VoiceState.PREPARING_REPLY, VoiceState.PLAYING_REPLY)) {
+            stopVoice()
+            return
+        }
+        stopVoice()
+        val ticket = voiceGeneration
+        val key = openRouterApiKey
+        val voice = voicePreset
+        playingReplyText = text
+        voiceState = VoiceState.PREPARING_REPLY
+        voiceJob = viewModelScope.launch {
+            try {
+                val audio = replyCache?.takeIf { it.first == text }?.second ?: OpenRouterSpeech(key).synthesize(text, voice)
+                if (ticket != voiceGeneration) return@launch
+                replyCache = text to audio
+                ReplyAudioPlayer(context).play(audio) { if (ticket == voiceGeneration) voiceState = VoiceState.PLAYING_REPLY }
+            } catch (error: CancellationException) { throw error }
+            catch (error: Exception) { if (ticket == voiceGeneration) notice = error.message ?: "تعذر الاستماع؛ الرد المكتوب متاح." }
+            finally {
+                if (ticket == voiceGeneration) { voiceState = VoiceState.IDLE; playingReplyText = null }
+            }
+        }
+    }
+
+    fun stopVoice() {
+        voiceGeneration++
+        recording?.stop()
+        recording = null
+        voiceJob?.cancel()
+        voiceJob = null
+        voiceState = VoiceState.IDLE
+        playingReplyText = null
+    }
+
+    override fun onCleared() {
+        stopVoice()
+        replyCache = null
+        openRouterApiKey = ""
+        super.onCleared()
     }
 
     /** Draft stays editable and is cleared only after a validated response succeeds. */
     fun send(text: String = draft) {
         if (text.isBlank() || isResponding) return
         if (loading) { notice = "جارٍ تحميل المحفوظات، حاول بعد لحظة."; return }
+        stopVoice()
         val submitted = text.trim()
         val previousDraft = draft
         val ticket = generation
@@ -125,7 +271,8 @@ class DaleelakViewModel(
                 questions = response.questions
                 suggestedPrompts = response.suggestedPrompts
                 contextResponseJson = encoded
-                messages = messages + ChatMessage(submitted, true) + ChatMessage(ResponsePresentation.message(response, catalog))
+                val acceptedText = ResponsePresentation.message(response, catalog)
+                messages = messages + ChatMessage(submitted, true) + ChatMessage(acceptedText)
                 if (draft == previousDraft) draft = ""
                 when (response.kind) {
                     ResponseKind.PLAN -> {
@@ -145,6 +292,7 @@ class DaleelakViewModel(
                 }
                 saveActiveContext()
                 saveSession()
+                if (readReplies && hasOpenRouterKey) playReply(acceptedText)
             } catch (error: CancellationException) {
                 throw error
             } catch (error: Exception) {
@@ -160,6 +308,7 @@ class DaleelakViewModel(
     }
 
     fun newConversation() {
+        stopVoice()
         generation++; responseJob?.cancel(); isResponding = false
         activeOperationId = null; answers = emptyMap(); questions = emptyList()
         acceptedResponseJson = null; contextResponseJson = null; currentPlan = null
@@ -280,6 +429,7 @@ class DaleelakViewModel(
     }
 
     private fun restoreOperation(operation: Operation) {
+        stopVoice()
         generation++; responseJob?.cancel(); isResponding = false
         activeOperationId = operation.id
         answers = operation.answers

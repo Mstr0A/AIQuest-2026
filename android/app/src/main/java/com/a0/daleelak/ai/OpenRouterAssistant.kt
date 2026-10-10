@@ -58,7 +58,9 @@ Use null unless the latest message directly states the fact. Use police_report="
             val input = JSONObject()
                 .put("model", MODEL)
                 .put("temperature", 0)
-                .put("max_tokens", 100)
+                // This model requires reasoning. A 100-token total budget can leave no JSON.
+                .put("max_tokens", 2048)
+                .put("reasoning", JSONObject().put("effort", "low"))
                 .put("response_format", JSONObject().put("type", "json_object"))
                 .put("messages", org.json.JSONArray()
                     .put(JSONObject().put("role", "system").put("content", systemPrompt))
@@ -78,8 +80,9 @@ Use null unless the latest message directly states the fact. Use police_report="
                 throw ProviderFailure(message)
             }
             val envelope = JSONObject(connection.inputStream.bufferedReader().use { it.readText() })
-            val content = envelope.getJSONArray("choices").getJSONObject(0)
-                .getJSONObject("message").getString("content")
+            val choice = envelope.getJSONArray("choices").getJSONObject(0)
+            val content = choice.getJSONObject("message").getString("content")
+            android.util.Log.i("DaleelakAI", "Classifier model=$MODEL finish=${choice.optString("finish_reason")} characters=${content.length}")
             require(content.length <= 2048) { "رد التصنيف أطول من المتوقع." }
             val facts = JSONObject(content)
             require(facts.length() == 2 && facts.has("issue") && facts.has("police_report")) { "تعذر التحقق من شكل رد المساعد." }
@@ -92,7 +95,8 @@ Use null unless the latest message directly states the fact. Use police_report="
             throw ProviderFailure("انتهت مهلة الاتصال بمساعد OpenRouter. بقيت رسالتك؛ حاول مجدداً.")
         } catch (_: IOException) {
             throw ProviderFailure("تعذر الاتصال بمساعد OpenRouter. تحقق من الإنترنت ثم حاول مجدداً.")
-        } catch (_: Exception) {
+        } catch (error: Exception) {
+            android.util.Log.w("DaleelakAI", "Classifier response rejected: ${error.javaClass.simpleName}")
             throw ProviderFailure("تعذر التحقق من رد المساعد. بقيت رسالتك كما هي؛ حاول مجدداً.")
         } finally {
             connection.disconnect()

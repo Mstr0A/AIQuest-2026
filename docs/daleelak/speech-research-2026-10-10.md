@@ -1,6 +1,15 @@
 # Jordanian speech research and Android verification
 
-Date: 2026-10-10. Scope: U-049, research before further implementation. The implementation goal remains paused under U-048. This report contains recommendations, documented provider capabilities and an observed Waydroid smoke check. It does not establish measured Jordanian speech accuracy or select a provider on the user's behalf.
+Date: 2026-10-10. Original scope: U-049, research before further implementation.
+
+**U-050 update:** OpenRouter launched ElevenLabs audio on October 7. The user's
+preference and implementation authorization now select `elevenlabs/scribe-v2`
+plus `elevenlabs/eleven-v4-turbo` through the existing OpenRouter key. No separate
+ElevenLabs plan is needed for preset/public voices. This supersedes the earlier
+coding pause and recommendation to obtain separate speech credentials. See
+[implementation, prices and test results](openrouter-voice-implementation.md).
+Natural Jordanian speech/accent quality remains unmeasured. The original research
+and previous Waydroid observations below are retained as historical context.
 
 ## Recommended stack
 

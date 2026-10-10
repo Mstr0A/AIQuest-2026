@@ -43,3 +43,14 @@ research report in ../docs/daleelak before further voice implementation. The goa
 remains paused; research recommendations are not user-selected providers. This
 API 33 Waydroid image has no SpeechRecognizer service; cloud capture must check
 microphone routing separately. OpenRouter remains app-runtime-only.
+
+U-050, 2026-10-10 (latest): Suitable speech models are verified on OpenRouter, so
+the user explicitly authorizes implementation and live app-flow tests now,
+superseding the coding pause above. Use session-only OpenRouter credentials for
+elevenlabs/scribe-v2, elevenlabs/eleven-v4-turbo and the existing issue classifier.
+Transcripts remain editable and unsent; only accepted procedural text is spoken.
+Stop capture/playback on navigation, backgrounding and new conversations. Never
+use OpenRouter for coding/planning workers. See the implementation handoff in
+../docs/daleelak/openrouter-voice-implementation.md; accent quality is not proven
+by synthetic integration fixtures. Build with ../tools/android/build-local.sh to
+reuse the original debug key and preserve installed history.

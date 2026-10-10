@@ -1,5 +1,27 @@
 # Build and run on a phone
 
+## Current setup — 2026-10-10
+
+Waydroid is directly accessible at `192.168.240.112:5555`. The USB limitations
+below apply to the earlier environment. From the repository root:
+
+```sh
+bash tools/android/build-local.sh :app:assembleDebug :app:assembleDebugAndroidTest
+bash tools/android/run-phone.sh 192.168.240.112:5555
+python tools/android/test-voice.py --allow-paid-calls
+```
+
+The build helper reuses the original local debug keystore. The opt-in test runner
+reads `~/.config/daleelak/openrouter.key`, installs both APKs, grants microphone
+permission and spends app API credits. It never embeds the key in either APK.
+It writes sanitized results and a key-usage delta to `/tmp/daleelak-voice-tests.log`
+and `/tmp/daleelak-voice-test-cost.json`. Concurrent use of that key can affect
+the delta. Use `--test com.a0.daleelak.VoiceIntegrationTest#methodName` for one test.
+Synthetic Arabic/English fixtures check plumbing, not real Jordanian quality.
+
+See [implementation handoff](../../docs/daleelak/openrouter-voice-implementation.md).
+The original notes below are historical.
+
 The current agent shell is containerized, with no `/dev/bus/usb` or `/dev/kvm`.
 It can download/build with network access but cannot see the selected USB phone.
 Use the normal desktop terminal to install/launch after the APK is built:

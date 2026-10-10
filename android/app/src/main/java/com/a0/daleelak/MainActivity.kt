@@ -12,14 +12,16 @@ import com.a0.daleelak.data.LocalOperationStore
 import com.a0.daleelak.ui.theme.DaleelakTheme
 
 class MainActivity : ComponentActivity() {
+    private lateinit var model: DaleelakViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val model = ViewModelProvider(this, object : ViewModelProvider.Factory {
+        model = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 require(modelClass.isAssignableFrom(DaleelakViewModel::class.java))
                 @Suppress("UNCHECKED_CAST")
-                return DaleelakViewModel(LocalOperationStore(applicationContext)) as T
+                return DaleelakViewModel(LocalOperationStore(applicationContext), voiceContext = applicationContext) as T
             }
         })[DaleelakViewModel::class.java]
         setContent {
@@ -27,5 +29,15 @@ class MainActivity : ComponentActivity() {
                 DaleelakApp(model)
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        model.onVoiceForegroundChanged(true)
+    }
+
+    override fun onStop() {
+        model.onVoiceForegroundChanged(false)
+        super.onStop()
     }
 }
