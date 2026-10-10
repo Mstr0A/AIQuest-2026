@@ -66,3 +66,9 @@ reuse the original debug key and preserve installed history.
 - U-074, 2026-10-10: Scrollable cards need a visible scroll indicator and navigation. Add a card-content scrollbar and clickable page navigation while preserving snapping cards and future-step browsing.
 
 - U-075, 2026-10-10: Replace operation deletion with reversible archiving, and replace the Home history entry (سجل المعاملات) with the archive. Keep all operation data and progress locally; archived records stay out of current/finished counts and lists and can be viewed or restored. Never treat archiving as deletion or allow a new chat save to silently overwrite an archived record.
+
+- U-076, 2026-10-10: Double the Home Arabic app name again (64 sp, bold). Add a temporary logo slot; the user will supply an SVG later. Use a shared logo component/resource in the common app header so replacing the artwork updates all screens. Do not treat the placeholder as approved final branding.
+
+- U-077, 2026-10-10: User supplied the final SVG logo (navy rounded square, sky speech bubble, dotted route and gold destination). Preserve the SVG source and its colors. Use native vector artwork in the shared header and launcher/adaptive icon, replacing U-076 placeholder branding.
+
+- U-078, 2026-10-10: Automatically send the final recorded transcript to the assistant. This supersedes the prior mandatory review-before-send directive for speech. Preserve typed input and failed drafts; submit only a nonempty final transcript from the current voice session. Keep cancellation on navigation/backgrounding. Apply to cloud dictation and native recognizer fallback; update visible copy.

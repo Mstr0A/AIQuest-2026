@@ -89,7 +89,11 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                 if (transcript.isNullOrBlank()) {
                     model.draft = draftBeforeSpeech
                     model.notice = "ما وصلني كلام واضح. جرّب مرة ثانية أو اكتب رسالتك."
-                } else model.draft = joinTranscript(draftBeforeSpeech, transcript)
+                } else {
+                    model.draft = joinTranscript(draftBeforeSpeech, transcript)
+                    model.notice = null
+                    model.send()
+                }
             }
             override fun onError(error: Int) {
                 listening = false
@@ -260,9 +264,9 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                     modifier = Modifier.fillMaxWidth()) { Text("إرسال") }
             }
             Text(when {
-                model.hasOpenRouterKey -> "الصوت عبر OpenRouter. سجّل حتى ٣٠ ثانية، وراجع النص قبل إرساله. صوت الرد مولّد آلياً."
+                model.hasOpenRouterKey -> "سجّل حتى ٣٠ ثانية. يُرسل النص تلقائياً بعد تفريغ الصوت. صوت الرد مولّد آلياً."
                 recognizer == null -> "خدمة الصوت غير متاحة في هذه النسخة، اكتب رسالتك."
-                else -> "الإملاء يضيف النص للمراجعة ولا يرسله تلقائياً. قد يعالج جهازك الصوت عبر خدمة التعرف."
+                else -> "يُرسل النص تلقائياً عند انتهاء الإملاء. قد يعالج جهازك الصوت عبر خدمة التعرف."
             }, style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
         }

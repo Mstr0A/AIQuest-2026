@@ -174,7 +174,7 @@ class DaleelakViewModel(
         recording?.stop()
     }
 
-    /** Same editable-composer boundary for an already captured clip and instrumentation fixtures. */
+    /** Captured clips use the same transcription and automatic submission path as the microphone. */
     fun transcribeClip(audio: ByteArray, mimeType: String) {
         if (!voiceForeground || !hasOpenRouterKey || isResponding) return
         stopVoice()
@@ -195,10 +195,15 @@ class DaleelakViewModel(
         voiceState = VoiceState.TRANSCRIBING
         val transcript = OpenRouterSpeech(key).transcribe(audio, mimeType)
         if (ticket != voiceGeneration) return
-        // Preserve edits made while the request was pending; never auto-send captured speech.
+        if (transcript.isBlank()) {
+            notice = "ما وصلني كلام واضح. جرّب مرة ثانية أو اكتب رسالتك."
+            return
+        }
+        // Preserve typed edits and submit only a final, nonempty transcript from this voice session.
         val existing = if (draft == before) before else draft
         draft = listOf(existing.trim(), transcript.trim()).filter(String::isNotEmpty).joinToString(" ")
-        notice = "راجع النص أو عدّله، ثم اضغط إرسال."
+        notice = null
+        send()
     }
 
     fun playReply(text: String) {

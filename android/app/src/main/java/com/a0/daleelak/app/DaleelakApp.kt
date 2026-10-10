@@ -11,12 +11,14 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.a0.daleelak.domain.OperationStatus
 import com.a0.daleelak.features.assistant.AssistantScreen
 import com.a0.daleelak.features.home.HomeScreen
 import com.a0.daleelak.features.operations.OperationsFilter
 import com.a0.daleelak.features.operations.OperationsScreen
 import com.a0.daleelak.ui.components.DaleelakIcons
+import com.a0.daleelak.ui.components.DaleelakLogo
 
 @Composable
 fun DaleelakApp(model: DaleelakViewModel) {
@@ -41,12 +43,18 @@ fun DaleelakApp(model: DaleelakViewModel) {
                 Row(Modifier.fillMaxWidth().padding(top = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween) {
-                    Column {
-                        Text("دليلك", style = MaterialTheme.typography.headlineLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary)
-                        Text("DALEELAK · نسخة تجريبية", style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Row(Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        DaleelakLogo(Modifier.size(if (showHome) 72.dp else 36.dp))
+                        Column(Modifier.weight(1f)) {
+                            Text("دليلك", style = MaterialTheme.typography.headlineLarge,
+                                fontSize = if (showHome) 64.sp else 32.sp,
+                                lineHeight = if (showHome) 88.sp else 44.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary)
+                            Text("DALEELAK · نسخة تجريبية", style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
                     }
                     if (!showHome) {
                         TextButton(onClick = { model.selectedId = null; showHome = true }) {

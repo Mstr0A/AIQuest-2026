@@ -33,3 +33,7 @@ Lost-ID verification passed: two real app-gateway turns (`هويتي ضاعت، 
 ## Reversible archive
 
 Operation deletion is replaced by archiving. A persisted `archived` boolean defaults to false for existing local records. Archived operations retain status, conversation, plan and progress; they are excluded from active lists and counts and shown under the Home archive entry replacing history. Archived plans are viewable with progress controls disabled, and can be restored. Live conversation saves do not reuse archived records.
+
+## Branding and automatic voice submission
+
+Home uses a 64 sp bold Arabic title. The supplied SVG is preserved in `assets/branding/daleelak.svg` and converted to native vectors for every screen header and the launcher/adaptive icon. Final speech transcripts now submit automatically through the same validated assistant gateway. Empty results and cancelled/stale voice sessions are not sent; typed drafts remain available after failures. This supersedes mandatory transcript review.
