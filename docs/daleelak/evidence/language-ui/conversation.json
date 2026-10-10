@@ -1,0 +1,427 @@
+[
+  {
+    "input": "I am Jordanian and need my birth certificate. My birth is already registered in the civil status computer system. Please show me the steps and required documents in English.",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "بدي أوضح المشكلة أكثر",
+        "بدي أبدأ طلب جديد",
+        "بدي أصحح معلومة ذكرتها"
+      ],
+      "source_ids": ["cspd-2024-birth_certificate"],
+      "kind": "plan",
+      "questions": [],
+      "case_summary": {
+        "goal": "Obtain a birth certificate for a registered birth event from the Civil Status and Passports Department",
+        "known_facts": [
+          {
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "origin": "user",
+            "value": "The requester is Jordanian",
+            "key": "nationality"
+          },
+          {
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "origin": "user",
+            "value": "The birth event is already registered in the civil status computer system",
+            "key": "birth_registration_status"
+          }
+        ],
+        "unresolved_facts": [
+          "Whether the requester is the person of the relationship (certificate holder) or an adult family member applying on their behalf",
+          "Preferred certificate language (Arabic or English)"
+        ]
+      },
+      "message": "Since your birth is already registered in the civil status system, you can request the certificate in person at a Civil Status and Passports Department office. Here is the documented 2024 procedure. Note: the 2024 guide's fees and conditions have not been verified as current, so confirm with the office before you go.",
+      "plan": {
+        "summary": "An in-person route at a CSPD office: prepare your ID documents and choose the certificate language, take a queue number at the public service office, have the application accepted, pay the 1-dinar fee, then collect the stamped certificate against the payment receipt.",
+        "route": "in_person",
+        "service_id": "cspd-birth-certificate-registered",
+        "title": "Issuing a birth certificate for a registered birth event",
+        "steps": [
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [
+                {
+                  "source_ids": ["cspd-2024-birth_certificate"],
+                  "condition": "Required for a Jordanian requester",
+                  "format": "original",
+                  "id": "personal-id-card",
+                  "label": "Personal ID card (for the Jordanian requester)",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-birth_certificate"],
+                  "condition": "For Jordanians",
+                  "format": "original",
+                  "id": "family-book-or-national-number",
+                  "label": "Family book for Jordanians or a card showing the national number",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-birth_certificate"],
+                  "condition": "If it exists",
+                  "format": "original",
+                  "id": "old-unregistered-certificate",
+                  "label": "The old certificate if it was not computer-registered",
+                  "necessity": "conditional"
+                }
+              ],
+              "actions": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "choose-language",
+                "label": "Choose the certificate language: Arabic or English",
+                "necessity": "required"
+              }]
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": [],
+            "place_ids": [],
+            "id": "prepare-documents",
+            "title": "Prepare your documents and choose the certificate language",
+            "explanation": "The request is for the person of the relationship or an adult family member. As a Jordanian, bring your personal ID card and the family book or a card showing your national number. Decide whether you want the certificate in Arabic or English.",
+            "completion_evidence": "You have the required original documents ready and have chosen Arabic or English for the certificate."
+          },
+          {
+            "actor": "user_and_authority",
+            "checklists": {
+              "visits": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "visit-cspd-office",
+                "label": "Visit a Civil Status and Passports Department office",
+                "necessity": "required"
+              }],
+              "payments_and_commitments": [],
+              "documents": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "original",
+                "id": "show-documents",
+                "label": "Present the required documents for verification",
+                "necessity": "required"
+              }],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["prepare-documents"],
+            "place_ids": [],
+            "id": "visit-service-office",
+            "title": "Visit the public service office and take a queue number",
+            "explanation": "Go to a Civil Status and Passports Department office, present your documents to the public service office for verification, and obtain your queue number.",
+            "completion_evidence": "You have a queue number for your request."
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["visit-service-office"],
+            "place_ids": [],
+            "id": "application-acceptance",
+            "title": "Application review and acceptance",
+            "explanation": "The transactions acceptance employee matches the information in your request and accepts the application on the system according to procedure.",
+            "completion_evidence": "The employee confirms your application has been accepted on the system."
+          },
+          {
+            "actor": "user_and_authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": "Per the 2024 guide; confirm the current amount at the office",
+                "format": "unspecified",
+                "id": "certificate-fee",
+                "label": "Certificate issuance fee: 1 dinar (2024 guide)",
+                "necessity": "required"
+              }],
+              "documents": [],
+              "actions": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "keep-receipt",
+                "label": "Keep the financial receipt for collection",
+                "necessity": "required"
+              }]
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["application-acceptance"],
+            "place_ids": [],
+            "id": "pay-fee",
+            "title": "Pay the certificate fee at the cashier",
+            "explanation": "The 2024 guide states a fee of 1 dinar for issuing the certificate. Pay at the cashier and keep the financial receipt \u2014 you will need it to collect the certificate.",
+            "completion_evidence": "You paid the fee and hold the financial receipt."
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["pay-fee"],
+            "place_ids": [],
+            "id": "printing",
+            "title": "Certificate printing",
+            "explanation": "The department transfers the request to the printing section to print the document.",
+            "completion_evidence": "The department confirms the certificate has been printed."
+          },
+          {
+            "actor": "user_and_authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "original",
+                "id": "present-receipt",
+                "label": "Present the financial receipt to the delivery employee",
+                "necessity": "required"
+              }],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["printing"],
+            "place_ids": [],
+            "id": "collect-certificate",
+            "title": "Collect the stamped certificate",
+            "explanation": "The certificate is stamped and handed to you after you present the financial receipt to the delivery employee.",
+            "completion_evidence": "You received the stamped birth certificate."
+          }
+        ]
+      },
+      "uncertainties": [
+        "The 2024 guide's conditions and fees have not been verified as current; confirm with the department before executing.",
+        "The guide does not document office locations or appointment availability.",
+        "Whether you are applying as the certificate holder or as an adult family member does not change the documented steps, but eligibility is limited to those two categories.",
+        "The source is a 2024 guide. Current requirements and fees have not been verified; confirm with the department before proceeding.",
+        "The app has no verified office locations or appointment data."
+      ]
+    }
+  },
+  {
+    "input": "أنا أردني وبدي birth certificate إلي، ولادتي مسجلة بحاسوب الأحوال. ورجيني الخطوات والأوراق والرسوم.",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "بدي أوضح المشكلة أكثر",
+        "بدي أبدأ طلب جديد",
+        "بدي أصحح معلومة ذكرتها"
+      ],
+      "source_ids": ["cspd-2024-birth_certificate"],
+      "kind": "plan",
+      "questions": [],
+      "case_summary": {
+        "goal": "إصدار شهادة ولادة لواقعة مسجلة حاسوبياً لدى دائرة الأحوال المدنية والجوازات",
+        "known_facts": [
+          {
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "origin": "user",
+            "value": "المستدعي أردني",
+            "key": "nationality"
+          },
+          {
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "origin": "user",
+            "value": "الواقعة مسجلة حاسوبياً",
+            "key": "birth_registration_status"
+          }
+        ],
+        "unresolved_facts": [
+          "لغة الشهادة المطلوبة (العربية أو الإنجليزية) غير محددة بعد",
+          "لم يتم التحقق من استمرار شروط ورسوم دليل 2024 حالياً"
+        ]
+      },
+      "message": "بما إن ولادتك مسجلة حاسوبياً، بقدر أريك المسار الحضوري الموثق من دليل الأحوال المدنية والجوازات 2024 لإصدار شهادة الولادة. الرسم المذكور بالدليل دينار واحد، بس لاحظ إنو الدليل تاريخ 2024 وما انتحقت شروطه ورسومه حالياً، فراجع الدائرة قبل التنفيذ. تحتاج تحدد لغة الشهادة: عربي أو إنجليزي.",
+      "plan": {
+        "summary": "مسار حضوري من دليل 2024: تجهيز الوثائق وتحديد اللغة، مراجعة مكتب خدمة الجمهور، قبول الطلب، دفع رسم الدينار، ثم طباعة الشهادة واستلامها المختومة مقابل الوصل المالي.",
+        "route": "in_person",
+        "service_id": "cspd-birth-certificate-registered",
+        "title": "إصدار شهادة ولادة لواقعة مسجلة",
+        "steps": [
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [
+                {
+                  "source_ids": ["cspd-2024-birth_certificate"],
+                  "condition": "إذا كان المستدعي أردنياً",
+                  "format": "original",
+                  "id": "doc-personal-card",
+                  "label": "البطاقة الشخصية للمستدعي الأردني",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-birth_certificate"],
+                  "condition": "للأردنيين",
+                  "format": "original",
+                  "id": "doc-family-book",
+                  "label": "دفتر العائلة للأردنيين أو بطاقة مبين عليها الرقم الوطني",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-birth_certificate"],
+                  "condition": "إذا وجدت",
+                  "format": "original",
+                  "id": "doc-old-certificate",
+                  "label": "الشهادة القديمة غير المسجلة حاسوبياً إن وجدت",
+                  "necessity": "conditional"
+                }
+              ],
+              "actions": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "action-language-choice",
+                "label": "تحديد لغة الشهادة: العربية أو الإنجليزية",
+                "necessity": "required"
+              }]
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": [],
+            "place_ids": [],
+            "id": "prepare-docs",
+            "title": "جهز وثائقك وحدد لغة الشهادة",
+            "explanation": "الطلب لصاحب العلاقة أو أحد أفراد الأسرة البالغين. اختر لغة الشهادة: العربية أو الإنجليزية.",
+            "completion_evidence": "تأكيدك إنك جهزت الوثائق وحددت اللغة"
+          },
+          {
+            "actor": "user_and_authority",
+            "checklists": {
+              "visits": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "visit-cspd-office",
+                "label": "مراجعة مكتب للأحوال المدنية والجوازات",
+                "necessity": "required"
+              }],
+              "payments_and_commitments": [],
+              "documents": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "original",
+                "id": "doc-show-originals",
+                "label": "إبراز الوثائق المطلوبة لمكتب خدمة الجمهور",
+                "necessity": "required"
+              }],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["prepare-docs"],
+            "place_ids": [],
+            "id": "visit-office",
+            "title": "راجع خدمة الجمهور وخذ دور",
+            "explanation": "أبرز الوثائق المطلوبة لمكتب خدمة الجمهور لتدقيقها واعتمادها والحصول على رقم الدور.",
+            "completion_evidence": "حصولك على رقم الدور"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["visit-office"],
+            "place_ids": [],
+            "id": "accept-request",
+            "title": "مطابقة المعلومات وقبول الطلب",
+            "explanation": "موظف قبول المعاملات يراجع المعلومات مع الطلب ويقبله على النظام حسب الأصول.",
+            "completion_evidence": "تأكيدك إنو الموظف قبل الطلب على النظام"
+          },
+          {
+            "actor": "user_and_authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "fee-certificate",
+                "label": "رسم إصدار الشهادة: 1 دينار حسب دليل 2024",
+                "necessity": "required"
+              }],
+              "documents": [],
+              "actions": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "action-keep-receipt",
+                "label": "الاحتفاظ بالوصل المالي",
+                "necessity": "required"
+              }]
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["accept-request"],
+            "place_ids": [],
+            "id": "pay-fee",
+            "title": "ادفع رسم الشهادة",
+            "explanation": "راجع أمين الصندوق؛ الدليل 2024 يذكر ديناراً واحداً لإصدار الشهادة. احتفظ بالوصل المالي.",
+            "completion_evidence": "استلامك الوصل المالي"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["pay-fee"],
+            "place_ids": [],
+            "id": "print-certificate",
+            "title": "طباعة الشهادة",
+            "explanation": "تحول الدائرة الطلب إلى قسم الطباعة لطباعة الوثيقة.",
+            "completion_evidence": "تأكيدك إنو الطلب تحول للطباعة"
+          },
+          {
+            "actor": "user_and_authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "original",
+                "id": "doc-receipt-show",
+                "label": "إبراز الوصل المالي لموظف التسليم",
+                "necessity": "required"
+              }],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["print-certificate"],
+            "place_ids": [],
+            "id": "receive-certificate",
+            "title": "استلم الشهادة المختومة",
+            "explanation": "تختم الشهادة وتسلم لك بعد إبراز الوصل المالي لموظف التسليم.",
+            "completion_evidence": "استلامك الشهادة المختومة"
+          }
+        ]
+      },
+      "uncertainties": [
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق."
+      ]
+    }
+  }
+]

@@ -10,6 +10,7 @@ data class ReviewedSource(
     val id: String, val title: String, val url: String, val version: String,
     val accessedAt: String, val provenance: String, val reviewedExcerpt: String,
     val supportedRules: List<String>, val gaps: List<String>,
+    val gapsEnglish: List<String> = emptyList(),
 )
 
 data class AdditionalService(val id: String, val requiredFact: String, val allowedValues: List<String>,
@@ -37,7 +38,8 @@ class ReviewedCatalog private constructor(schemaText: String, sourceText: String
         (0 until entries.length()).map { index -> entries.getJSONObject(index).let { source ->
             ReviewedSource(source.getString("id"), source.getString("title"), source.getString("url"),
                 source.getString("version"), source.getString("accessed_at"), source.getString("provenance"),
-                source.getString("reviewed_excerpt"), source.getJSONArray("supported_rules").strings(), source.getJSONArray("gaps").strings())
+                source.getString("reviewed_excerpt"), source.getJSONArray("supported_rules").strings(), source.getJSONArray("gaps").strings(),
+                source.optJSONArray("gaps_en")?.strings().orEmpty())
         } }
     }
     fun conditionalGap(id: String): String {

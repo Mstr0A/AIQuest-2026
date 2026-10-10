@@ -10,6 +10,7 @@ import com.a0.daleelak.app.DaleelakApp
 import com.a0.daleelak.app.DaleelakViewModel
 import com.a0.daleelak.data.LocalOperationStore
 import com.a0.daleelak.ui.theme.DaleelakTheme
+import com.a0.daleelak.ui.UiPreferencesProvider
 
 class MainActivity : ComponentActivity() {
     private lateinit var model: DaleelakViewModel
@@ -25,8 +26,10 @@ class MainActivity : ComponentActivity() {
             }
         })[DaleelakViewModel::class.java]
         setContent {
-            DaleelakTheme {
-                DaleelakApp(model)
+            UiPreferencesProvider {
+                DaleelakTheme {
+                    DaleelakApp(model)
+                }
             }
         }
     }

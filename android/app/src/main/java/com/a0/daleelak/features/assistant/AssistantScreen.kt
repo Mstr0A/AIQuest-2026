@@ -1,5 +1,7 @@
 package com.a0.daleelak.features.assistant
 
+import com.a0.daleelak.ui.LocalUiStrings
+
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -35,6 +37,7 @@ import com.a0.daleelak.ui.components.DaleelakIcons
 
 @Composable
 fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
+    val ui = LocalUiStrings.current
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val plan = model.currentPlan
@@ -54,7 +57,7 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
         if (granted) {
             if (model.hasOpenRouterKey) model.startCloudDictation() else shouldStartListening = true
         }
-        else model.notice = "لم يُسمح باستخدام الميكروفون. تقدر تكتب رسالتك بدلاً من ذلك."
+        else model.notice = ui.text("لم يُسمح باستخدام الميكروفون. تقدر تكتب رسالتك بدلاً من ذلك.")
     }
 
     DisposableEffect(lifecycleOwner, model, recognizer) {
@@ -88,7 +91,7 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                 shouldStartListening = false
                 if (transcript.isNullOrBlank()) {
                     model.draft = draftBeforeSpeech
-                    model.notice = "ما وصلني كلام واضح. جرّب مرة ثانية أو اكتب رسالتك."
+                    model.notice = ui.text("ما وصلني كلام واضح. جرّب مرة ثانية أو اكتب رسالتك.")
                 } else {
                     model.draft = joinTranscript(draftBeforeSpeech, transcript)
                     model.notice = null
@@ -100,10 +103,10 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                 shouldStartListening = false
                 model.draft = draftBeforeSpeech
                 model.notice = when (error) {
-                    SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "يلزم السماح بالميكروفون للإملاء الصوتي."
-                    SpeechRecognizer.ERROR_NETWORK, SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "تعذر الاتصال بخدمة التعرف الصوتي. تقدر تكتب رسالتك."
-                    SpeechRecognizer.ERROR_NO_MATCH, SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "ما وصلني كلام واضح. جرّب مرة ثانية أو اكتب رسالتك."
-                    else -> "تعذر تشغيل الإملاء الصوتي؛ تقدر تكتب رسالتك."
+                    SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> ui.text("يلزم السماح بالميكروفون للإملاء الصوتي.")
+                    SpeechRecognizer.ERROR_NETWORK, SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> ui.text("تعذر الاتصال بخدمة التعرف الصوتي. تقدر تكتب رسالتك.")
+                    SpeechRecognizer.ERROR_NO_MATCH, SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> ui.text("ما وصلني كلام واضح. جرّب مرة ثانية أو اكتب رسالتك.")
+                    else -> ui.text("تعذر تشغيل الإملاء الصوتي؛ تقدر تكتب رسالتك.")
                 }
             }
         })
@@ -119,12 +122,12 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
             val service = recognizer
             if (service == null) {
                 shouldStartListening = false
-                model.notice = "خدمة التعرف الصوتي غير متاحة على هذا الجهاز. تقدر تكتب رسالتك."
+                model.notice = ui.text("خدمة التعرف الصوتي غير متاحة على هذا الجهاز. تقدر تكتب رسالتك.")
             } else {
                 draftBeforeSpeech = model.draft
                 val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                     putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                    putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ar-JO")
+                    putExtra(RecognizerIntent.EXTRA_LANGUAGE, if (ui.english) "en-US" else "ar-JO")
                     if (Build.VERSION.SDK_INT >= 34) {
                         putExtra(RecognizerIntent.EXTRA_ENABLE_LANGUAGE_SWITCH, RecognizerIntent.LANGUAGE_SWITCH_BALANCED)
                         putStringArrayListExtra(RecognizerIntent.EXTRA_LANGUAGE_SWITCH_ALLOWED_LANGUAGES, arrayListOf("ar-JO", "en-US"))
@@ -134,7 +137,7 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                 }
                 runCatching { service.startListening(intent) }.onFailure {
                     shouldStartListening = false
-                    model.notice = "تعذر بدء الإملاء الصوتي؛ تقدر تكتب رسالتك."
+                    model.notice = ui.text("تعذر بدء الإملاء الصوتي؛ تقدر تكتب رسالتك.")
                 }
             }
         }
@@ -151,16 +154,16 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
     Column(modifier.fillMaxWidth()) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween) {
-            Text("المساعد", style = MaterialTheme.typography.titleMedium)
+            Text(ui.text("المساعد"), style = MaterialTheme.typography.titleMedium)
             Row(verticalAlignment = Alignment.CenterVertically) {
                 TextButton(onClick = { model.configureReadReplies(!model.readReplies) }) {
-                    Text(if (model.readReplies) "كتم" else "صوت")
+                    Text(if (model.readReplies) ui.text("كتم") else ui.text("صوت"))
                 }
                 if (model.messages.any { it.fromUser }) {
                     TextButton(onClick = {
                         recognizer?.cancel(); listening = false; shouldStartListening = false
                         model.newConversation(); showTyping = false; keyboard?.hide()
-                    }) { Text("محادثة جديدة") }
+                    }) { Text(ui.text("محادثة جديدة")) }
                 }
             }
         }
@@ -169,8 +172,8 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                 Card(shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = if (message.fromUser)
                     MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface)) {
                     Column(Modifier.fillMaxWidth().padding(12.dp)) {
-                        Text(if (message.fromUser) "أنت" else "دليلك · تجربة", style = MaterialTheme.typography.labelSmall)
-                        Text(message.text)
+                        Text(if (message.fromUser) ui.text("أنت") else ui.text("دليلك · تجربة"), style = MaterialTheme.typography.labelSmall)
+                        Text(ui.text(message.text))
                         if (!message.fromUser) {
                             val activeReply = model.playingReplyText == message.text
                             TextButton(onClick = {
@@ -180,9 +183,9 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                                 Icon(DaleelakIcons.Speaker, contentDescription = null, modifier = Modifier.size(18.dp))
                                 Spacer(Modifier.width(6.dp))
                                 Text(when {
-                                    activeReply && model.voiceState == VoiceState.PREPARING_REPLY -> "إلغاء تجهيز الصوت"
-                                    activeReply && model.voiceState == VoiceState.PLAYING_REPLY -> "إيقاف"
-                                    else -> "استماع"
+                                    activeReply && model.voiceState == VoiceState.PREPARING_REPLY -> ui.text("إلغاء تجهيز الصوت")
+                                    activeReply && model.voiceState == VoiceState.PLAYING_REPLY -> ui.text("إيقاف")
+                                    else -> ui.text("استماع")
                                 })
                             }
                         }
@@ -193,18 +196,18 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                 Row(Modifier.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
-                    Text("جارٍ تجهيز الرد…", style = MaterialTheme.typography.bodySmall)
+                    Text(ui.text("جارٍ تجهيز الرد…"), style = MaterialTheme.typography.bodySmall)
                 }
             }
             if (plan != null) item {
                 Card(Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(plan.title, style = MaterialTheme.typography.titleMedium)
-                        if (plan.illustrative) Text("نموذج عرض للخطة؛ ليس إجراءً حكومياً موثقاً.")
+                        if (plan.illustrative) Text(ui.text("نموذج عرض للخطة؛ ليس إجراءً حكومياً موثقاً."))
                         if (plan.summary.isNotBlank()) Text(plan.summary)
                         val uncertainties = plan.uncertainties.filter { it.isNotBlank() }
                         if (uncertainties.isNotEmpty()) {
-                            Text("تفاصيل تحتاج تأكيد", style = MaterialTheme.typography.titleSmall)
+                            Text(ui.text("تفاصيل تحتاج تأكيد"), style = MaterialTheme.typography.titleSmall)
                             uncertainties.forEach { uncertainty ->
                                 Text("• $uncertainty", style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -212,7 +215,7 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                         }
                         plan.steps.forEach { Text(it.title) }
                         Button(onClick = model::savePlan, enabled = !model.isResponding) {
-                            Text("حفظ الخطة ومتابعة الخطوات")
+                            Text(ui.text("حفظ الخطة ومتابعة الخطوات"))
                         }
                     }
                 }
@@ -222,7 +225,7 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
         Column(Modifier.imePadding().padding(vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             if (showTyping) {
                 OutlinedTextField(value = model.draft, onValueChange = { model.draft = it },
-                    label = { Text("اكتب أو عدّل رسالتك") },
+                    label = { Text(ui.text("اكتب أو عدّل رسالتك")) },
                     modifier = Modifier.fillMaxWidth().focusRequester(typingFocus), maxLines = 4,
                     shape = RoundedCornerShape(16.dp))
             } else if (model.draft.isNotBlank()) {
@@ -244,10 +247,10 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                     Icon(DaleelakIcons.Microphone, contentDescription = null)
                     Spacer(Modifier.width(8.dp))
                     Text(when {
-                        model.voiceState == VoiceState.TRANSCRIBING -> "جارٍ تفريغ الصوت…"
-                        model.voiceState == VoiceState.RECORDING -> "إنهاء التسجيل"
-                        listening -> "إنهاء الإملاء"
-                        else -> "احكي لدليلك"
+                        model.voiceState == VoiceState.TRANSCRIBING -> ui.text("جارٍ تفريغ الصوت…")
+                        model.voiceState == VoiceState.RECORDING -> ui.text("إنهاء التسجيل")
+                        listening -> ui.text("إنهاء الإملاء")
+                        else -> ui.text("احكي لدليلك")
                     })
                 }
                 OutlinedButton(onClick = {
@@ -256,17 +259,17 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                 }, modifier = Modifier.heightIn(min = 56.dp), shape = RoundedCornerShape(16.dp)) {
                     Icon(DaleelakIcons.Keyboard, contentDescription = null, modifier = Modifier.size(20.dp))
                     Spacer(Modifier.width(6.dp))
-                    Text(if (showTyping) "إخفاء" else "كتابة")
+                    Text(if (showTyping) ui.text("إخفاء") else ui.text("كتابة"))
                 }
             }
             if (model.draft.isNotBlank()) {
                 Button(onClick = { model.send() }, enabled = !model.isResponding && !model.isDictating && !listening,
-                    modifier = Modifier.fillMaxWidth()) { Text("إرسال") }
+                    modifier = Modifier.fillMaxWidth()) { Text(ui.text("إرسال")) }
             }
             Text(when {
-                model.hasOpenRouterKey -> "سجّل حتى ٣٠ ثانية. يُرسل النص تلقائياً بعد تفريغ الصوت. صوت الرد مولّد آلياً."
-                recognizer == null -> "خدمة الصوت غير متاحة في هذه النسخة، اكتب رسالتك."
-                else -> "يُرسل النص تلقائياً عند انتهاء الإملاء. قد يعالج جهازك الصوت عبر خدمة التعرف."
+                model.hasOpenRouterKey -> ui.text("سجّل حتى ٣٠ ثانية. يُرسل النص تلقائياً بعد تفريغ الصوت. صوت الرد مولّد آلياً.")
+                recognizer == null -> ui.text("خدمة الصوت غير متاحة في هذه النسخة، اكتب رسالتك.")
+                else -> ui.text("يُرسل النص تلقائياً عند انتهاء الإملاء. قد يعالج جهازك الصوت عبر خدمة التعرف.")
             }, style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
         }

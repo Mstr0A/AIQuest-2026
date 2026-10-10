@@ -1,0 +1,137 @@
+<resources>
+    <string name="ui_0" formatted="false">دليلك</string>
+    <string name="ui_1" formatted="false">DALEELAK · نسخة تجريبية</string>
+    <string name="ui_2" formatted="false">الرئيسية</string>
+    <string name="ui_3" formatted="false">إغلاق</string>
+    <string name="ui_4" formatted="false">شو بدك تنجز اليوم؟</string>
+    <string name="ui_5" formatted="false">ابدأ معاملة جديدة، أو كمل من وين وقفت.</string>
+    <string name="ui_6" formatted="false">معاملة جديدة</string>
+    <string name="ui_7" formatted="false">معاملاتك</string>
+    <string name="ui_8" formatted="false">المعاملات الحالية</string>
+    <string name="ui_9" formatted="false">الجديدة والجارية</string>
+    <string name="ui_10" formatted="false">المعاملات المنتهية</string>
+    <string name="ui_11" formatted="false">اللي أكملت متابعتها</string>
+    <string name="ui_12" formatted="false">أرشيف المعاملات</string>
+    <string name="ui_13" formatted="false">معاملاتك المؤرشفة</string>
+    <string name="ui_14" formatted="false">جديدة</string>
+    <string name="ui_15" formatted="false">جارية</string>
+    <string name="ui_16" formatted="false">مكتملة</string>
+    <string name="ui_17" formatted="false">الكل</string>
+    <string name="ui_18" formatted="false">الحالية</string>
+    <string name="ui_19" formatted="false">المنتهية</string>
+    <string name="ui_20" formatted="false">الأرشيف</string>
+    <string name="ui_21" formatted="false">معاملاتي</string>
+    <string name="ui_22" formatted="false">ما عندك معاملات محفوظة بعد. ابدأ معاملة جديدة من الرئيسية.</string>
+    <string name="ui_23" formatted="false">ما عندك معاملات حالية.</string>
+    <string name="ui_24" formatted="false">ما عندك معاملات منتهية بعد.</string>
+    <string name="ui_25" formatted="false">ما عندك معاملات مؤرشفة بعد.</string>
+    <string name="ui_26" formatted="false">مؤرشفة · </string>
+    <string name="ui_27" formatted="false"> · تقدم أبلغ عنه المستخدم</string>
+    <string name="ui_28" formatted="false">عرض</string>
+    <string name="ui_29" formatted="false">متابعة</string>
+    <string name="ui_30" formatted="false">المساعد</string>
+    <string name="ui_31" formatted="false">كتم</string>
+    <string name="ui_32" formatted="false">صوت</string>
+    <string name="ui_33" formatted="false">محادثة جديدة</string>
+    <string name="ui_34" formatted="false">أنت</string>
+    <string name="ui_35" formatted="false">دليلك · تجربة</string>
+    <string name="ui_36" formatted="false">إلغاء تجهيز الصوت</string>
+    <string name="ui_37" formatted="false">إيقاف</string>
+    <string name="ui_38" formatted="false">استماع</string>
+    <string name="ui_39" formatted="false">جارٍ تجهيز الرد…</string>
+    <string name="ui_40" formatted="false">نموذج عرض للخطة؛ ليس إجراءً حكومياً موثقاً.</string>
+    <string name="ui_41" formatted="false">تفاصيل تحتاج تأكيد</string>
+    <string name="ui_42" formatted="false">حفظ الخطة ومتابعة الخطوات</string>
+    <string name="ui_43" formatted="false">اكتب أو عدّل رسالتك</string>
+    <string name="ui_44" formatted="false">جارٍ تفريغ الصوت…</string>
+    <string name="ui_45" formatted="false">إنهاء التسجيل</string>
+    <string name="ui_46" formatted="false">إنهاء الإملاء</string>
+    <string name="ui_47" formatted="false">احكي لدليلك</string>
+    <string name="ui_48" formatted="false">إخفاء</string>
+    <string name="ui_49" formatted="false">كتابة</string>
+    <string name="ui_50" formatted="false">إرسال</string>
+    <string name="ui_51" formatted="false">سجّل حتى ٣٠ ثانية. يُرسل النص تلقائياً بعد تفريغ الصوت. صوت الرد مولّد آلياً.</string>
+    <string name="ui_52" formatted="false">خدمة الصوت غير متاحة في هذه النسخة، اكتب رسالتك.</string>
+    <string name="ui_53" formatted="false">يُرسل النص تلقائياً عند انتهاء الإملاء. قد يعالج جهازك الصوت عبر خدمة التعرف.</string>
+    <string name="ui_54" formatted="false">لم يُسمح باستخدام الميكروفون. تقدر تكتب رسالتك بدلاً من ذلك.</string>
+    <string name="ui_55" formatted="false">ما وصلني كلام واضح. جرّب مرة ثانية أو اكتب رسالتك.</string>
+    <string name="ui_56" formatted="false">يلزم السماح بالميكروفون للإملاء الصوتي.</string>
+    <string name="ui_57" formatted="false">تعذر الاتصال بخدمة التعرف الصوتي. تقدر تكتب رسالتك.</string>
+    <string name="ui_58" formatted="false">تعذر تشغيل الإملاء الصوتي؛ تقدر تكتب رسالتك.</string>
+    <string name="ui_59" formatted="false">خدمة التعرف الصوتي غير متاحة على هذا الجهاز. تقدر تكتب رسالتك.</string>
+    <string name="ui_60" formatted="false">تعذر بدء الإملاء الصوتي؛ تقدر تكتب رسالتك.</string>
+    <string name="ui_61" formatted="false">رجوع للمعاملات</string>
+    <string name="ui_62" formatted="false">خطة تجريبية · التقدم حسب تأكيدك</string>
+    <string name="ui_63" formatted="false">التقدم حسب تأكيدك</string>
+    <string name="ui_64" formatted="false">شو أعمل الآن؟</string>
+    <string name="ui_65" formatted="false">نظرة عامة</string>
+    <string name="ui_66" formatted="false">متابعة المعاملة</string>
+    <string name="ui_67" formatted="false">إنهاء</string>
+    <string name="ui_68" formatted="false">اللي تقدر تتابعه الآن</string>
+    <string name="ui_69" formatted="false">هاي المهام متاحة بنفس الوقت. شوفها مع بعض قبل ما ترتّب مشوارك.</string>
+    <string name="ui_70" formatted="false">شوف الخطوة المتاحة ومتطلباتها قبل ما تبدأ.</string>
+    <string name="ui_71" formatted="false">راجعت كل الخطوات. تقدر تؤكد اكتمال المتابعة من البطاقة الأخيرة.</string>
+    <string name="ui_72" formatted="false">ما في خطوة متاحة الآن. راجع الخطوات السابقة قبل المتابعة.</string>
+    <string name="ui_73" formatted="false">تفاصيل الخطوة</string>
+    <string name="ui_74" formatted="false">اسحب للأعلى عشان تشوف الخطوات القادمة. عرضها ما يعني إنها جاهزة للتنفيذ.</string>
+    <string name="ui_75" formatted="false">حجز موعد · محاكاة</string>
+    <string name="ui_76" formatted="false">محاكاة محلية، لا تنشئ موعداً رسمياً ولا تعني أن الخدمة تتطلب حجزاً.</string>
+    <string name="ui_77" formatted="false">إعادة فتح المعاملة</string>
+    <string name="ui_78" formatted="false">أؤكد اكتمال المتابعة</string>
+    <string name="ui_79" formatted="false">تأكيدك محلي، ولا يمثل موافقة أو حالة حكومية رسمية.</string>
+    <string name="ui_80" formatted="false">استعادة من الأرشيف</string>
+    <string name="ui_81" formatted="false">أرشفة المعاملة</string>
+    <string name="ui_82" formatted="false">أكملتها حسب تأكيدك</string>
+    <string name="ui_83" formatted="false">متاحة للمتابعة</string>
+    <string name="ui_84" formatted="false">خطوة قادمة · تقدر تشوف متطلباتها الآن</string>
+    <string name="ui_85" formatted="false">المتطلبات الموثقة لسه مش مضافة للخطة التجريبية.</string>
+    <string name="ui_86" formatted="false">لا توجد متطلبات إضافية مذكورة في هذه الخطوة.</string>
+    <string name="ui_87" formatted="false">مصادر الخطوة</string>
+    <string name="ui_88" formatted="false">إعادة فتح الخطوة</string>
+    <string name="ui_89" formatted="false">أؤكد إكمال الخطوة</string>
+    <string name="ui_90" formatted="false">تأكيد هذه الخطوة يعلّم كل الخطوات السابقة كمكتملة أيضاً.</string>
+    <string name="ui_91" formatted="false">السابق</string>
+    <string name="ui_92" formatted="false">التالي</string>
+    <string name="ui_93" formatted="false">أرشفة المعاملة؟</string>
+    <string name="ui_94" formatted="false">ستنتقل إلى الأرشيف مع حفظ المحادثة والخطوات والتقدم. يمكنك استعادتها لاحقاً.</string>
+    <string name="ui_95" formatted="false">أرشفة</string>
+    <string name="ui_96" formatted="false">إلغاء</string>
+    <string name="ui_97" formatted="false">مطلوب</string>
+    <string name="ui_98" formatted="false">مفيد للتحضير</string>
+    <string name="ui_99" formatted="false">مطلوب حسب الحالة</string>
+    <string name="ui_100" formatted="false">الوثائق</string>
+    <string name="ui_101" formatted="false">الإجراءات</string>
+    <string name="ui_102" formatted="false">الدفعات والالتزامات</string>
+    <string name="ui_103" formatted="false">الزيارات</string>
+    <string name="ui_104" formatted="false">الأصل</string>
+    <string name="ui_105" formatted="false">نسخة ورقية</string>
+    <string name="ui_106" formatted="false">رفع إلكتروني</string>
+    <string name="ui_107" formatted="false">سجل إلكتروني رسمي</string>
+    <string name="ui_108" formatted="false">تعذر فتح قائمة المصادر المراجعة المحلية؛ لا نعرض تفاصيل غير مؤكدة.</string>
+    <string name="ui_109" formatted="false">لا يتوفر رابط رسمي مذكور لهذا المصدر في الملفات المراجعة.</string>
+    <string name="ui_110" formatted="false">فتح المصدر الرسمي</string>
+    <string name="ui_111" formatted="false">لم نتمكن من فتح الرابط في تطبيق على هذا الجهاز.</string>
+    <string name="ui_112" formatted="false">أهلاً! احكيلي عن المشكلة أو المعاملة اللي بدك مساعدة فيها. رح أستخدم المعلومات الموثقة المتاحة.</string>
+    <string name="ui_113" formatted="false">احكيلي عن المشكلة أو المعاملة اللي بدك مساعدة فيها.</string>
+    <string name="ui_114" formatted="false">تعذر قراءة المحفوظات. لم نحذفها؛ الحفظ معطل لمنع استبدال بيانات غير مقروءة.</string>
+    <string name="ui_115" formatted="false">عاد المساعد للوضع المحلي المحدود.</string>
+    <string name="ui_116" formatted="false">تم تفعيل فهم الرسائل عبر OpenRouter لهذه الجلسة فقط؛ لا يُحفظ المفتاح.</string>
+    <string name="ui_117" formatted="false">اسم الصوت غير صالح. استخدم اسماً أو معرّفاً من ElevenLabs.</string>
+    <string name="ui_118" formatted="false">ما وصلني كلام واضح. لم نرسل التسجيل؛ جرّب مرة ثانية أو اكتب رسالتك.</string>
+    <string name="ui_119" formatted="false">تعذر الإملاء. بقي نصك؛ تقدر تكتب رسالتك.</string>
+    <string name="ui_120" formatted="false">تعذر تفريغ التسجيل؛ بقي النص.</string>
+    <string name="ui_121" formatted="false">فعّل مفتاح OpenRouter للاستماع للرد.</string>
+    <string name="ui_122" formatted="false">تعذر الاستماع؛ الرد المكتوب متاح.</string>
+    <string name="ui_123" formatted="false">جارٍ تحميل المحفوظات، حاول بعد لحظة.</string>
+    <string name="ui_124" formatted="false">تعذر قبول الرد. بقيت رسالتك والخطة السابقة؛ حاول مجدداً. هذا خطأ استجابة وليس خدمة غير مدعومة.</string>
+    <string name="ui_125" formatted="false">لا توجد خطة مقبولة للحفظ بعد.</string>
+    <string name="ui_126" formatted="false">راجع كل الخطوات أولاً.</string>
+    <string name="ui_127" formatted="false">اكتملت متابعة الجزء المحفوظ حسب تأكيدك فقط؛ ليست موافقة حكومية أو إثبات اكتمال الإجراء الكامل.</string>
+    <string name="ui_128" formatted="false">حجز تجريبي محلي فقط. لم يُنشأ موعد رسمي ولا يدل على توافر أو اشتراط الحجز.</string>
+    <string name="ui_129" formatted="false">تغيرت إجابة أو مهمة تؤثر على التقدم؛ أُعيد فتح الجزء المتأثر فقط وبقي العمل غير المتأثر محفوظاً.</string>
+    <string name="ui_130" formatted="false">الحفظ غير متاح حتى تُقرأ البيانات المحلية بنجاح.</string>
+    <string name="ui_131" formatted="false">فشل الحفظ؛ بقيت الخطة والمحادثة ظاهرتين والبيانات المحفوظة السابقة محفوظة.</string>
+    <string name="ui_132" formatted="false">تم استئناف المعاملة المحفوظة. يمكن تصحيح إجاباتها دون حذف التقدم غير المتأثر.</string>
+    <string name="ui_133" formatted="false">الخطة المحفوظة معروضة كما كانت؛ سياق الرد يحتاج مراجعة قبل استخدامه.</string>
+    <string name="ui_134" formatted="false">تعذر حفظ سياق المحادثة؛ المعاملات المحفوظة لم تُحذف.</string>
+</resources>

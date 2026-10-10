@@ -1,5 +1,7 @@
 package com.a0.daleelak.features.operations
 
+import com.a0.daleelak.ui.LocalUiStrings
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
@@ -38,6 +40,7 @@ fun OperationsScreen(
     modifier: Modifier = Modifier,
     initialFilter: OperationsFilter = OperationsFilter.ALL,
 ) {
+    val ui = LocalUiStrings.current
     var filter by rememberSaveable(initialFilter) { mutableStateOf(initialFilter) }
     val selected = model.selected
     if (selected != null) {
@@ -45,28 +48,28 @@ fun OperationsScreen(
         return
     }
     Column(modifier) {
-        Text("معاملاتي", style = MaterialTheme.typography.headlineSmall, modifier = Modifier.padding(vertical = 12.dp))
+        Text(ui.text("معاملاتي"), style = MaterialTheme.typography.headlineSmall, modifier = Modifier.padding(vertical = 12.dp))
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             OperationsFilter.entries.forEach { option ->
-                FilterChip(selected = filter == option, onClick = { filter = option }, label = { Text(option.label) })
+                FilterChip(selected = filter == option, onClick = { filter = option }, label = { Text(ui.text(option.label)) })
             }
         }
         val visible = model.operations.filter { filter.includes(it) }.sortedByDescending { it.updatedAt }
         if (visible.isEmpty()) Text(
             when (filter) {
-                OperationsFilter.ALL -> "ما عندك معاملات محفوظة بعد. ابدأ معاملة جديدة من الرئيسية."
-                OperationsFilter.CURRENT -> "ما عندك معاملات حالية."
-                OperationsFilter.COMPLETED -> "ما عندك معاملات منتهية بعد."
-                OperationsFilter.ARCHIVED -> "ما عندك معاملات مؤرشفة بعد."
+                OperationsFilter.ALL -> ui.text("ما عندك معاملات محفوظة بعد. ابدأ معاملة جديدة من الرئيسية.")
+                OperationsFilter.CURRENT -> ui.text("ما عندك معاملات حالية.")
+                OperationsFilter.COMPLETED -> ui.text("ما عندك معاملات منتهية بعد.")
+                OperationsFilter.ARCHIVED -> ui.text("ما عندك معاملات مؤرشفة بعد.")
             }, Modifier.padding(vertical = 16.dp))
         LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             items(visible, key = { it.id }) { operation ->
                 Card(Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(operation.title, style = MaterialTheme.typography.titleMedium)
-                        Text((if (operation.archived) "مؤرشفة · " else "") + operation.status.label() + " · تقدم أبلغ عنه المستخدم")
-                        Text("${operation.completedStepIds.size} / ${operation.plan.steps.size} خطوات")
-                        Button(onClick = { model.selectedId = operation.id }) { Text(if (operation.archived) "عرض" else "متابعة") }
+                        Text((if (operation.archived) ui.text("مؤرشفة · ") else "") + ui.text(operation.status.label()) + ui.text(" · تقدم أبلغ عنه المستخدم"))
+                        Text(ui.choose("${operation.completedStepIds.size} / ${operation.plan.steps.size} خطوات", "${operation.completedStepIds.size} / ${operation.plan.steps.size} steps"))
+                        Button(onClick = { model.selectedId = operation.id }) { Text(if (operation.archived) ui.text("عرض") else ui.text("متابعة")) }
                     }
                 }
             }

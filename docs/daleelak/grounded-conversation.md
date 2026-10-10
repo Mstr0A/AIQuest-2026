@@ -37,3 +37,9 @@ Operation deletion is replaced by archiving. A persisted `archived` boolean defa
 ## Branding and automatic voice submission
 
 Home uses a 64 sp bold Arabic title. The supplied SVG is preserved in `assets/branding/daleelak.svg` and converted to native vectors for every screen header and the launcher/adaptive icon. Final speech transcripts now submit automatically through the same validated assistant gateway. Empty results and cancelled/stale voice sessions are not sent; typed drafts remain available after failures. This supersedes mandatory transcript review.
+
+## Language and text size
+
+The assistant follows the dominant language of the latest substantive inquiry. English inquiries receive English guidance; Arabic speech with a few English terms stays Arabic. Brief replies inherit the conversation language and explicit language requests take precedence. Reviewed source-limit translations are bundled so automatic warnings match English replies.
+
+The common header provides an Arabic/English switch and a Default/Large/Larger text-size cycle (1.0, 1.2, 1.4 times the system font scale). Both are stored locally. Interface labels use Arabic/English resources and switch RTL/LTR direction. The interface setting does not dictate AI response language or translate saved user conversations, model-generated plans, or original source titles.

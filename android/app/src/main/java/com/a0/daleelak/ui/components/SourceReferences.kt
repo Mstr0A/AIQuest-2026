@@ -1,5 +1,7 @@
 package com.a0.daleelak.ui.components
 
+import com.a0.daleelak.ui.LocalUiStrings
+
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -33,13 +35,14 @@ fun SourceReferences(
     sourceVersions: Map<String, String>,
     modifier: Modifier = Modifier,
 ) {
+    val ui = LocalUiStrings.current
     val context = LocalContext.current
     val catalog = remember(context) { runCatching { ReviewedCatalog(context.assets) }.getOrNull() }
     var openFailure by remember { mutableStateOf(false) }
 
     if (catalog == null) {
         Text(
-            "تعذر فتح قائمة المصادر المراجعة المحلية؛ لا نعرض تفاصيل غير مؤكدة.",
+            ui.text("تعذر فتح قائمة المصادر المراجعة المحلية؛ لا نعرض تفاصيل غير مؤكدة."),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = modifier,
@@ -60,33 +63,33 @@ fun SourceReferences(
             Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(source.title, style = MaterialTheme.typography.bodyMedium)
                 Text(
-                    "الإصدار: $version · تاريخ المراجعة: ${source.accessedAt}",
+                    ui.choose("الإصدار: $version · تاريخ المراجعة: ${source.accessedAt}", "Version: $version · Reviewed: ${source.accessedAt}"),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 if (source.url.isBlank()) {
                     Text(
-                        "لا يتوفر رابط رسمي مذكور لهذا المصدر في الملفات المراجعة.",
+                        ui.text("لا يتوفر رابط رسمي مذكور لهذا المصدر في الملفات المراجعة."),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 } else {
                     TextButton(onClick = { openFailure = !openOfficialLink(context, source.url) }) {
-                        Text("فتح المصدر الرسمي")
+                        Text(ui.text("فتح المصدر الرسمي"))
                     }
                 }
             }
         }
         if (unresolvedCount > 0) {
             Text(
-                "هناك $unresolvedCount مصدر مذكور في هذه الخطوة غير موجود في قائمة المراجعة المحلية؛ لا نعرض تفاصيل غير مؤكدة.",
+                ui.choose("هناك $unresolvedCount مصدر مذكور في هذه الخطوة غير موجود في قائمة المراجعة المحلية؛ لا نعرض تفاصيل غير مؤكدة.", "$unresolvedCount cited sources are missing from the reviewed catalog. Unverified details are hidden."),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
         if (openFailure) {
             Text(
-                "لم نتمكن من فتح الرابط في تطبيق على هذا الجهاز.",
+                ui.text("لم نتمكن من فتح الرابط في تطبيق على هذا الجهاز."),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.error,
             )

@@ -45,6 +45,17 @@ class ThreeServiceLiveTest {
         assumeTrue(System.getenv("DALEELAK_ALLOW_PAID_SERVICE_TESTS") == "true")
         assertTrue(BuildConfig.OPENROUTER_DEMO_KEY.isNotBlank())
     }
+    @Test fun englishAndMixedArabicUseTheDominantLanguage() = runBlocking {
+        paid(); val d = Dialogue(catalog(), "response-language")
+        val english = d.turn("I am Jordanian and need my birth certificate. My birth is already registered in the civil status computer system. Please show me the steps and required documents in English.")
+        assertEquals(english.message, ResponseKind.PLAN, english.kind)
+        assertTrue(english.message.any { it in 'a'..'z' })
+        assertFalse(english.message.any { it in '\u0600'..'\u06ff' })
+        assertTrue(english.uncertainties.none { it.any { c -> c in '\u0600'..'\u06ff' } })
+        val mixed = d.turn("أنا أردني وبدي birth certificate إلي، ولادتي مسجلة بحاسوب الأحوال. ورجيني الخطوات والأوراق والرسوم.")
+        assertEquals(mixed.message, ResponseKind.PLAN, mixed.kind)
+        assertTrue(mixed.message.count { it in '\u0600'..'\u06ff' } > mixed.message.count { it in 'a'..'z' || it in 'A'..'Z' })
+    }
     @Test fun lostNationalIdReachesDocumentSteps() = runBlocking {
         paid(); val d = Dialogue(catalog(), "lost-national-id")
         val start = d.turn("هويتي ضاعت، شو أعمل؟")

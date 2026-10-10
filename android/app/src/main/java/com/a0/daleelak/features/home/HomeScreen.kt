@@ -1,5 +1,7 @@
 package com.a0.daleelak.features.home
 
+import com.a0.daleelak.ui.LocalUiStrings
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,6 +26,7 @@ fun HomeScreen(
     onFinished: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val ui = LocalUiStrings.current
     LazyColumn(
         modifier = modifier.fillMaxWidth(),
         contentPadding = PaddingValues(top = 24.dp, bottom = 24.dp),
@@ -31,8 +34,8 @@ fun HomeScreen(
     ) {
         item {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("شو بدك تنجز اليوم؟", style = MaterialTheme.typography.headlineMedium)
-                Text("ابدأ معاملة جديدة، أو كمل من وين وقفت.",
+                Text(ui.text("شو بدك تنجز اليوم؟"), style = MaterialTheme.typography.headlineMedium)
+                Text(ui.text("ابدأ معاملة جديدة، أو كمل من وين وقفت."),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
@@ -44,23 +47,23 @@ fun HomeScreen(
                 contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp)) {
                 Icon(DaleelakIcons.Add, contentDescription = null)
                 Spacer(Modifier.width(8.dp))
-                Text("معاملة جديدة", style = MaterialTheme.typography.titleMedium)
+                Text(ui.text("معاملة جديدة"), style = MaterialTheme.typography.titleMedium)
             }
         }
         item {
-            Text("معاملاتك", style = MaterialTheme.typography.titleMedium,
+            Text(ui.text("معاملاتك"), style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(top = 12.dp))
         }
         item {
-            OperationEntry("المعاملات الحالية", "الجديدة والجارية", currentCount,
+            OperationEntry(ui.text("المعاملات الحالية"), ui.text("الجديدة والجارية"), currentCount,
                 DaleelakIcons.Current, onCurrent)
         }
         item {
-            OperationEntry("المعاملات المنتهية", "اللي أكملت متابعتها", finishedCount,
+            OperationEntry(ui.text("المعاملات المنتهية"), ui.text("اللي أكملت متابعتها"), finishedCount,
                 DaleelakIcons.Finished, onFinished)
         }
         item {
-            OperationEntry("أرشيف المعاملات", "معاملاتك المؤرشفة", archiveCount,
+            OperationEntry(ui.text("أرشيف المعاملات"), ui.text("معاملاتك المؤرشفة"), archiveCount,
                 DaleelakIcons.History, onArchive)
         }
     }

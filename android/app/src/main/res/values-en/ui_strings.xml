@@ -1,0 +1,137 @@
+<resources>
+    <string name="ui_0" formatted="false">DALEELAK</string>
+    <string name="ui_1" formatted="false">Demo version</string>
+    <string name="ui_2" formatted="false">Home</string>
+    <string name="ui_3" formatted="false">Close</string>
+    <string name="ui_4" formatted="false">What do you need to get done?</string>
+    <string name="ui_5" formatted="false">Start a new operation or pick up where you left off.</string>
+    <string name="ui_6" formatted="false">New operation</string>
+    <string name="ui_7" formatted="false">Your operations</string>
+    <string name="ui_8" formatted="false">Current operations</string>
+    <string name="ui_9" formatted="false">New and ongoing</string>
+    <string name="ui_10" formatted="false">Finished operations</string>
+    <string name="ui_11" formatted="false">Operations you completed</string>
+    <string name="ui_12" formatted="false">Operation archive</string>
+    <string name="ui_13" formatted="false">Your archived operations</string>
+    <string name="ui_14" formatted="false">New</string>
+    <string name="ui_15" formatted="false">Ongoing</string>
+    <string name="ui_16" formatted="false">Completed</string>
+    <string name="ui_17" formatted="false">All</string>
+    <string name="ui_18" formatted="false">Current</string>
+    <string name="ui_19" formatted="false">Finished</string>
+    <string name="ui_20" formatted="false">Archive</string>
+    <string name="ui_21" formatted="false">My operations</string>
+    <string name="ui_22" formatted="false">No saved operations yet. Start one from Home.</string>
+    <string name="ui_23" formatted="false">No current operations.</string>
+    <string name="ui_24" formatted="false">No finished operations yet.</string>
+    <string name="ui_25" formatted="false">No archived operations yet.</string>
+    <string name="ui_26" formatted="false">Archived · </string>
+    <string name="ui_27" formatted="false"> · Progress reported by you</string>
+    <string name="ui_28" formatted="false">View</string>
+    <string name="ui_29" formatted="false">Continue</string>
+    <string name="ui_30" formatted="false">Assistant</string>
+    <string name="ui_31" formatted="false">Mute</string>
+    <string name="ui_32" formatted="false">Sound</string>
+    <string name="ui_33" formatted="false">New chat</string>
+    <string name="ui_34" formatted="false">You</string>
+    <string name="ui_35" formatted="false">DALEELAK · Demo</string>
+    <string name="ui_36" formatted="false">Cancel audio</string>
+    <string name="ui_37" formatted="false">Stop</string>
+    <string name="ui_38" formatted="false">Listen</string>
+    <string name="ui_39" formatted="false">Preparing reply…</string>
+    <string name="ui_40" formatted="false">Illustrative plan; not a documented government procedure.</string>
+    <string name="ui_41" formatted="false">Details to confirm</string>
+    <string name="ui_42" formatted="false">Save plan and follow steps</string>
+    <string name="ui_43" formatted="false">Type or edit your message</string>
+    <string name="ui_44" formatted="false">Transcribing…</string>
+    <string name="ui_45" formatted="false">Finish recording</string>
+    <string name="ui_46" formatted="false">Finish dictation</string>
+    <string name="ui_47" formatted="false">Talk to DALEELAK</string>
+    <string name="ui_48" formatted="false">Hide</string>
+    <string name="ui_49" formatted="false">Type</string>
+    <string name="ui_50" formatted="false">Send</string>
+    <string name="ui_51" formatted="false">Record up to 30 seconds. The transcript sends automatically. Replies use a synthetic voice.</string>
+    <string name="ui_52" formatted="false">Voice is unavailable. Type your message.</string>
+    <string name="ui_53" formatted="false">Dictation sends automatically. Your device may use a speech recognition service.</string>
+    <string name="ui_54" formatted="false">Microphone permission was denied. You can type instead.</string>
+    <string name="ui_55" formatted="false">No clear speech detected. Try again or type your message.</string>
+    <string name="ui_56" formatted="false">Allow microphone access to use dictation.</string>
+    <string name="ui_57" formatted="false">Could not connect to speech recognition. You can type instead.</string>
+    <string name="ui_58" formatted="false">Could not start dictation. You can type instead.</string>
+    <string name="ui_59" formatted="false">Speech recognition is unavailable on this device. You can type instead.</string>
+    <string name="ui_60" formatted="false">Could not start dictation. You can type instead.</string>
+    <string name="ui_61" formatted="false">Back to operations</string>
+    <string name="ui_62" formatted="false">Demo plan · Progress confirmed by you</string>
+    <string name="ui_63" formatted="false">Progress confirmed by you</string>
+    <string name="ui_64" formatted="false">What can I do now?</string>
+    <string name="ui_65" formatted="false">Overview</string>
+    <string name="ui_66" formatted="false">Operation actions</string>
+    <string name="ui_67" formatted="false">Finish</string>
+    <string name="ui_68" formatted="false">What you can do now</string>
+    <string name="ui_69" formatted="false">These tasks can run in parallel. Review them together before planning your trip.</string>
+    <string name="ui_70" formatted="false">Review the available step and its requirements before starting.</string>
+    <string name="ui_71" formatted="false">All steps are done. Confirm completion on the final card.</string>
+    <string name="ui_72" formatted="false">No step is available yet. Review earlier steps.</string>
+    <string name="ui_73" formatted="false">Step details</string>
+    <string name="ui_74" formatted="false">Swipe up to preview upcoming steps. Previewing does not mean they are ready.</string>
+    <string name="ui_75" formatted="false">Book appointment · Demo</string>
+    <string name="ui_76" formatted="false">Local simulation. No official appointment is created, and booking may not be required.</string>
+    <string name="ui_77" formatted="false">Reopen operation</string>
+    <string name="ui_78" formatted="false">Confirm completion</string>
+    <string name="ui_79" formatted="false">Your confirmation is local; it is not official government approval or status.</string>
+    <string name="ui_80" formatted="false">Restore from archive</string>
+    <string name="ui_81" formatted="false">Archive operation</string>
+    <string name="ui_82" formatted="false">Completed by your confirmation</string>
+    <string name="ui_83" formatted="false">Ready to continue</string>
+    <string name="ui_84" formatted="false">Upcoming step · Preview its requirements</string>
+    <string name="ui_85" formatted="false">Documented requirements have not been added to this illustrative plan.</string>
+    <string name="ui_86" formatted="false">No additional requirements are stated for this step.</string>
+    <string name="ui_87" formatted="false">Step sources</string>
+    <string name="ui_88" formatted="false">Reopen step</string>
+    <string name="ui_89" formatted="false">Confirm step complete</string>
+    <string name="ui_90" formatted="false">Confirming this step also completes every earlier step.</string>
+    <string name="ui_91" formatted="false">Previous</string>
+    <string name="ui_92" formatted="false">Next</string>
+    <string name="ui_93" formatted="false">Archive this operation?</string>
+    <string name="ui_94" formatted="false">The conversation, steps and progress will be kept in the archive. You can restore it later.</string>
+    <string name="ui_95" formatted="false">Archive</string>
+    <string name="ui_96" formatted="false">Cancel</string>
+    <string name="ui_97" formatted="false">Required</string>
+    <string name="ui_98" formatted="false">Helpful preparation</string>
+    <string name="ui_99" formatted="false">Required when applicable</string>
+    <string name="ui_100" formatted="false">Documents</string>
+    <string name="ui_101" formatted="false">Actions</string>
+    <string name="ui_102" formatted="false">Payments and commitments</string>
+    <string name="ui_103" formatted="false">Visits</string>
+    <string name="ui_104" formatted="false">Original</string>
+    <string name="ui_105" formatted="false">Paper copy</string>
+    <string name="ui_106" formatted="false">Digital upload</string>
+    <string name="ui_107" formatted="false">Official electronic record</string>
+    <string name="ui_108" formatted="false">Could not open the reviewed source catalog. Unverified details are hidden.</string>
+    <string name="ui_109" formatted="false">No official link is recorded for this source.</string>
+    <string name="ui_110" formatted="false">Open official source</string>
+    <string name="ui_111" formatted="false">Could not open this link on your device.</string>
+    <string name="ui_112" formatted="false">Hi! Tell me which problem or operation you need help with. I will use the available documented information.</string>
+    <string name="ui_113" formatted="false">Tell me which problem or operation you need help with.</string>
+    <string name="ui_114" formatted="false">Could not read saved data. It was not deleted; saving is disabled to protect it.</string>
+    <string name="ui_115" formatted="false">The assistant returned to limited offline mode.</string>
+    <string name="ui_116" formatted="false">OpenRouter is enabled for this session. The key is not saved.</string>
+    <string name="ui_117" formatted="false">Invalid voice name. Use an ElevenLabs voice name or ID.</string>
+    <string name="ui_118" formatted="false">No clear speech detected. The recording was not sent. Try again or type your message.</string>
+    <string name="ui_119" formatted="false">Dictation failed. Your text is kept; you can type your message.</string>
+    <string name="ui_120" formatted="false">Transcription failed. Your text is kept.</string>
+    <string name="ui_121" formatted="false">Enable an OpenRouter key to listen to replies.</string>
+    <string name="ui_122" formatted="false">Audio playback failed. The written reply is available.</string>
+    <string name="ui_123" formatted="false">Loading saved data. Try again in a moment.</string>
+    <string name="ui_124" formatted="false">Could not accept the response. Your message and previous plan are kept. Try again; this is a response error, not an unsupported service.</string>
+    <string name="ui_125" formatted="false">There is no accepted plan to save yet.</string>
+    <string name="ui_126" formatted="false">Complete all steps first.</string>
+    <string name="ui_127" formatted="false">Saved progress is complete by your confirmation only. This is not government approval or proof the full procedure is complete.</string>
+    <string name="ui_128" formatted="false">Local demo booking only. No official appointment was created; availability and booking requirements are not established.</string>
+    <string name="ui_129" formatted="false">An answer or task changed. Only affected progress was reopened; the rest is kept.</string>
+    <string name="ui_130" formatted="false">Saving is unavailable until local data loads successfully.</string>
+    <string name="ui_131" formatted="false">Saving failed. Your plan and conversation remain visible, and previous saved data is kept.</string>
+    <string name="ui_132" formatted="false">Saved operation resumed. You can correct answers while preserving unaffected progress.</string>
+    <string name="ui_133" formatted="false">The saved plan is shown as stored. Its response context needs review before reuse.</string>
+    <string name="ui_134" formatted="false">Could not save conversation context. Saved operations were not deleted.</string>
+</resources>

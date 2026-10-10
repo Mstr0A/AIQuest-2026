@@ -15,6 +15,10 @@
       "gaps": [
         "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
         "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق."
+      ],
+      "gaps_en": [
+        "The source is a 2024 guide. Current requirements and fees have not been verified; confirm with the department before proceeding.",
+        "The app has no verified office locations or appointment data."
       ]
     },
     {
@@ -32,6 +36,11 @@
         "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
         "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
         "يوجد تعارض داخل صفحة 130: خانة الرسوم تقول لا يوجد رسوم، والرسم يذكر طوابع بقيمة 250 فلساً؛ يجب تأكيد المطلوب من المكتب دون افتراض إجمالي."
+      ],
+      "gaps_en": [
+        "The source is a 2024 guide. Current requirements and fees have not been verified; confirm with the department before proceeding.",
+        "The app has no verified office locations or appointment data.",
+        "Page 130 is inconsistent: its fee field says no fee, while the workflow lists stamps costing 250 fils. Confirm with the office; do not assume a total."
       ]
     },
     {
@@ -50,6 +59,12 @@
         "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
         "هذا تحديث عنوان التبليغات وليس تغيير مكان الإقامة المثبت على الوثائق.",
         "الكتب الرسمية تخص طلبات الجهات الحكومية وليست متطلباً إضافياً للمواطن في السيناريو الحالي."
+      ],
+      "gaps_en": [
+        "The source is a 2024 guide. Current requirements and fees have not been verified; confirm with the department before proceeding.",
+        "The app has no verified office locations or appointment data.",
+        "This updates the address for official notices, not the residence printed on documents.",
+        "Official letters apply to government agency requests, not as an additional requirement for the citizen in this scenario."
       ]
     },
     {
@@ -68,6 +83,12 @@
         "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
         "الدليل يسمي وزارة العدل للكفالة والمركز الأمني للبلاغ؛ تفاصيل إنجاز هذه الإجراءات خارج الدائرة غير موثقة هنا. لا يثبت زمن إنجاز المعاملة بالكامل.",
         "هذه بطاقات المسار الحضوري للجواز الأردني العادي؛ لا تعرض خطوات إلكترونية أو إجراءات سفارة كاملة. عند الفقد خارج المملكة راجع السفارة أو القنصلية لتحديد مسار التنفيذ."
+      ],
+      "gaps_en": [
+        "The source is a 2024 guide. Current requirements and fees have not been verified; confirm with the department before proceeding.",
+        "The app has no verified office locations or appointment data.",
+        "The guide names the Ministry of Justice for the guarantee and the police station for the loss report. Their external procedures and the total completion time are not established here.",
+        "These instructions cover the in-person ordinary Jordanian passport route, not a complete online or embassy process. For loss abroad, consult the embassy or consulate to establish the route."
       ]
     },
     {
@@ -85,6 +106,11 @@
         "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
         "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
         "الصفحات لا توضح وسيلة تنفيذ التبليغ الإلكتروني للمركز الأمني ولا أبعاد الصورة؛ لا تفترض تفاصيل غير موثقة."
+      ],
+      "gaps_en": [
+        "The source is a 2024 guide. Current requirements and fees have not been verified; confirm with the department before proceeding.",
+        "The app has no verified office locations or appointment data.",
+        "The pages do not explain how electronic police notification is performed or specify photo dimensions. Do not assume undocumented details."
       ]
     }
   ],

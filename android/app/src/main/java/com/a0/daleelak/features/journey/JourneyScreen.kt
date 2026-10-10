@@ -1,5 +1,7 @@
 package com.a0.daleelak.features.journey
 
+import com.a0.daleelak.ui.LocalUiStrings
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -38,6 +40,7 @@ fun JourneyScreen(model: DaleelakViewModel, operation: Operation, modifier: Modi
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifier: Modifier) {
+    val ui = LocalUiStrings.current
     val steps = operation.plan.steps
     val readySteps = steps.filter {
         it.id !in operation.completedStepIds && operation.completedStepIds.containsAll(it.dependsOn)
@@ -50,17 +53,17 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
     var confirmArchive by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        TextButton(onClick = { model.selectedId = null }) { Text("رجوع للمعاملات") }
+        TextButton(onClick = { model.selectedId = null }) { Text(ui.text("رجوع للمعاملات")) }
         Text(operation.title, style = MaterialTheme.typography.titleLarge)
-        Text(if (operation.plan.illustrative) "خطة تجريبية · التقدم حسب تأكيدك" else "التقدم حسب تأكيدك",
+        Text(if (operation.plan.illustrative) ui.text("خطة تجريبية · التقدم حسب تأكيدك") else ui.text("التقدم حسب تأكيدك"),
             style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween) {
-            TextButton(onClick = { scope.launch { pager.animateScrollToPage(0) } }) { Text("شو أعمل الآن؟") }
+            TextButton(onClick = { scope.launch { pager.animateScrollToPage(0) } }) { Text(ui.text("شو أعمل الآن؟")) }
             Text(when (pager.currentPage) {
-                0 -> "نظرة عامة"
-                steps.size + 1 -> "متابعة المعاملة"
-                else -> "خطوة ${pager.currentPage} من ${steps.size}"
+                0 -> ui.text("نظرة عامة")
+                steps.size + 1 -> ui.text("متابعة المعاملة")
+                else -> ui.choose("خطوة ${pager.currentPage} من ${steps.size}", "Step ${pager.currentPage} of ${steps.size}")
             }, style = MaterialTheme.typography.labelMedium)
         }
         LazyRow(state = navigation, modifier = Modifier.fillMaxWidth(),
@@ -69,8 +72,8 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                 FilterChip(selected = pager.currentPage == page,
                     onClick = { scope.launch { pager.animateScrollToPage(page) } },
                     label = { Text(when (page) {
-                        0 -> "نظرة عامة"
-                        steps.size + 1 -> "إنهاء"
+                        0 -> ui.text("نظرة عامة")
+                        steps.size + 1 -> ui.text("إنهاء")
                         else -> page.toString()
                     }) })
             }
@@ -87,24 +90,24 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                     when (page) {
                         0 -> {
                             item {
-                                Text("اللي تقدر تتابعه الآن", style = MaterialTheme.typography.headlineSmall)
+                                Text(ui.text("اللي تقدر تتابعه الآن"), style = MaterialTheme.typography.headlineSmall)
                                 if (operation.plan.summary.isNotBlank()) Text(operation.plan.summary)
                                 val uncertainties = operation.plan.uncertainties.filter { it.isNotBlank() }
                                 if (uncertainties.isNotEmpty()) {
-                                    Text("تفاصيل تحتاج تأكيد", style = MaterialTheme.typography.titleSmall)
+                                    Text(ui.text("تفاصيل تحتاج تأكيد"), style = MaterialTheme.typography.titleSmall)
                                     uncertainties.forEach { uncertainty ->
                                         Text("• $uncertainty", style = MaterialTheme.typography.bodySmall,
                                             color = MaterialTheme.colorScheme.onSurfaceVariant)
                                     }
                                 }
                                 Text(if (readySteps.size > 1)
-                                    "هاي المهام متاحة بنفس الوقت. شوفها مع بعض قبل ما ترتّب مشوارك."
-                                else "شوف الخطوة المتاحة ومتطلباتها قبل ما تبدأ.")
+                                    ui.text("هاي المهام متاحة بنفس الوقت. شوفها مع بعض قبل ما ترتّب مشوارك.")
+                                else ui.text("شوف الخطوة المتاحة ومتطلباتها قبل ما تبدأ."))
                             }
                             if (readySteps.isEmpty()) item {
                                 Text(if (operation.completedStepIds.size == steps.size)
-                                    "راجعت كل الخطوات. تقدر تؤكد اكتمال المتابعة من البطاقة الأخيرة."
-                                else "ما في خطوة متاحة الآن. راجع الخطوات السابقة قبل المتابعة.")
+                                    ui.text("راجعت كل الخطوات. تقدر تؤكد اكتمال المتابعة من البطاقة الأخيرة.")
+                                else ui.text("ما في خطوة متاحة الآن. راجع الخطوات السابقة قبل المتابعة."))
                             }
                             readySteps.forEach { step ->
                                 item(key = step.id) {
@@ -113,7 +116,7 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                                         Text(step.explanation, style = MaterialTheme.typography.bodyMedium)
                                         TextButton(onClick = {
                                             scope.launch { pager.animateScrollToPage(steps.indexOf(step) + 1) }
-                                        }) { Text("تفاصيل الخطوة") }
+                                        }) { Text(ui.text("تفاصيل الخطوة")) }
                                     }
                                 }
                             }
@@ -121,54 +124,54 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                             ChecklistCategory.entries.forEach { category ->
                                 val items = currentRequirements.filter { it.category == category }
                                 if (items.isNotEmpty()) item {
-                                    Text(category.label(), style = MaterialTheme.typography.titleMedium)
+                                    Text(ui.text(category.label()), style = MaterialTheme.typography.titleMedium)
                                     items.forEach { requirement ->
                                         Text("• ${requirement.label}", style = MaterialTheme.typography.bodyMedium)
                                         requirement.necessityLabel().takeIf { it.isNotBlank() }?.let {
-                                            Text(it, style = MaterialTheme.typography.labelSmall,
+                                            Text(ui.text(it), style = MaterialTheme.typography.labelSmall,
                                                 color = MaterialTheme.colorScheme.onSurfaceVariant)
                                         }
                                         requirement.condition?.takeIf { it.isNotBlank() }?.let {
-                                            Text("ينطبق إذا: $it", style = MaterialTheme.typography.bodySmall)
+                                            Text(ui.choose("ينطبق إذا: $it", "Applies when: $it"), style = MaterialTheme.typography.bodySmall)
                                         }
                                     }
                                 }
                             }
                             item {
-                                Text("اسحب للأعلى عشان تشوف الخطوات القادمة. عرضها ما يعني إنها جاهزة للتنفيذ.",
+                                Text(ui.text("اسحب للأعلى عشان تشوف الخطوات القادمة. عرضها ما يعني إنها جاهزة للتنفيذ."),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                         }
                         steps.size + 1 -> {
-                            item { Text("متابعة المعاملة", style = MaterialTheme.typography.headlineSmall) }
+                            item { Text(ui.text("متابعة المعاملة"), style = MaterialTheme.typography.headlineSmall) }
                             item {
                                 Button(onClick = model::bookDemo, enabled = !operation.archived, modifier = Modifier.fillMaxWidth()) {
-                                    Text("حجز موعد · محاكاة")
+                                    Text(ui.text("حجز موعد · محاكاة"))
                                 }
-                                Text("محاكاة محلية، لا تنشئ موعداً رسمياً ولا تعني أن الخدمة تتطلب حجزاً.",
+                                Text(ui.text("محاكاة محلية، لا تنشئ موعداً رسمياً ولا تعني أن الخدمة تتطلب حجزاً."),
                                     style = MaterialTheme.typography.bodySmall)
                             }
                             operation.demoEvents.forEach { event -> item(key = event.reference) {
-                                Text(event.message); Text(event.reference, style = MaterialTheme.typography.labelSmall)
+                                Text(ui.text(event.message)); Text(event.reference, style = MaterialTheme.typography.labelSmall)
                             } }
                             item {
                                 if (operation.status == OperationStatus.COMPLETED) {
-                                    Button(onClick = model::reopen, enabled = !operation.archived) { Text("إعادة فتح المعاملة") }
+                                    Button(onClick = model::reopen, enabled = !operation.archived) { Text(ui.text("إعادة فتح المعاملة")) }
                                 } else {
                                     Button(onClick = model::setCompleted,
                                         enabled = !operation.archived && steps.isNotEmpty() && operation.completedStepIds.size == steps.size) {
-                                        Text("أؤكد اكتمال المتابعة")
+                                        Text(ui.text("أؤكد اكتمال المتابعة"))
                                     }
                                 }
-                                Text("تأكيدك محلي، ولا يمثل موافقة أو حالة حكومية رسمية.",
+                                Text(ui.text("تأكيدك محلي، ولا يمثل موافقة أو حالة حكومية رسمية."),
                                     style = MaterialTheme.typography.bodySmall)
                             }
                             item {
                                 if (operation.archived) {
-                                    TextButton(onClick = model::restoreSelected) { Text("استعادة من الأرشيف") }
+                                    TextButton(onClick = model::restoreSelected) { Text(ui.text("استعادة من الأرشيف")) }
                                 } else {
-                                    TextButton(onClick = { confirmArchive = true }) { Text("أرشفة المعاملة") }
+                                    TextButton(onClick = { confirmArchive = true }) { Text(ui.text("أرشفة المعاملة")) }
                                 }
                             }
                         }
@@ -179,9 +182,9 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                             item {
                                 Text(step.title, style = MaterialTheme.typography.headlineSmall)
                                 Text(when {
-                                    complete -> "أكملتها حسب تأكيدك"
-                                    ready -> "متاحة للمتابعة"
-                                    else -> "خطوة قادمة · تقدر تشوف متطلباتها الآن"
+                                    complete -> ui.text("أكملتها حسب تأكيدك")
+                                    ready -> ui.text("متاحة للمتابعة")
+                                    else -> ui.text("خطوة قادمة · تقدر تشوف متطلباتها الآن")
                                 }, color = MaterialTheme.colorScheme.primary,
                                     style = MaterialTheme.typography.labelLarge)
                                 Text(step.explanation)
@@ -190,12 +193,12 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                                 val prerequisites = steps.filter {
                                     it.id in step.dependsOn && it.id !in operation.completedStepIds
                                 }.joinToString("، ") { it.title }
-                                Text("قبل تنفيذها: $prerequisites", style = MaterialTheme.typography.bodySmall)
+                                Text(ui.choose("قبل تنفيذها: $prerequisites", "Before this step: $prerequisites"), style = MaterialTheme.typography.bodySmall)
                             }
                             ChecklistCategory.entries.forEach { category ->
                                 val requirements = step.requirements.filter { it.category == category }
                                 if (requirements.isNotEmpty()) {
-                                    item { Text(category.label(), style = MaterialTheme.typography.titleMedium) }
+                                    item { Text(ui.text(category.label()), style = MaterialTheme.typography.titleMedium) }
                                     requirements.forEach { requirement -> item(key = requirement.id) {
                                         val checked = requirement.id in operation.checkedRequirementIds
                                         val enabled = !operation.archived && operation.status != OperationStatus.COMPLETED
@@ -216,14 +219,14 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                                             Column(Modifier.weight(1f).padding(top = 12.dp)) {
                                                 Text(requirement.label)
                                                 requirement.necessityLabel().takeIf { it.isNotBlank() }?.let {
-                                                    Text(it, style = MaterialTheme.typography.labelSmall,
+                                                    Text(ui.text(it), style = MaterialTheme.typography.labelSmall,
                                                         color = MaterialTheme.colorScheme.onSurfaceVariant)
                                                 }
                                                 requirement.condition?.takeIf { it.isNotBlank() }?.let {
-                                                    Text("ينطبق إذا: $it", style = MaterialTheme.typography.bodySmall)
+                                                    Text(ui.choose("ينطبق إذا: $it", "Applies when: $it"), style = MaterialTheme.typography.bodySmall)
                                                 }
                                                 if (requirement.format != RequirementFormat.UNSPECIFIED) {
-                                                    Text(requirement.format.label(), style = MaterialTheme.typography.bodySmall,
+                                                    Text(ui.text(requirement.format.label()), style = MaterialTheme.typography.bodySmall,
                                                         color = MaterialTheme.colorScheme.onSurfaceVariant)
                                                 }
                                             }
@@ -233,14 +236,14 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                             }
                             if (step.requirements.isEmpty()) item {
                                 Text(if (operation.plan.illustrative)
-                                    "المتطلبات الموثقة لسه مش مضافة للخطة التجريبية."
-                                else "لا توجد متطلبات إضافية مذكورة في هذه الخطوة.",
+                                    ui.text("المتطلبات الموثقة لسه مش مضافة للخطة التجريبية.")
+                                else ui.text("لا توجد متطلبات إضافية مذكورة في هذه الخطوة."),
                                     style = MaterialTheme.typography.bodySmall)
                             }
                             val references = (step.sourceIds + step.requirements.flatMap { it.sourceIds }).distinct()
                             if (references.isNotEmpty()) item {
                                 var showSources by rememberSaveable(step.id) { mutableStateOf(false) }
-                                TextButton(onClick = { showSources = !showSources }) { Text("مصادر الخطوة") }
+                                TextButton(onClick = { showSources = !showSources }) { Text(ui.text("مصادر الخطوة")) }
                                 if (showSources) SourceReferences(
                                     sourceIds = references,
                                     sourceVersions = operation.plan.sourceVersions,
@@ -251,10 +254,10 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                                 OutlinedButton(onClick = { model.toggleStep(step.id) },
                                     modifier = Modifier.fillMaxWidth(),
                                     enabled = !operation.archived && operation.status != OperationStatus.COMPLETED) {
-                                    Text(if (complete) "إعادة فتح الخطوة" else "أؤكد إكمال الخطوة")
+                                    Text(if (complete) ui.text("إعادة فتح الخطوة") else ui.text("أؤكد إكمال الخطوة"))
                                 }
                                 if (!complete && page > 1) Text(
-                                    "تأكيد هذه الخطوة يعلّم كل الخطوات السابقة كمكتملة أيضاً.",
+                                    ui.text("تأكيد هذه الخطوة يعلّم كل الخطوات السابقة كمكتملة أيضاً."),
                                     style = MaterialTheme.typography.bodySmall)
                             }
                         }
@@ -268,15 +271,15 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
         // Explicit controls also support users who cannot perform pager gestures.
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             TextButton(enabled = pager.currentPage > 0,
-                onClick = { scope.launch { pager.animateScrollToPage(pager.currentPage - 1) } }) { Text("السابق") }
+                onClick = { scope.launch { pager.animateScrollToPage(pager.currentPage - 1) } }) { Text(ui.text("السابق")) }
             TextButton(enabled = pager.currentPage < pager.pageCount - 1,
-                onClick = { scope.launch { pager.animateScrollToPage(pager.currentPage + 1) } }) { Text("التالي") }
+                onClick = { scope.launch { pager.animateScrollToPage(pager.currentPage + 1) } }) { Text(ui.text("التالي")) }
         }
     }
     if (confirmArchive) AlertDialog(onDismissRequest = { confirmArchive = false },
-        title = { Text("أرشفة المعاملة؟") }, text = { Text("ستنتقل إلى الأرشيف مع حفظ المحادثة والخطوات والتقدم. يمكنك استعادتها لاحقاً.") },
-        confirmButton = { TextButton(onClick = { model.archiveSelected(); confirmArchive = false }) { Text("أرشفة") } },
-        dismissButton = { TextButton(onClick = { confirmArchive = false }) { Text("إلغاء") } })
+        title = { Text(ui.text("أرشفة المعاملة؟")) }, text = { Text(ui.text("ستنتقل إلى الأرشيف مع حفظ المحادثة والخطوات والتقدم. يمكنك استعادتها لاحقاً.")) },
+        confirmButton = { TextButton(onClick = { model.archiveSelected(); confirmArchive = false }) { Text(ui.text("أرشفة")) } },
+        dismissButton = { TextButton(onClick = { confirmArchive = false }) { Text(ui.text("إلغاء")) } })
 }
 
 /** Visible thumb for the content inside a card, independent of the card pager. */
