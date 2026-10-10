@@ -11,15 +11,12 @@ class LocalReviewedAssistant(private val catalog: ReviewedCatalog) : AssistantGa
         val text = normalize(request.message)
         val answers = request.answers.toMutableMap()
         val mentionsBook = ("دفتر" in text && ("عائل" in text || "عيل" in text)) || "family book" in text || "family booklet" in text
-        val pendingIssue = request.pendingQuestions.any { it.id == "issue" }
         val pendingReport = request.pendingQuestions.any { it.id == "police_report" }
         val lost = listOf("ضاع", "ضايع", "مفقود", "فقدان", "lost", "loss", "فقدت").any { it in text }
         val damaged = listOf("تالف", "تلف", "damaged").any { it in text }
         when {
-            damaged && (mentionsBook || answers["issue"] == "lost" || pendingIssue) -> answers["issue"] = "damaged"
+            damaged && (mentionsBook || answers["issue"] == "lost") -> answers["issue"] = "damaged"
             mentionsBook && lost -> answers["issue"] = "lost"
-            pendingIssue && lost -> answers["issue"] = "lost"
-            pendingIssue && text in setOf("نعم", "اه", "yes") -> answers["issue"] = "lost"
             listOf("خدمه ثانيه", "خدمة ثانية", "passport", "جواز", "رخصه", "بطاقه", "هويه").any { it in text } -> {
                 // Another lost identity document alongside the pilot is a source gap, not a guessed branch.
                 if (mentionsBook || answers["issue"] == "lost") return partialWithGap(answers,
@@ -42,7 +39,7 @@ class LocalReviewedAssistant(private val catalog: ReviewedCatalog) : AssistantGa
             return partialWithGap(answers)
         }
         if (answers["issue"] in listOf("damaged", "other")) return AssistantResponse(kind = ResponseKind.UNSUPPORTED,
-            message = "لا يوجد مسار مراجع لهذه الخدمة في السجل المرفق.",
+            message = "آسف، ما عندي تعليمات موثقة كافية لهذه المعاملة، فما بقدر أعطيك خطوات موثوقة.",
             caseSummary = summary, suggestedPrompts = catalog.startPrompts,
             uncertainties = listOf("لا يوجد سجل قواعد مراجع للخدمة المطلوبة."))
         if (answers["issue"] != "lost") return AssistantResponse(kind = ResponseKind.CLARIFICATION,

@@ -65,7 +65,7 @@ class DaleelakViewModel(
             draftSaveJob?.cancel()
             if (!loading) draftSaveJob = viewModelScope.launch { delay(300); saveSession() }
         }
-    var messages by mutableStateOf(listOf(ChatMessage("أهلاً! بإمكاني إرشادك لشهادة ولادة مسجلة، تصديق وثيقة، تحديث عنوان التبليغات أو الجزء الموثق لدفتر مفقود. المصدر دليل 2024؛ تحقق من القواعد الحالية.")))
+    var messages by mutableStateOf(listOf(ChatMessage("أهلاً! احكيلي عن المشكلة أو المعاملة اللي بدك مساعدة فيها. رح أستخدم المعلومات الموثقة المتاحة.")))
         private set
     var operations by mutableStateOf(emptyList<Operation>())
         private set
@@ -314,7 +314,7 @@ class DaleelakViewModel(
         activeOperationId = null; answers = emptyMap(); questions = emptyList()
         acceptedResponseJson = null; contextResponseJson = null; currentPlan = null
         suggestedPrompts = catalog.startPrompts; draft = ""
-        messages = listOf(ChatMessage("محادثة جديدة. احكيلي عن المشكلة؛ سأستخدم فقط الجزء المثبت في الوثائق المتاحة."))
+        messages = listOf(ChatMessage("احكيلي عن المشكلة أو المعاملة اللي بدك مساعدة فيها."))
         saveSession()
     }
 

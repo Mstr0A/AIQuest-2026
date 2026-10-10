@@ -6,7 +6,7 @@ import com.a0.daleelak.data.ReviewedCatalog
 object ResponsePresentation {
     fun message(response: AssistantResponse, catalog: ReviewedCatalog): String = when (response.kind) {
         ResponseKind.CLARIFICATION -> response.questions.joinToString("\n") { "${it.text}\n${it.reason}" }
-        ResponseKind.UNSUPPORTED -> "الحالة لا تطابق مساراً تغطيه الوثائق المراجعة المتاحة. راجع الدائرة لتحديد الإجراء الصحيح.\n" + response.uncertainties.joinToString("\n")
+        ResponseKind.UNSUPPORTED -> "آسف، ما عندي تعليمات موثقة كافية لهذه الحالة، فما بقدر أعطيك خطوات موثوقة. راجع الجهة الرسمية المسؤولة عن معاملتك."
         ResponseKind.PLAN -> {
             val additional = catalog.additionalServices.firstOrNull { it.id == response.plan?.serviceId }
             if (additional != null) {

@@ -56,15 +56,17 @@ class ReviewedCatalog private constructor(schemaText: String, sourceText: String
     val allowedPrompts get() = startPrompts + legacyStartPrompts + reportQuestion.options + listOf("مش متأكد إذا عندي بلاغ") +
         additionalServices.flatMap { it.response.suggestedPrompts + it.question.options }
     private val legacyStartPrompts = listOf("ضاع دفتر العيلة، شو أعمل؟", "شو الأوراق المطلوبة لتعويض دفتر العائلة؟", "عندي بلاغ فقدان، شو الخطوة الجاية؟")
-    val startPrompts = listOf("بدي شهادة ولادة لواقعة مسجلة", "بدي أصدق صورة وثيقة صادرة عن الأحوال", "أنا رب الأسرة وبدي أحدث العنوان المصرح به")
+    val startPrompts = listOf("بدي أوضح المشكلة أكثر", "بدي أبدأ طلب جديد", "بدي أصحح معلومة ذكرتها")
     val reportQuestion = ClarificationQuestion("police_report", "هل عندك بلاغ فقدان من الشرطة؟",
         listOf("عندي بلاغ فقدان", "لسه ما عندي بلاغ", "مش متأكد"),
         "المصدر المراجع يذكر البلاغ كمتطلب سابق؛ الإجابة تحدد إذا نبدأ بالبلاغ أو بالقناة الإلكترونية.")
-    val goalQuestion = ClarificationQuestion("issue", "أي مشكلة تريد حلها؟",
+    val goalQuestion = ClarificationQuestion("issue", "شو المشكلة أو المعاملة اللي بدك مساعدة فيها؟",
+        emptyList(), "احكيلي شو بدك تعمل حتى أفهم طلبك بدون تخمين.")
+    private val legacyMultiGoalQuestion = ClarificationQuestion("issue", "أي مشكلة تريد حلها؟",
         listOf("شهادة ولادة لواقعة مسجلة", "تصديق صورة وثيقة", "تحديث العنوان المصرح به", "دفتر عائلة مفقود", "خدمة ثانية"), "لتحديد الخدمة التي تغطيها الوثائق المراجعة دون تخمين.")
     private val legacyGoalQuestion = ClarificationQuestion("issue", "هل المطلوب تعويض دفتر عائلة مفقود؟",
         listOf("نعم، دفتر عائلة مفقود", "دفتر تالف", "خدمة ثانية"), "لتحديد إذا المشكلة ضمن الخدمة التي تغطيها الوثائق المراجعة.")
-    val approvedQuestions = listOf(goalQuestion, reportQuestion, legacyGoalQuestion)
+    val approvedQuestions = listOf(goalQuestion, reportQuestion, legacyGoalQuestion, legacyMultiGoalQuestion)
 
     // These are narrow app-authored paraphrases of the supplied recorded inspection.
     // Full procedure/branch/fee records are NOT implied by these templates.

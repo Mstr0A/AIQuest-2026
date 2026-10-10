@@ -72,3 +72,7 @@ DALEELAK_ALLOW_PAID_SERVICE_TESTS=true bash tools/android/build-local.sh :app:te
 ```
 
 The Android UI was not walked through in this turn: no phone was visible, Waydroid was stopped and sandbox session startup returned Invalid session pid. The user canceled the install request and asked to continue. Compilation and API/app-logic checks do not establish on-device UI behavior or actual government completion.
+
+## Neutral conversation entry (U-066)
+
+The initial and restarted chat ask openly what problem the user needs help with. They do not list known services. Vague yes/lost/damaged replies to that neutral question do not establish a family-book issue. Once the user identifies a covered service, only its necessary reviewed prerequisite question is asked. Unsupported responses apologize and do not display suggestions for unrelated known cases. Existing saved historical question objects remain accepted for compatibility, but new replies use the neutral question.

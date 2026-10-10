@@ -51,7 +51,7 @@ class AdditionalReviewedAssistant(private val catalog: ReviewedCatalog) {
         if (answer == null) return service.response.copy(kind = ResponseKind.CLARIFICATION,
             message = service.question.text, caseSummary = summary, questions = listOf(service.question), plan = null)
         if (answer != service.supportedValue) return service.response.copy(kind = ResponseKind.UNSUPPORTED,
-            message = "هذه الحالة لا تطابق شروط المسار المراجع؛ راجع الدائرة لتحديد الإجراء الصحيح.", caseSummary = summary, plan = null)
+            message = "آسف، ما عندي مسار موثق يغطي تفاصيل هذه الحالة. راجع الجهة الرسمية لتحديد الإجراء الصحيح.", caseSummary = summary, plan = null)
         return service.response.copy(caseSummary = summary)
     }
 }
