@@ -76,3 +76,7 @@ The Android UI was not walked through in this turn: no phone was visible, Waydro
 ## Neutral conversation entry (U-066)
 
 The initial and restarted chat ask openly what problem the user needs help with. They do not list known services. Vague yes/lost/damaged replies to that neutral question do not establish a family-book issue. Once the user identifies a covered service, only its necessary reviewed prerequisite question is asked. Unsupported responses apologize and do not display suggestions for unrelated known cases. Existing saved historical question objects remain accepted for compatibility, but new replies use the neutral question.
+
+## U-067 screenshot correction
+
+The live classified issue now controls routing; offline keyword matching cannot overwrite it. A new service clears old prerequisite facts and pending questions. Education certification is classified outside the CSPD scope without asking if a university/Tawjihi certificate came from CSPD. Lost-passport requests explain that the PDF contains the service but its procedure has not yet been loaded. All suggestion buttons are disabled; the response schema remains unchanged. This correction was compiled, not given a new device walkthrough or live regression run in this turn.

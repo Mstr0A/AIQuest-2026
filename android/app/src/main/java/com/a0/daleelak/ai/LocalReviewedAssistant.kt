@@ -17,7 +17,7 @@ class LocalReviewedAssistant(private val catalog: ReviewedCatalog, private val t
         if (!trustClassifiedIssue) when {
             damaged && (mentionsBook || answers["issue"] == "lost") -> answers["issue"] = "damaged"
             mentionsBook && lost -> answers["issue"] = "lost"
-            listOf("خدمه ثانيه", "خدمة ثانية", "passport", "جواز", "رخصه", "بطاقه", "هويه").any { it in text } -> {
+            listOf("خدمه ثانيه", "خدمة ثانية", "passport", "جواز", "رخصه", "بطاقه", "هويه", "جامع", "توجيهي", "university", "high school").any { it in text } -> {
                 // Another lost identity document alongside the pilot is a source gap, not a guessed branch.
                 if (mentionsBook || answers["issue"] == "lost") return partialWithGap(answers,
                     "لا تتوفر قاعدة مراجعة لحالة وثيقة إضافية؛ لا أستطيع إضافة متطلبات أو تغيير الإجراء بناءً عليها.")
@@ -39,9 +39,9 @@ class LocalReviewedAssistant(private val catalog: ReviewedCatalog, private val t
             return partialWithGap(answers)
         }
         if (answers["issue"] in listOf("damaged", "other")) return AssistantResponse(kind = ResponseKind.UNSUPPORTED,
-            message = "آسف، ما عندي تعليمات موثقة كافية لهذه المعاملة، فما بقدر أعطيك خطوات موثوقة.",
+            message = UnsupportedGuidance.forMessage(request.message),
             caseSummary = summary, suggestedPrompts = catalog.startPrompts,
-            uncertainties = listOf("لا يوجد سجل قواعد مراجع للخدمة المطلوبة."))
+            uncertainties = listOf(UnsupportedGuidance.forMessage(request.message)))
         if (answers["issue"] != "lost") return AssistantResponse(kind = ResponseKind.CLARIFICATION,
             message = "خلينا نحدد الخدمة التي تحتاجها ضمن الوثائق المراجعة.", caseSummary = summary,
             questions = listOf(catalog.goalQuestion), suggestedPrompts = catalog.startPrompts)

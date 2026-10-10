@@ -213,14 +213,7 @@ fun AssistantScreen(model: DaleelakViewModel, modifier: Modifier = Modifier) {
                     }
                 }
             }
-            if (model.messages.none { it.fromUser }) item {
-                Column {
-                    Text("اقتراحات", style = MaterialTheme.typography.labelMedium)
-                    model.suggestedPrompts.forEach { prompt ->
-                        TextButton(onClick = { model.draft = prompt }) { Text(prompt) }
-                    }
-                }
-            }
+
         }
         Column(Modifier.imePadding().padding(vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             if (showTyping) {
