@@ -7,8 +7,9 @@ import java.util.Locale
 class AdditionalReviewedAssistant(private val catalog: ReviewedCatalog, private val matchMessageIntent: Boolean = true) {
     fun respond(request: AssistantRequest): AssistantResponse? {
         val text = request.message.lowercase(Locale.ROOT).replace('أ', 'ا').replace('إ', 'ا').replace('ة', 'ه')
-        if (matchMessageIntent && ("جواز" in text || "passport" in text || "جامع" in text || "توجيهي" in text || "university" in text || "high school" in text)) return null
+        if (matchMessageIntent && ("جامع" in text || "توجيهي" in text || "university" in text || "high school" in text)) return null
         val explicit = if (matchMessageIntent) when {
+            ("جواز" in text || "passport" in text) && listOf("ضاع", "ضايع", "مفقود", "فقد", "lost").any { it in text } -> "lost_passport"
             "شهاده" in text && ("ولاد" in text || "ميلاد" in text) || "birth certificate" in text -> "birth_certificate"
             ("صدق" in text || "تصديق" in text || "attest" in text || "certif" in text) && ("وثيق" in text || "صوره" in text || "copy" in text || "document" in text) -> "document_attestation"
             "عنوان" in text && ("مصرح" in text || "تبليغ" in text) || "declared address" in text -> "declared_address"
@@ -22,6 +23,12 @@ class AdditionalReviewedAssistant(private val catalog: ReviewedCatalog, private 
         val pending = request.pendingQuestions.any { it.id == service.requiredFact }
         // Offline fallback for explicit statements. The live classifier supplies the same bounded facts.
         val value = when (service.id) {
+            "lost_passport" -> when {
+                "مؤقت" in text || "temporary" in text -> "temporary"
+                "مش متاكد" in text || "ما بعرف" in text || "not sure" in text -> "unknown"
+                "عادي" in text || "ordinary" in text || "regular" in text -> "ordinary"
+                else -> null
+            }
             "birth_certificate" -> when {
                 "غير مسجل" in text || "مش مسجل" in text || "not registered" in text -> "no"
                 "مش متاكد" in text || "not sure" in text -> "unknown"

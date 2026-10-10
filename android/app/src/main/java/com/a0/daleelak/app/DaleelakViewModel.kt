@@ -268,6 +268,8 @@ class DaleelakViewModel(
                 }
                 if (ticket != generation) return@launch
                 val encoded = codec.encode(response)
+                val nextIssue = response.caseSummary.knownFacts.firstOrNull { it.key == "issue" }?.value
+                if (nextIssue != null && nextIssue != answers["issue"]) activeOperationId = null
                 answers = response.caseSummary.knownFacts.filter { it.origin == "user" }.associate { it.key to it.value }
                 questions = response.questions
                 suggestedPrompts = response.suggestedPrompts
@@ -477,7 +479,7 @@ class DaleelakViewModel(
         acceptedResponseJson?.let { val accepted = codec.decode(it); validator.validate(accepted); currentPlan = catalog.toDomain(accepted) }
         contextResponseJson?.let { val context = codec.decode(it); validator.validate(context)
             questions = context.questions; suggestedPrompts = context.suggestedPrompts
-            if (context.kind == ResponseKind.UNSUPPORTED || context.caseSummary.knownFacts.none { it.key == "issue" && it.value == "lost" }) currentPlan = null
+            if (context.kind != ResponseKind.PLAN) currentPlan = null
         }
     }
 }

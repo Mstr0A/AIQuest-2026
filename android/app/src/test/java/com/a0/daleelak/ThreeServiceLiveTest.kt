@@ -46,6 +46,50 @@ class ThreeServiceLiveTest {
     @Test fun declaredAddress() = exercise("declared_address",
         "أنا رب الأسرة وبدي أحدث العنوان المصرح به للتبليغات بعد تغيير عنواني. شو الخطوات؟", 4)
 
+    @Test fun lostPassportClearRequest() = exercise("lost_passport",
+        "أنا أردني وجواز سفري الأردني العادي ضاع داخل الأردن لأول مرة. شو لازم أعمل؟", 11)
+
+    @Test fun genericPassportAndServiceSwitches() = runBlocking {
+        assumeTrue(System.getenv("DALEELAK_ALLOW_PAID_SERVICE_TESTS") == "true")
+        val c = catalog()
+        val gateway = OpenRouterAssistant(c, BuildConfig.OPENROUTER_DEMO_KEY)
+        val codec = ContractCodec(c.schema)
+        var answers = emptyMap<String, String>()
+        var questions = emptyList<ClarificationQuestion>()
+        val evidence = org.json.JSONArray()
+        suspend fun turn(text: String): AssistantResponse {
+            val response = codec.decode(codec.encode(gateway.respond(AssistantRequest(text, emptyList(), answers, null, questions))))
+            ResponseValidator(c).validate(response)
+            answers = response.caseSummary.knownFacts.associate { it.key to it.value }
+            questions = response.questions
+            evidence.put(JSONObject().put("input", text).put("response", JSONObject(codec.encode(response))))
+            return response
+        }
+        val attestation = turn("بدي أصدق صورة وثيقة")
+        assertEquals("document_origin", attestation.questions.single().id)
+        val education = turn("بدي أصدق شهادة التوجيهي من وين؟")
+        assertEquals(ResponseKind.UNSUPPORTED, education.kind)
+        assertTrue(education.questions.isEmpty())
+        val passport = turn("جواز السفر تبعي ضاع، شو أسوي؟")
+        assertEquals(ResponseKind.CLARIFICATION, passport.kind)
+        assertEquals("passport_type", passport.questions.single().id)
+        val plan = turn("جواز أردني عادي")
+        assertEquals("lost_passport", plan.plan!!.serviceId)
+        assertEquals(11, plan.plan.steps.size)
+        assertFalse(ResponsePresentation.message(plan, c).contains("دفتر"))
+        val birth = turn("بدي شهادة ولادة، الواقعة مسجلة حاسوبياً")
+        assertEquals("birth_certificate", birth.plan!!.serviceId)
+        val document = turn("بدي أصدق صورة شهادة زواج صادرة عن الأحوال المدنية")
+        assertEquals("document_attestation", document.plan!!.serviceId)
+        val address = turn("أنا رب الأسرة وبدي أحدث العنوان المصرح به للتبليغات")
+        assertEquals("declared_address", address.plan!!.serviceId)
+        val book = turn("دفتر العيلة ضاع ومعي بلاغ فقدان من الشرطة")
+        assertEquals(c.supportedPlan, book.plan)
+        assertEquals("yes", answers["police_report"])
+        val output = File("build/service-evaluation"); output.mkdirs()
+        File(output, "service-switches.json").writeText(evidence.toString(2))
+    }
+
     @Test fun missingFactsAskOnlyReviewedQuestions() = runBlocking {
         val c = catalog()
         for (s in c.additionalServices) {

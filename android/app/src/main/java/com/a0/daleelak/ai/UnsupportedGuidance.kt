@@ -3,7 +3,7 @@ package com.a0.daleelak.ai
 /** Coverage explanations authored from the reviewed CSPD guide, never procedural guesses. */
 object UnsupportedGuidance {
     const val EDUCATION = "آسف، دليل الأحوال المدنية المتاح ما يغطي توثيق شهادات الجامعة أو التوجيهي. ما عندي مصدر موثق يحدد الجهة والخطوات لهذه المعاملة."
-    const val PASSPORT = "آسف، دليل 2024 فيه خدمة جواز السفر بدل فاقد، لكن تفاصيل هذا المسار لسه مش محملة ضمن إجراءات التطبيق. ما بقدر أعطيك خطوات كاملة موثوقة حالياً."
+    const val PASSPORT = "آسف، المسار المراجع للجواز بدل فاقد يغطي الجواز الأردني العادي فقط. تفاصيل هذا الطلب غير مغطاة بمسار مراجع؛ راجع دائرة الأحوال المدنية والجوازات."
     const val GENERIC = "آسف، ما عندي تعليمات موثقة كافية لهذه الحالة، فما بقدر أعطيك خطوات موثوقة. راجع الجهة الرسمية المسؤولة عن معاملتك."
     fun forMessage(message: String): String {
         val text = message.lowercase()

@@ -54,3 +54,5 @@ use OpenRouter for coding/planning workers. See the implementation handoff in
 ../docs/daleelak/openrouter-voice-implementation.md; accent quality is not proven
 by synthetic integration fixtures. Build with ../tools/android/build-local.sh to
 reuse the original debug key and preserve installed history.
+
+- U-068: The user explicitly requires continuing until an ordinary Jordanian lost-passport inquiry reaches document-grounded guidance, then verifying the other covered services carefully. The user selected verification of the existing birth-certificate, CSPD-document-certification, declared-address and family-book cases first, rather than loading the entire 2024 guide. Live runtime tests are authorized. Use reviewed PDF pages 48–49, ask passport type when unknown, preserve conditional requirements and source gaps, and keep the replacement credential private. Suggestions remain disabled. See lost-passport-demo.md for scope and evidence.

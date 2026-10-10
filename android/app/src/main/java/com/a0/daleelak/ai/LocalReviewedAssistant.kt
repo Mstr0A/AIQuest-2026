@@ -25,7 +25,7 @@ class LocalReviewedAssistant(private val catalog: ReviewedCatalog, private val t
             }
             mentionsBook && !lost && answers["issue"] == null -> Unit
         }
-        if ("بلاغ" in text || "police report" in text || pendingReport) {
+        if (!trustClassifiedIssue && ("بلاغ" in text || "police report" in text || pendingReport)) {
             val report = when {
                 listOf("مش متاكد", "مو متاكد", "ما بعرف", "not sure", "unknown").any { it in text } -> "unknown"
                 listOf("ما عندي", "بدون", "ما معي", "لسه", "don't have", "do not have", "no report").any { it in text } || text == "لا" || text == "no" -> "no"

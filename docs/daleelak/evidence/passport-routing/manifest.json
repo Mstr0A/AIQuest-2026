@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-10",
+  "tests": 9,
+  "failures": 0,
+  "skipped": 0,
+  "live_api_calls": 12,
+  "scope": "Actual OpenRouterAssistant + catalog + codec + validator in JVM; no Android UI walkthrough",
+  "source": "Official supplied 2024 CSPD PDF pages 48\u201349",
+  "source_sha256": "78f69da93f19e8896c73a7a7d999ed5b7b6e8c6f3d4eaea720c2ad449cf87c23",
+  "credential": "Private local build credential; literal omitted"
+}

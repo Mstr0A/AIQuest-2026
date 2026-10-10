@@ -1,0 +1,1079 @@
+[
+  {
+    "input": "بدي أصدق صورة وثيقة",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "بدي أصدق صورة وثيقة صادرة عن الأحوال",
+        "شو لازم آخذ معي للتصديق؟",
+        "بدي أعدل العنوان المصرح به"
+      ],
+      "source_ids": ["cspd-2024-document_attestation"],
+      "kind": "clarification",
+      "questions": [{
+        "reason": "هذا المسار يصدق وثائق الدائرة وصورها؛ لا يشمل ترجمة صادرة عن معهد ترجمة.",
+        "options": [
+          "نعم، صادر عن الأحوال",
+          "ترجمة من مكتب ترجمة",
+          "صادر عن جهة ثانية",
+          "مش متأكد"
+        ],
+        "id": "document_origin",
+        "text": "هل أصل الوثيقة صادر عن دائرة الأحوال المدنية والجوازات؟"
+      }],
+      "case_summary": {
+        "goal": "تصديق صورة وثيقة صادرة عن الأحوال",
+        "known_facts": [{
+          "source_ids": [],
+          "origin": "user",
+          "value": "document_attestation",
+          "key": "issue"
+        }],
+        "unresolved_facts": ["هل أصل الوثيقة صادر عن دائرة الأحوال المدنية والجوازات؟"]
+      },
+      "message": "هل أصل الوثيقة صادر عن دائرة الأحوال المدنية والجوازات؟",
+      "plan": null,
+      "uncertainties": [
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+        "يوجد تعارض داخل صفحة 130: خانة الرسوم تقول لا يوجد رسوم، والرسم يذكر طوابع بقيمة 250 فلساً؛ يجب تأكيد المطلوب من المكتب دون افتراض إجمالي."
+      ]
+    }
+  },
+  {
+    "input": "بدي أصدق شهادة التوجيهي من وين؟",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "بدي أوضح المشكلة أكثر",
+        "بدي أبدأ طلب جديد",
+        "بدي أصحح معلومة ذكرتها"
+      ],
+      "source_ids": [],
+      "kind": "unsupported",
+      "questions": [],
+      "case_summary": {
+        "goal": "خدمة خارج السجل المراجع المتاح",
+        "known_facts": [{
+          "source_ids": [],
+          "origin": "user",
+          "value": "other",
+          "key": "issue"
+        }],
+        "unresolved_facts": []
+      },
+      "message": "آسف، دليل الأحوال المدنية المتاح ما يغطي توثيق شهادات الجامعة أو التوجيهي. ما عندي مصدر موثق يحدد الجهة والخطوات لهذه المعاملة.",
+      "plan": null,
+      "uncertainties": ["آسف، دليل الأحوال المدنية المتاح ما يغطي توثيق شهادات الجامعة أو التوجيهي. ما عندي مصدر موثق يحدد الجهة والخطوات لهذه المعاملة."]
+    }
+  },
+  {
+    "input": "جواز السفر تبعي ضاع، شو أسوي؟",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "بدي أوضح المشكلة أكثر",
+        "بدي أبدأ طلب جديد",
+        "بدي أصحح معلومة ذكرتها"
+      ],
+      "source_ids": ["cspd-2024-lost_passport"],
+      "kind": "clarification",
+      "questions": [{
+        "reason": "نوع الجواز يغير الإجراء؛ هذا المسار المراجع يغطي الجواز الأردني العادي فقط.",
+        "options": [
+          "جواز أردني عادي",
+          "جواز مؤقت",
+          "نوع آخر أو مش متأكد"
+        ],
+        "id": "passport_type",
+        "text": "هل الجواز المفقود جواز أردني عادي، أم مؤقت أو من نوع آخر؟"
+      }],
+      "case_summary": {
+        "goal": "إصدار جواز سفر أردني عادي بدل فاقد",
+        "known_facts": [{
+          "source_ids": [],
+          "origin": "user",
+          "value": "lost_passport",
+          "key": "issue"
+        }],
+        "unresolved_facts": ["هل الجواز المفقود جواز أردني عادي، أم مؤقت أو من نوع آخر؟"]
+      },
+      "message": "هل الجواز المفقود جواز أردني عادي، أم مؤقت أو من نوع آخر؟",
+      "plan": null,
+      "uncertainties": [
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+        "الدليل يسمي وزارة العدل للكفالة والمركز الأمني للبلاغ؛ تفاصيل إنجاز هذه الإجراءات خارج الدائرة غير موثقة هنا. لا يثبت زمن إنجاز المعاملة بالكامل.",
+        "هذه بطاقات المسار الحضوري للجواز الأردني العادي؛ لا تعرض خطوات إلكترونية أو إجراءات سفارة كاملة. عند الفقد خارج المملكة راجع السفارة أو القنصلية لتحديد مسار التنفيذ."
+      ]
+    }
+  },
+  {
+    "input": "جواز أردني عادي",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "بدي أوضح المشكلة أكثر",
+        "بدي أبدأ طلب جديد",
+        "بدي أصحح معلومة ذكرتها"
+      ],
+      "source_ids": ["cspd-2024-lost_passport"],
+      "kind": "plan",
+      "questions": [],
+      "case_summary": {
+        "goal": "إصدار جواز سفر أردني عادي بدل فاقد",
+        "known_facts": [
+          {
+            "source_ids": [],
+            "origin": "user",
+            "value": "lost_passport",
+            "key": "issue"
+          },
+          {
+            "source_ids": [],
+            "origin": "user",
+            "value": "ordinary",
+            "key": "passport_type"
+          }
+        ],
+        "unresolved_facts": []
+      },
+      "message": "مسار حضوري موثق من دليل 2024 ص 48\u201349: تجهيز الوثائق، تقديم الطلب، التحقيق والموافقات، دفع الرسوم ثم طباعة الجواز واستلامه. المتطلبات الخاصة والرسوم حسب الحالة موضحة داخل البطاقات.",
+      "plan": {
+        "summary": "مسار حضوري موثق من دليل 2024 ص 48\u201349: تجهيز الوثائق، تقديم الطلب، التحقيق والموافقات، دفع الرسوم ثم طباعة الجواز واستلامه. المتطلبات الخاصة والرسوم حسب الحالة موضحة داخل البطاقات.",
+        "route": "in_person",
+        "service_id": "lost_passport",
+        "title": "إصدار جواز سفر أردني عادي بدل فاقد",
+        "steps": [
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": null,
+                  "format": "unspecified",
+                  "id": "passport_report",
+                  "label": "بلاغ فقدان من المركز الأمني",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": null,
+                  "format": "unspecified",
+                  "id": "passport_photos",
+                  "label": "صورتان شخصيتان حديثتان ملونتان",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا كان صاحب الجواز قد أتم 16 سنة",
+                  "format": "unspecified",
+                  "id": "passport_id",
+                  "label": "البطاقة الشخصية لمن أتم 16 سنة",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": null,
+                  "format": "unspecified",
+                  "id": "passport_recipient_id",
+                  "label": "البطاقة الشخصية للمستلم",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا كان صاحب الجواز دون 16 سنة",
+                  "format": "unspecified",
+                  "id": "passport_parent",
+                  "label": "موافقة الأب أو ولي الأمر لمن هو دون 16 سنة",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا كان صاحب الطلب من الفئات الملزمة",
+                  "format": "unspecified",
+                  "id": "passport_military_book",
+                  "label": "دفتر خدمة العلم المؤجل أو شهادة إنهاء الخدمة",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا انطبق شرط بطاقات الجسور",
+                  "format": "unspecified",
+                  "id": "passport_bridges",
+                  "label": "بطاقات الجسور والهوية الفلسطينية/الإسرائيلية أو مشروحات المتابعة والتفتيش",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "للعسكريين والأجهزة المذكورة في الدليل",
+                  "format": "unspecified",
+                  "id": "passport_military_approval",
+                  "label": "موافقة القيادة العامة أو كتاب شؤون الأفراد/الضباط",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "عند انطباق حالة القاصر",
+                  "format": "unspecified",
+                  "id": "passport_custody",
+                  "label": "حجة الوصاية أو الحضانة",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا فقد الجواز خارج المملكة",
+                  "format": "unspecified",
+                  "id": "passport_foreign_report",
+                  "label": "بلاغ فقدان وترجمة معتمدة إذا لم يكن بالعربية",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا فقد الجواز خارج المملكة",
+                  "format": "unspecified",
+                  "id": "passport_foreign_passport",
+                  "label": "جواز السفر الأجنبي الذي يبين دخول الأردن",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا فقد الجواز خارج المملكة وقدم الطلب صاحبه",
+                  "format": "unspecified",
+                  "id": "passport_emergency",
+                  "label": "وثيقة السفر الاضطرارية",
+                  "necessity": "conditional"
+                }
+              ],
+              "actions": [{
+                "source_ids": ["cspd-2024-lost_passport"],
+                "condition": "بحسب عمر صاحب الجواز",
+                "format": "unspecified",
+                "id": "passport_attendance",
+                "label": "الحضور الشخصي لمن أتم 18 سنة؛ للأب أو الأم طلب جواز لأولادهما القاصرين",
+                "necessity": "conditional"
+              }]
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": [],
+            "place_ids": [],
+            "id": "passport_prepare",
+            "title": "تجهيز الوثائق المتاحة وبلاغ الفقدان",
+            "explanation": "راجع انطباق المتطلبات الشرطية. لا يلزم أن تكون موافقة اللجنة والكفالة جاهزتين قبل تقديم الطلب؛ يحدد مقدار الكفالة أثناء التحقيق. تفاصيل تقديم البلاغ غير موثقة في هذا الدليل.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["passport_prepare"],
+            "place_ids": [],
+            "id": "passport_intake",
+            "title": "تقديم الطلب وأخذ الدور",
+            "explanation": "راجع خدمة الجمهور، عبئ نموذج طلب الجواز واحصل على رقم الدور.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["passport_intake"],
+            "place_ids": [],
+            "id": "passport_accept",
+            "title": "قبول الطلب والصورة والمرفقات",
+            "explanation": "موظف قبول المعاملات يقبل الطلب على النظام ويلتقط الصورة والمرفقات.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [{
+                "source_ids": ["cspd-2024-lost_passport"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "passport_guarantee",
+                "label": "كفالة مالية بين 50 و500 دينار وفق قرار اللجنة؛ ليست رسم إصدار الجواز",
+                "necessity": "required"
+              }],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["passport_accept"],
+            "place_ids": [],
+            "id": "passport_investigate",
+            "title": "التحقيق وتحديد الكفالة والموافقة الأمنية",
+            "explanation": "لجنة التحقيق تخاطب الجهات الأمنية وتحدد مبلغ الكفالة المالية. الدليل يسمي وزارة العدل شريكاً للكفالة؛ استوضح من اللجنة ترتيب إنجازها دون افتراض إجراءات محكمة محددة.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["passport_investigate"],
+            "place_ids": [],
+            "id": "passport_approval",
+            "title": "كتاب الموافقة والتحويل لمكتب الجوازات",
+            "explanation": "بعد ورود الموافقة تصدر اللجنة كتابها وتحول المعاملة إلى مكتب الجوازات.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["passport_approval"],
+            "place_ids": [],
+            "id": "passport_verify",
+            "title": "تسجيل معاملة التحقق",
+            "explanation": "موظف قبول المعاملات يسجل معاملة التحقق.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["passport_verify"],
+            "place_ids": [],
+            "id": "passport_authorize",
+            "title": "إجازة الطلب",
+            "explanation": "رئيس المكتب أو مساعده يجيز الطلب.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا كان الفقد لأول مرة",
+                  "format": "unspecified",
+                  "id": "passport_first_fee",
+                  "label": "رسم أول فقدان: 125 ديناراً حسب دليل 2024",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا سبق فقدان الجواز",
+                  "format": "unspecified",
+                  "id": "passport_repeat_fee",
+                  "label": "رسم كل فقدان لاحق: 250 ديناراً حسب دليل 2024",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا كان الفقد السابق خلال أقل من خمس سنوات",
+                  "format": "unspecified",
+                  "id": "passport_previous_guarantee",
+                  "label": "استيفاء قيمة الكفالة السابقة؛ لا يحدد هذا السجل قيمتها",
+                  "necessity": "conditional"
+                }
+              ],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["passport_authorize"],
+            "place_ids": [],
+            "id": "passport_pay",
+            "title": "دفع الرسوم لدى أمين الصندوق",
+            "explanation": "الدليل يذكر 125 ديناراً لأول فقدان و250 ديناراً لكل فقدان لاحق. تستوفى قيمة الكفالة السابقة إذا كان الفقد السابق خلال أقل من خمس سنوات. هذه رسوم 2024؛ أكد المبلغ الحالي واحتفظ بالوصل.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["passport_pay"],
+            "place_ids": [],
+            "id": "passport_print",
+            "title": "طباعة الجواز",
+            "explanation": "تحويل الطلب إلى قسم الطباعة.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["passport_print"],
+            "place_ids": [],
+            "id": "passport_laminate",
+            "title": "التغليف والقراءة الآلية",
+            "explanation": "الدائرة تغلف الجواز وتقرأه آلياً.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": [{
+                "source_ids": ["cspd-2024-lost_passport"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "passport_receipt",
+                "label": "إبراز الوصل المالي عند التسليم",
+                "necessity": "required"
+              }]
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["passport_laminate"],
+            "place_ids": [],
+            "id": "passport_collect",
+            "title": "استلام الجواز مقابل الوصل",
+            "explanation": "قدم الوصل المالي لموظف التسليم واستلم الجواز. تأشير الإنجاز هنا شخصي ولا يثبت موافقة حكومية.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          }
+        ]
+      },
+      "uncertainties": [
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+        "الدليل يسمي وزارة العدل للكفالة والمركز الأمني للبلاغ؛ تفاصيل إنجاز هذه الإجراءات خارج الدائرة غير موثقة هنا. لا يثبت زمن إنجاز المعاملة بالكامل.",
+        "هذه بطاقات المسار الحضوري للجواز الأردني العادي؛ لا تعرض خطوات إلكترونية أو إجراءات سفارة كاملة. عند الفقد خارج المملكة راجع السفارة أو القنصلية لتحديد مسار التنفيذ."
+      ]
+    }
+  },
+  {
+    "input": "بدي شهادة ولادة، الواقعة مسجلة حاسوبياً",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "بدي شهادة ولادة لواقعة مسجلة",
+        "شو الوثائق المطلوبة لشهادة الولادة؟",
+        "بدي أصدق صورة وثيقة صادرة عن الأحوال"
+      ],
+      "source_ids": ["cspd-2024-birth_certificate"],
+      "kind": "plan",
+      "questions": [],
+      "case_summary": {
+        "goal": "إصدار شهادة ولادة لواقعة مسجلة",
+        "known_facts": [
+          {
+            "source_ids": [],
+            "origin": "user",
+            "value": "birth_certificate",
+            "key": "issue"
+          },
+          {
+            "source_ids": [],
+            "origin": "user",
+            "value": "yes",
+            "key": "birth_registered"
+          }
+        ],
+        "unresolved_facts": []
+      },
+      "message": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 16\u201317؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+      "plan": {
+        "summary": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 16\u201317؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+        "route": "in_person",
+        "service_id": "birth_certificate",
+        "title": "إصدار شهادة ولادة لواقعة مسجلة",
+        "steps": [
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [
+                {
+                  "source_ids": ["cspd-2024-birth_certificate"],
+                  "condition": "إذا كان المستدعي أردنياً",
+                  "format": "unspecified",
+                  "id": "certificate_identity",
+                  "label": "البطاقة الشخصية للمستدعي الأردني",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-birth_certificate"],
+                  "condition": "للأردنيين",
+                  "format": "unspecified",
+                  "id": "certificate_record",
+                  "label": "دفتر العائلة أو بطاقة مبين عليها الرقم الوطني",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-birth_certificate"],
+                  "condition": "إذا كان المستدعي غير أردني",
+                  "format": "unspecified",
+                  "id": "certificate_nonjordanian_id",
+                  "label": "إثبات الشخصية لغير الأردني",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-birth_certificate"],
+                  "condition": "إذا وجدت",
+                  "format": "unspecified",
+                  "id": "certificate_old",
+                  "label": "الشهادة القديمة غير المسجلة حاسوبياً إن وجدت",
+                  "necessity": "conditional"
+                }
+              ],
+              "actions": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "certificate_language",
+                "label": "تحديد العربية أو الإنجليزية للشهادة",
+                "necessity": "required"
+              }]
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": [],
+            "place_ids": [],
+            "id": "certificate_prepare",
+            "title": "تجهيز وثائقك وتحديد لغة الشهادة",
+            "explanation": "الطلب لصاحب العلاقة أو أحد أفراد الأسرة البالغين. اختر العربية أو الإنجليزية؛ غير الأردني يراجع انطباق فئة المقيمين الذين حصلت لهم ولادة داخل المملكة.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "certificate_office",
+                "label": "مراجعة مكتب للأحوال المدنية والجوازات",
+                "necessity": "required"
+              }],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["certificate_prepare"],
+            "place_ids": [],
+            "id": "certificate_visit",
+            "title": "مراجعة خدمة الجمهور والحصول على الدور",
+            "explanation": "أبرز الوثائق المطلوبة لمكتب خدمة الجمهور لتدقيقها واعتمادها والحصول على رقم الدور.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["certificate_visit"],
+            "place_ids": [],
+            "id": "certificate_accept",
+            "title": "مطابقة المعلومات وقبول الطلب",
+            "explanation": "يراجع موظف قبول المعاملات المعلومات مع الطلب ويقبله على النظام حسب الأصول.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "certificate_fee",
+                "label": "رسم إصدار الشهادة: 1 دينار حسب دليل 2024",
+                "necessity": "required"
+              }],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["certificate_accept"],
+            "place_ids": [],
+            "id": "certificate_pay",
+            "title": "دفع رسم الشهادة",
+            "explanation": "راجع أمين الصندوق؛ الدليل 2024 يذكر ديناراً واحداً لإصدار الشهادة. احتفظ بالوصل المالي.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["certificate_pay"],
+            "place_ids": [],
+            "id": "certificate_print",
+            "title": "طباعة الشهادة",
+            "explanation": "تحول الدائرة الطلب إلى قسم الطباعة لطباعة الوثيقة.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": [{
+                "source_ids": ["cspd-2024-birth_certificate"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "certificate_receipt",
+                "label": "إبراز الوصل المالي لموظف التسليم",
+                "necessity": "required"
+              }]
+            },
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "depends_on": ["certificate_print"],
+            "place_ids": [],
+            "id": "certificate_collect",
+            "title": "استلام الشهادة المختومة",
+            "explanation": "تختم الشهادة وتسلم لك بعد إبراز الوصل المالي لموظف التسليم.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          }
+        ]
+      },
+      "uncertainties": [
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق."
+      ]
+    }
+  },
+  {
+    "input": "بدي أصدق صورة شهادة زواج صادرة عن الأحوال المدنية",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "بدي أصدق صورة وثيقة صادرة عن الأحوال",
+        "شو لازم آخذ معي للتصديق؟",
+        "بدي أعدل العنوان المصرح به"
+      ],
+      "source_ids": ["cspd-2024-document_attestation"],
+      "kind": "plan",
+      "questions": [],
+      "case_summary": {
+        "goal": "تصديق صورة وثيقة صادرة عن الأحوال",
+        "known_facts": [
+          {
+            "source_ids": [],
+            "origin": "user",
+            "value": "document_attestation",
+            "key": "issue"
+          },
+          {
+            "source_ids": [],
+            "origin": "user",
+            "value": "cspd",
+            "key": "document_origin"
+          }
+        ],
+        "unresolved_facts": []
+      },
+      "message": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 130؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+      "plan": {
+        "summary": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 130؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+        "route": "in_person",
+        "service_id": "document_attestation",
+        "title": "تصديق صورة وثيقة صادرة عن الأحوال",
+        "steps": [
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [
+                {
+                  "source_ids": ["cspd-2024-document_attestation"],
+                  "condition": null,
+                  "format": "original",
+                  "id": "attestation_original",
+                  "label": "أصل الوثيقة المراد تصديقها",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-document_attestation"],
+                  "condition": null,
+                  "format": "paper_copy",
+                  "id": "attestation_copy",
+                  "label": "صورة واضحة على ورق تصوير",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-document_attestation"],
+                  "condition": null,
+                  "format": "unspecified",
+                  "id": "attestation_identity",
+                  "label": "البطاقة الشخصية لطالب الخدمة",
+                  "necessity": "required"
+                }
+              ],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-document_attestation"],
+            "depends_on": [],
+            "place_ids": [],
+            "id": "attestation_prepare",
+            "title": "تجهيز الأصل والصورة والهوية",
+            "explanation": "جهز أصل الوثيقة الصادرة عن الدائرة وصورة واضحة على ورق تصوير؛ لا تقبل صورة فاكس. هذا المسار لا يصدق ترجمة معهد ترجمة.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [{
+                "source_ids": ["cspd-2024-document_attestation"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "attestation_office",
+                "label": "مراجعة مكتب للأحوال المدنية والجوازات",
+                "necessity": "required"
+              }],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-document_attestation"],
+            "depends_on": ["attestation_prepare"],
+            "place_ids": [],
+            "id": "attestation_visit",
+            "title": "مراجعة مكتب خدمة الجمهور",
+            "explanation": "راجع مكتب الأحوال المدنية والجوازات وأبرز أصول الوثائق المطلوبة وصورها.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-document_attestation"],
+            "depends_on": ["attestation_visit"],
+            "place_ids": [],
+            "id": "attestation_submit",
+            "title": "تقديم الوثيقة والصورة للاستعلامات",
+            "explanation": "قدم الوثيقة والصورة لموظف الاستعلامات لإجراء التصديق.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-document_attestation"],
+            "depends_on": ["attestation_submit"],
+            "place_ids": [],
+            "id": "attestation_check",
+            "title": "مطابقة الصورة مع الوثيقة",
+            "explanation": "يدقق الموظف معلومات الصورة مع الوثائق.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": [{
+                "source_ids": ["cspd-2024-document_attestation"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "attestation_stamp",
+                "label": "تأكيد طوابع 250 فلساً المذكورة في الرسم بسبب تعارض خانة الرسوم",
+                "necessity": "required"
+              }]
+            },
+            "source_ids": ["cspd-2024-document_attestation"],
+            "depends_on": ["attestation_check"],
+            "place_ids": [],
+            "id": "attestation_collect",
+            "title": "استلام الوثيقة المصدقة وتأكيد الطوابع",
+            "explanation": "يذكر الرسم تسليم الوثيقة بعد التصديق وإلصاق طوابع بقيمة 250 فلساً، بينما خانة الرسوم تنفي الرسوم؛ أكد المطلوب من المكتب قبل الدفع.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          }
+        ]
+      },
+      "uncertainties": [
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+        "يوجد تعارض داخل صفحة 130: خانة الرسوم تقول لا يوجد رسوم، والرسم يذكر طوابع بقيمة 250 فلساً؛ يجب تأكيد المطلوب من المكتب دون افتراض إجمالي."
+      ]
+    }
+  },
+  {
+    "input": "أنا رب الأسرة وبدي أحدث العنوان المصرح به للتبليغات",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "أنا رب الأسرة وبدي أحدث العنوان المصرح به",
+        "هل هذا التعديل يغير عنوان الوثائق؟",
+        "بدي شهادة ولادة لواقعة مسجلة"
+      ],
+      "source_ids": ["cspd-2024-declared_address"],
+      "kind": "plan",
+      "questions": [],
+      "case_summary": {
+        "goal": "تحديث العنوان المصرح به للتبليغات",
+        "known_facts": [
+          {
+            "source_ids": [],
+            "origin": "user",
+            "value": "declared_address",
+            "key": "issue"
+          },
+          {
+            "source_ids": [],
+            "origin": "user",
+            "value": "authorized",
+            "key": "address_authority"
+          }
+        ],
+        "unresolved_facts": []
+      },
+      "message": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 132\u2013133؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+      "plan": {
+        "summary": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 132\u2013133؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+        "route": "in_person",
+        "service_id": "declared_address",
+        "title": "تحديث العنوان المصرح به للتبليغات",
+        "steps": [
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [
+                {
+                  "source_ids": ["cspd-2024-declared_address"],
+                  "condition": null,
+                  "format": "unspecified",
+                  "id": "address_form",
+                  "label": "نموذج العنوان المصرح به",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-declared_address"],
+                  "condition": null,
+                  "format": "unspecified",
+                  "id": "address_declaration",
+                  "label": "إقرار رب الأسرة أو الزوجة أو من ينوب عنهم",
+                  "necessity": "required"
+                }
+              ],
+              "actions": [{
+                "source_ids": ["cspd-2024-declared_address"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "address_deadline",
+                "label": "الدليل يذكر الإبلاغ خلال 30 يوماً وغرامة 10 دنانير للتأخر؛ تحقق من المكتب ولا تفترض أنها مستحقة عليك",
+                "necessity": "required"
+              }]
+            },
+            "source_ids": ["cspd-2024-declared_address"],
+            "depends_on": [],
+            "place_ids": [],
+            "id": "address_prepare",
+            "title": "تجهيز نموذج العنوان والإقرار",
+            "explanation": "جهز نموذج العنوان المصرح به وإقرار رب الأسرة أو الزوجة أو من ينوب عنهم. قدم الطلب كرب الأسرة أو ممثل عنه؛ هذا عنوان للتبليغات لا تغيير مكان الإقامة على الوثائق.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [{
+                "source_ids": ["cspd-2024-declared_address"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "address_office",
+                "label": "مراجعة مكتب للأحوال المدنية والجوازات",
+                "necessity": "required"
+              }],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-declared_address"],
+            "depends_on": ["address_prepare"],
+            "place_ids": [],
+            "id": "address_visit",
+            "title": "تعبئة النموذج ومراجعة خدمة الجمهور",
+            "explanation": "راجع خدمة الجمهور، عبئ النموذج الخاص بالعنوان المصرح به واحصل على رقم الدور.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-declared_address"],
+            "depends_on": ["address_visit"],
+            "place_ids": [],
+            "id": "address_enter",
+            "title": "إدخال العنوان في قاعدة البيانات",
+            "explanation": "يراجع موظف قبول المعاملات الطلب على الكاونتر لإدخاله في قاعدة بيانات برنامج العنوان المصرح به.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-declared_address"],
+            "depends_on": ["address_enter"],
+            "place_ids": [],
+            "id": "address_archive",
+            "title": "حفظ المعاملة وأرشفتها",
+            "explanation": "يحفظ المكتب المعاملة في ملفات خاصة ثم يحولها للأرشفة. خطوات حفظ الكتب الحكومية في الرسم لا تخص طلب المواطن الحالي.",
+            "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+          }
+        ]
+      },
+      "uncertainties": [
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+        "هذا تحديث عنوان التبليغات وليس تغيير مكان الإقامة المثبت على الوثائق.",
+        "الكتب الرسمية تخص طلبات الجهات الحكومية وليست متطلباً إضافياً للمواطن في السيناريو الحالي."
+      ]
+    }
+  },
+  {
+    "input": "دفتر العيلة ضاع ومعي بلاغ فقدان من الشرطة",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "عندي بلاغ فقدان",
+        "لسه ما عندي بلاغ",
+        "مش متأكد إذا عندي بلاغ"
+      ],
+      "source_ids": ["cspd-lost-family-book-electronic"],
+      "kind": "plan",
+      "questions": [],
+      "case_summary": {
+        "goal": "تعويض دفتر عائلة مفقود",
+        "known_facts": [
+          {
+            "source_ids": [],
+            "origin": "user",
+            "value": "lost",
+            "key": "issue"
+          },
+          {
+            "source_ids": [],
+            "origin": "user",
+            "value": "yes",
+            "key": "police_report"
+          }
+        ],
+        "unresolved_facts": []
+      },
+      "message": "حسب إجابتك البلاغ متوفر؛ الجزء التالي الموثق هو مراجعة القناة الإلكترونية.\nالسجل المراجع يثبت وجود مسار إلكتروني وبلاغ شرطة كمتطلب سابق. هذه خطة جزئية؛ التفاصيل غير المتاحة مبينة صراحة.\nلا تتضمن الملفات المراجعة النص الكامل لشروط الفروع داخل الأردن وخارجها أو تكرار الفقدان.\nلا تتضمن الملفات المراجعة تفاصيل الرسوم أو صيغة تقديم البلاغ أو زمن الإنجاز.\nالمتابعة مشروطة بحسب المصدر، لكن شروطها وخطواتها الكاملة غير متاحة في السجل المرفق.\nلا توجد أماكن موثقة أو بيانات توافر مواعيد.",
+      "plan": {
+        "summary": "السجل المراجع يثبت وجود مسار إلكتروني وبلاغ شرطة كمتطلب سابق. هذه خطة جزئية؛ التفاصيل غير المتاحة مبينة صراحة.",
+        "route": "electronic",
+        "service_id": "lost_family_book",
+        "title": "تعويض دفتر عائلة مفقود · الجزء الموثق",
+        "steps": [
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [{
+                "source_ids": ["cspd-lost-family-book-electronic"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "police_report_document",
+                "label": "بلاغ فقدان من الشرطة",
+                "necessity": "required"
+              }],
+              "actions": []
+            },
+            "source_ids": ["cspd-lost-family-book-electronic"],
+            "depends_on": [],
+            "place_ids": [],
+            "id": "police_report",
+            "title": "بلاغ فقدان من الشرطة",
+            "explanation": "المصدر المراجع يذكر بلاغ الشرطة كمتطلب سابق. صيغة البلاغ وطريقة تقديمه غير محددتين في الملفات المتاحة.",
+            "completion_evidence": "تأكيد المستخدم أن البلاغ متوفر؛ ليس تأكيداً حكومياً"
+          },
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": [{
+                "source_ids": ["cspd-lost-family-book-electronic"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "review_service_card",
+                "label": "مراجعة بطاقة الخدمة الرسمية",
+                "necessity": "helpful"
+              }]
+            },
+            "source_ids": ["cspd-lost-family-book-electronic"],
+            "depends_on": ["police_report"],
+            "place_ids": [],
+            "id": "electronic_channel",
+            "title": "مراجعة القناة الإلكترونية للخدمة",
+            "explanation": "المصدر المراجع يثبت وجود مسار إلكتروني. راجع بطاقة الخدمة الرسمية لتفاصيل التقديم والمتابعة؛ لا يوجد إرسال طلب من التطبيق.",
+            "completion_evidence": "تأكيد المستخدم أنه راجع القناة الرسمية؛ ليس تأكيد إرسال أو موافقة"
+          }
+        ]
+      },
+      "uncertainties": [
+        "لا تتضمن الملفات المراجعة النص الكامل لشروط الفروع داخل الأردن وخارجها أو تكرار الفقدان.",
+        "لا تتضمن الملفات المراجعة تفاصيل الرسوم أو صيغة تقديم البلاغ أو زمن الإنجاز.",
+        "المتابعة مشروطة بحسب المصدر، لكن شروطها وخطواتها الكاملة غير متاحة في السجل المرفق.",
+        "لا توجد أماكن موثقة أو بيانات توافر مواعيد."
+      ]
+    }
+  }
+]

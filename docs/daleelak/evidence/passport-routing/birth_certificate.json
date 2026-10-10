@@ -1,0 +1,200 @@
+{
+  "schema_version": "1.0",
+  "suggested_prompts": [
+    "بدي شهادة ولادة لواقعة مسجلة",
+    "شو الوثائق المطلوبة لشهادة الولادة؟",
+    "بدي أصدق صورة وثيقة صادرة عن الأحوال"
+  ],
+  "source_ids": ["cspd-2024-birth_certificate"],
+  "kind": "plan",
+  "test_scope": "Real OpenRouterAssistant classification, local reviewed plan, codec and validator; JVM execution, no Android UI walkthrough",
+  "questions": [],
+  "case_summary": {
+    "goal": "إصدار شهادة ولادة لواقعة مسجلة",
+    "known_facts": [
+      {
+        "source_ids": [],
+        "origin": "user",
+        "value": "birth_certificate",
+        "key": "issue"
+      },
+      {
+        "source_ids": [],
+        "origin": "user",
+        "value": "yes",
+        "key": "birth_registered"
+      }
+    ],
+    "unresolved_facts": []
+  },
+  "message": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 16\u201317؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+  "plan": {
+    "summary": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 16\u201317؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+    "route": "in_person",
+    "service_id": "birth_certificate",
+    "title": "إصدار شهادة ولادة لواقعة مسجلة",
+    "steps": [
+      {
+        "actor": "user",
+        "checklists": {
+          "visits": [],
+          "payments_and_commitments": [],
+          "documents": [
+            {
+              "source_ids": ["cspd-2024-birth_certificate"],
+              "condition": "إذا كان المستدعي أردنياً",
+              "format": "unspecified",
+              "id": "certificate_identity",
+              "label": "البطاقة الشخصية للمستدعي الأردني",
+              "necessity": "conditional"
+            },
+            {
+              "source_ids": ["cspd-2024-birth_certificate"],
+              "condition": "للأردنيين",
+              "format": "unspecified",
+              "id": "certificate_record",
+              "label": "دفتر العائلة أو بطاقة مبين عليها الرقم الوطني",
+              "necessity": "conditional"
+            },
+            {
+              "source_ids": ["cspd-2024-birth_certificate"],
+              "condition": "إذا كان المستدعي غير أردني",
+              "format": "unspecified",
+              "id": "certificate_nonjordanian_id",
+              "label": "إثبات الشخصية لغير الأردني",
+              "necessity": "conditional"
+            },
+            {
+              "source_ids": ["cspd-2024-birth_certificate"],
+              "condition": "إذا وجدت",
+              "format": "unspecified",
+              "id": "certificate_old",
+              "label": "الشهادة القديمة غير المسجلة حاسوبياً إن وجدت",
+              "necessity": "conditional"
+            }
+          ],
+          "actions": [{
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "condition": null,
+            "format": "unspecified",
+            "id": "certificate_language",
+            "label": "تحديد العربية أو الإنجليزية للشهادة",
+            "necessity": "required"
+          }]
+        },
+        "source_ids": ["cspd-2024-birth_certificate"],
+        "depends_on": [],
+        "place_ids": [],
+        "id": "certificate_prepare",
+        "title": "تجهيز وثائقك وتحديد لغة الشهادة",
+        "explanation": "الطلب لصاحب العلاقة أو أحد أفراد الأسرة البالغين. اختر العربية أو الإنجليزية؛ غير الأردني يراجع انطباق فئة المقيمين الذين حصلت لهم ولادة داخل المملكة.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      },
+      {
+        "actor": "user",
+        "checklists": {
+          "visits": [{
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "condition": null,
+            "format": "unspecified",
+            "id": "certificate_office",
+            "label": "مراجعة مكتب للأحوال المدنية والجوازات",
+            "necessity": "required"
+          }],
+          "payments_and_commitments": [],
+          "documents": [],
+          "actions": []
+        },
+        "source_ids": ["cspd-2024-birth_certificate"],
+        "depends_on": ["certificate_prepare"],
+        "place_ids": [],
+        "id": "certificate_visit",
+        "title": "مراجعة خدمة الجمهور والحصول على الدور",
+        "explanation": "أبرز الوثائق المطلوبة لمكتب خدمة الجمهور لتدقيقها واعتمادها والحصول على رقم الدور.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      },
+      {
+        "actor": "authority",
+        "checklists": {
+          "visits": [],
+          "payments_and_commitments": [],
+          "documents": [],
+          "actions": []
+        },
+        "source_ids": ["cspd-2024-birth_certificate"],
+        "depends_on": ["certificate_visit"],
+        "place_ids": [],
+        "id": "certificate_accept",
+        "title": "مطابقة المعلومات وقبول الطلب",
+        "explanation": "يراجع موظف قبول المعاملات المعلومات مع الطلب ويقبله على النظام حسب الأصول.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      },
+      {
+        "actor": "user",
+        "checklists": {
+          "visits": [],
+          "payments_and_commitments": [{
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "condition": null,
+            "format": "unspecified",
+            "id": "certificate_fee",
+            "label": "رسم إصدار الشهادة: 1 دينار حسب دليل 2024",
+            "necessity": "required"
+          }],
+          "documents": [],
+          "actions": []
+        },
+        "source_ids": ["cspd-2024-birth_certificate"],
+        "depends_on": ["certificate_accept"],
+        "place_ids": [],
+        "id": "certificate_pay",
+        "title": "دفع رسم الشهادة",
+        "explanation": "راجع أمين الصندوق؛ الدليل 2024 يذكر ديناراً واحداً لإصدار الشهادة. احتفظ بالوصل المالي.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      },
+      {
+        "actor": "authority",
+        "checklists": {
+          "visits": [],
+          "payments_and_commitments": [],
+          "documents": [],
+          "actions": []
+        },
+        "source_ids": ["cspd-2024-birth_certificate"],
+        "depends_on": ["certificate_pay"],
+        "place_ids": [],
+        "id": "certificate_print",
+        "title": "طباعة الشهادة",
+        "explanation": "تحول الدائرة الطلب إلى قسم الطباعة لطباعة الوثيقة.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      },
+      {
+        "actor": "user",
+        "checklists": {
+          "visits": [],
+          "payments_and_commitments": [],
+          "documents": [],
+          "actions": [{
+            "source_ids": ["cspd-2024-birth_certificate"],
+            "condition": null,
+            "format": "unspecified",
+            "id": "certificate_receipt",
+            "label": "إبراز الوصل المالي لموظف التسليم",
+            "necessity": "required"
+          }]
+        },
+        "source_ids": ["cspd-2024-birth_certificate"],
+        "depends_on": ["certificate_print"],
+        "place_ids": [],
+        "id": "certificate_collect",
+        "title": "استلام الشهادة المختومة",
+        "explanation": "تختم الشهادة وتسلم لك بعد إبراز الوصل المالي لموظف التسليم.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      }
+    ]
+  },
+  "uncertainties": [
+    "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+    "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق."
+  ]
+}

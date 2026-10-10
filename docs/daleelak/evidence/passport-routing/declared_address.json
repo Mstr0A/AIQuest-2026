@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0",
+  "suggested_prompts": [
+    "أنا رب الأسرة وبدي أحدث العنوان المصرح به",
+    "هل هذا التعديل يغير عنوان الوثائق؟",
+    "بدي شهادة ولادة لواقعة مسجلة"
+  ],
+  "source_ids": ["cspd-2024-declared_address"],
+  "kind": "plan",
+  "test_scope": "Real OpenRouterAssistant classification, local reviewed plan, codec and validator; JVM execution, no Android UI walkthrough",
+  "questions": [],
+  "case_summary": {
+    "goal": "تحديث العنوان المصرح به للتبليغات",
+    "known_facts": [
+      {
+        "source_ids": [],
+        "origin": "user",
+        "value": "declared_address",
+        "key": "issue"
+      },
+      {
+        "source_ids": [],
+        "origin": "user",
+        "value": "authorized",
+        "key": "address_authority"
+      }
+    ],
+    "unresolved_facts": []
+  },
+  "message": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 132\u2013133؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+  "plan": {
+    "summary": "مسار حضوري من دليل الأحوال المدنية والجوازات 2024، الصفحات 132\u2013133؛ الخطوات الحكومية ينفذها موظفو الدائرة، والتطبيق للإرشاد فقط.",
+    "route": "in_person",
+    "service_id": "declared_address",
+    "title": "تحديث العنوان المصرح به للتبليغات",
+    "steps": [
+      {
+        "actor": "user",
+        "checklists": {
+          "visits": [],
+          "payments_and_commitments": [],
+          "documents": [
+            {
+              "source_ids": ["cspd-2024-declared_address"],
+              "condition": null,
+              "format": "unspecified",
+              "id": "address_form",
+              "label": "نموذج العنوان المصرح به",
+              "necessity": "required"
+            },
+            {
+              "source_ids": ["cspd-2024-declared_address"],
+              "condition": null,
+              "format": "unspecified",
+              "id": "address_declaration",
+              "label": "إقرار رب الأسرة أو الزوجة أو من ينوب عنهم",
+              "necessity": "required"
+            }
+          ],
+          "actions": [{
+            "source_ids": ["cspd-2024-declared_address"],
+            "condition": null,
+            "format": "unspecified",
+            "id": "address_deadline",
+            "label": "الدليل يذكر الإبلاغ خلال 30 يوماً وغرامة 10 دنانير للتأخر؛ تحقق من المكتب ولا تفترض أنها مستحقة عليك",
+            "necessity": "required"
+          }]
+        },
+        "source_ids": ["cspd-2024-declared_address"],
+        "depends_on": [],
+        "place_ids": [],
+        "id": "address_prepare",
+        "title": "تجهيز نموذج العنوان والإقرار",
+        "explanation": "جهز نموذج العنوان المصرح به وإقرار رب الأسرة أو الزوجة أو من ينوب عنهم. قدم الطلب كرب الأسرة أو ممثل عنه؛ هذا عنوان للتبليغات لا تغيير مكان الإقامة على الوثائق.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      },
+      {
+        "actor": "user",
+        "checklists": {
+          "visits": [{
+            "source_ids": ["cspd-2024-declared_address"],
+            "condition": null,
+            "format": "unspecified",
+            "id": "address_office",
+            "label": "مراجعة مكتب للأحوال المدنية والجوازات",
+            "necessity": "required"
+          }],
+          "payments_and_commitments": [],
+          "documents": [],
+          "actions": []
+        },
+        "source_ids": ["cspd-2024-declared_address"],
+        "depends_on": ["address_prepare"],
+        "place_ids": [],
+        "id": "address_visit",
+        "title": "تعبئة النموذج ومراجعة خدمة الجمهور",
+        "explanation": "راجع خدمة الجمهور، عبئ النموذج الخاص بالعنوان المصرح به واحصل على رقم الدور.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      },
+      {
+        "actor": "authority",
+        "checklists": {
+          "visits": [],
+          "payments_and_commitments": [],
+          "documents": [],
+          "actions": []
+        },
+        "source_ids": ["cspd-2024-declared_address"],
+        "depends_on": ["address_visit"],
+        "place_ids": [],
+        "id": "address_enter",
+        "title": "إدخال العنوان في قاعدة البيانات",
+        "explanation": "يراجع موظف قبول المعاملات الطلب على الكاونتر لإدخاله في قاعدة بيانات برنامج العنوان المصرح به.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      },
+      {
+        "actor": "authority",
+        "checklists": {
+          "visits": [],
+          "payments_and_commitments": [],
+          "documents": [],
+          "actions": []
+        },
+        "source_ids": ["cspd-2024-declared_address"],
+        "depends_on": ["address_enter"],
+        "place_ids": [],
+        "id": "address_archive",
+        "title": "حفظ المعاملة وأرشفتها",
+        "explanation": "يحفظ المكتب المعاملة في ملفات خاصة ثم يحولها للأرشفة. خطوات حفظ الكتب الحكومية في الرسم لا تخص طلب المواطن الحالي.",
+        "completion_evidence": "تأكيد المستخدم إنجاز الخطوة؛ ليس تحققاً حكومياً"
+      }
+    ]
+  },
+  "uncertainties": [
+    "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+    "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+    "هذا تحديث عنوان التبليغات وليس تغيير مكان الإقامة المثبت على الوثائق.",
+    "الكتب الرسمية تخص طلبات الجهات الحكومية وليست متطلباً إضافياً للمواطن في السيناريو الحالي."
+  ]
+}
