@@ -15,11 +15,11 @@ import com.a0.daleelak.ui.components.DaleelakIcons
 /** Entry point for starting a conversation or returning to saved operations. */
 @Composable
 fun HomeScreen(
-    totalCount: Int,
+    archiveCount: Int,
     currentCount: Int,
     finishedCount: Int,
     onNewOperation: () -> Unit,
-    onHistory: () -> Unit,
+    onArchive: () -> Unit,
     onCurrent: () -> Unit,
     onFinished: () -> Unit,
     modifier: Modifier = Modifier,
@@ -60,8 +60,8 @@ fun HomeScreen(
                 DaleelakIcons.Finished, onFinished)
         }
         item {
-            OperationEntry("سجل المعاملات", "كل معاملاتك المحفوظة", totalCount,
-                DaleelakIcons.History, onHistory)
+            OperationEntry("أرشيف المعاملات", "معاملاتك المؤرشفة", archiveCount,
+                DaleelakIcons.History, onArchive)
         }
     }
 }

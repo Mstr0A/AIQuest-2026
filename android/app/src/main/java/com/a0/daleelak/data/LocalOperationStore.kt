@@ -52,7 +52,8 @@ class LocalOperationStore(context: Context) {
                     } }
                 }.orEmpty(),
                 acceptedResponseJson = if (entry.isNull("acceptedResponseJson")) null else entry.optString("acceptedResponseJson").takeIf { it.isNotBlank() },
-                contextResponseJson = if (entry.isNull("contextResponseJson")) null else entry.optString("contextResponseJson").takeIf { it.isNotBlank() })
+                contextResponseJson = if (entry.isNull("contextResponseJson")) null else entry.optString("contextResponseJson").takeIf { it.isNotBlank() },
+                archived = entry.optBoolean("archived", false))
         }
     }
 
@@ -81,7 +82,8 @@ class LocalOperationStore(context: Context) {
                     .put("uncertainties", JSONArray(operation.plan.uncertainties)).put("sourceVersions", JSONObject(operation.plan.sourceVersions)))
                 .put("answers", JSONObject(operation.answers)).put("completedSteps", JSONArray(operation.completedStepIds.toList()))
                 .put("checkedRequirements", JSONArray(operation.checkedRequirementIds.toList()))
-                .put("status", operation.status.name).put("demoEvents", events).put("updatedAt", operation.updatedAt)
+                .put("status", operation.status.name).put("archived", operation.archived)
+                .put("demoEvents", events).put("updatedAt", operation.updatedAt)
                 .put("conversation", JSONArray().also { array -> operation.conversation.forEach {
                     array.put(JSONObject().put("text", it.text).put("fromUser", it.fromUser))
                 } })

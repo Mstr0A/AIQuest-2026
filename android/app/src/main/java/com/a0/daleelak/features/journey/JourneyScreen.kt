@@ -47,7 +47,7 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
     val scope = rememberCoroutineScope()
     val navigation = rememberLazyListState()
     LaunchedEffect(pager.currentPage) { navigation.animateScrollToItem(pager.currentPage) }
-    var confirmDelete by rememberSaveable { mutableStateOf(false) }
+    var confirmArchive by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         TextButton(onClick = { model.selectedId = null }) { Text("رجوع للمعاملات") }
@@ -143,7 +143,7 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                         steps.size + 1 -> {
                             item { Text("متابعة المعاملة", style = MaterialTheme.typography.headlineSmall) }
                             item {
-                                Button(onClick = model::bookDemo, modifier = Modifier.fillMaxWidth()) {
+                                Button(onClick = model::bookDemo, enabled = !operation.archived, modifier = Modifier.fillMaxWidth()) {
                                     Text("حجز موعد · محاكاة")
                                 }
                                 Text("محاكاة محلية، لا تنشئ موعداً رسمياً ولا تعني أن الخدمة تتطلب حجزاً.",
@@ -154,17 +154,23 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                             } }
                             item {
                                 if (operation.status == OperationStatus.COMPLETED) {
-                                    Button(onClick = model::reopen) { Text("إعادة فتح المعاملة") }
+                                    Button(onClick = model::reopen, enabled = !operation.archived) { Text("إعادة فتح المعاملة") }
                                 } else {
                                     Button(onClick = model::setCompleted,
-                                        enabled = steps.isNotEmpty() && operation.completedStepIds.size == steps.size) {
+                                        enabled = !operation.archived && steps.isNotEmpty() && operation.completedStepIds.size == steps.size) {
                                         Text("أؤكد اكتمال المتابعة")
                                     }
                                 }
                                 Text("تأكيدك محلي، ولا يمثل موافقة أو حالة حكومية رسمية.",
                                     style = MaterialTheme.typography.bodySmall)
                             }
-                            item { TextButton(onClick = { confirmDelete = true }) { Text("حذف المعاملة المحلية") } }
+                            item {
+                                if (operation.archived) {
+                                    TextButton(onClick = model::restoreSelected) { Text("استعادة من الأرشيف") }
+                                } else {
+                                    TextButton(onClick = { confirmArchive = true }) { Text("أرشفة المعاملة") }
+                                }
+                            }
                         }
                         else -> {
                             val step = steps[page - 1]
@@ -192,7 +198,7 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                                     item { Text(category.label(), style = MaterialTheme.typography.titleMedium) }
                                     requirements.forEach { requirement -> item(key = requirement.id) {
                                         val checked = requirement.id in operation.checkedRequirementIds
-                                        val enabled = operation.status != OperationStatus.COMPLETED
+                                        val enabled = !operation.archived && operation.status != OperationStatus.COMPLETED
                                         Row(
                                             modifier = Modifier
                                                 .fillMaxWidth()
@@ -244,7 +250,7 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                             item {
                                 OutlinedButton(onClick = { model.toggleStep(step.id) },
                                     modifier = Modifier.fillMaxWidth(),
-                                    enabled = operation.status != OperationStatus.COMPLETED) {
+                                    enabled = !operation.archived && operation.status != OperationStatus.COMPLETED) {
                                     Text(if (complete) "إعادة فتح الخطوة" else "أؤكد إكمال الخطوة")
                                 }
                                 if (!complete && page > 1) Text(
@@ -267,10 +273,10 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                 onClick = { scope.launch { pager.animateScrollToPage(pager.currentPage + 1) } }) { Text("التالي") }
         }
     }
-    if (confirmDelete) AlertDialog(onDismissRequest = { confirmDelete = false },
-        title = { Text("حذف المعاملة؟") }, text = { Text("سيتم حذف تقدمها من هذا الجهاز.") },
-        confirmButton = { TextButton(onClick = { model.deleteSelected(); confirmDelete = false }) { Text("حذف") } },
-        dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text("إلغاء") } })
+    if (confirmArchive) AlertDialog(onDismissRequest = { confirmArchive = false },
+        title = { Text("أرشفة المعاملة؟") }, text = { Text("ستنتقل إلى الأرشيف مع حفظ المحادثة والخطوات والتقدم. يمكنك استعادتها لاحقاً.") },
+        confirmButton = { TextButton(onClick = { model.archiveSelected(); confirmArchive = false }) { Text("أرشفة") } },
+        dismissButton = { TextButton(onClick = { confirmArchive = false }) { Text("إلغاء") } })
 }
 
 /** Visible thumb for the content inside a card, independent of the card pager. */

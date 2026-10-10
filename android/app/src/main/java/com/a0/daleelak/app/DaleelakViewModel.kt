@@ -329,8 +329,8 @@ class DaleelakViewModel(
         val accepted = acceptedResponseJson
         val responseContext = contextResponseJson
         val facts = answers.toMap()
-        val existingId = activeOperationId ?: operations.firstOrNull {
-            it.plan.serviceId == plan.serviceId && it.status != OperationStatus.COMPLETED
+        val existingId = activeOperationId?.takeIf { id -> operations.any { it.id == id && !it.archived } } ?: operations.firstOrNull {
+            !it.archived && it.plan.serviceId == plan.serviceId && it.status != OperationStatus.COMPLETED
         }?.id
         writeOperations { latest ->
             val existing = latest.firstOrNull { it.id == existingId }
@@ -387,14 +387,15 @@ class DaleelakViewModel(
         val event = DemoEvent("DEMO-${UUID.randomUUID().toString().take(8)}", "حجز تجريبي محلي فقط. لم يُنشأ موعد رسمي ولا يدل على توافر أو اشتراط الحجز.", System.currentTimeMillis())
         operation.copy(demoEvents = operation.demoEvents + event)
     }
-    fun deleteSelected() {
+    fun archiveSelected() {
         val id = selection ?: return
         writeOperations { latest ->
             if (activeOperationId == id) activeOperationId = null
             selection = null
-            latest.filterNot { it.id == id }
+            latest.map { if (it.id == id) it.copy(archived = true, updatedAt = System.currentTimeMillis()) else it }
         }
     }
+    fun restoreSelected() = update { it.copy(archived = false) }
     private fun update(transform: (Operation) -> Operation) {
         val id = selection ?: return
         writeOperations { latest -> latest.map { if (it.id == id) transform(it).copy(updatedAt = System.currentTimeMillis()) else it } }
@@ -444,7 +445,7 @@ class DaleelakViewModel(
     private fun restoreOperation(operation: Operation) {
         stopVoice()
         generation++; responseJob?.cancel(); isResponding = false
-        activeOperationId = operation.id
+        activeOperationId = operation.id.takeUnless { operation.archived }
         answers = operation.answers
         messages = operation.conversation.ifEmpty { listOf(ChatMessage("تم استئناف المعاملة المحفوظة. يمكن تصحيح إجاباتها دون حذف التقدم غير المتأثر.")) }
         currentPlan = operation.plan
@@ -478,7 +479,7 @@ class DaleelakViewModel(
     private fun restoreSession(raw: String) {
         val session = JSONObject(raw)
         require(session.getInt("version") == 1)
-        activeOperationId = if (session.isNull("activeOperationId")) null else session.getString("activeOperationId").takeIf { id -> operations.any { it.id == id } }
+        activeOperationId = if (session.isNull("activeOperationId")) null else session.getString("activeOperationId").takeIf { id -> operations.any { it.id == id && !it.archived } }
         draft = session.optString("draft")
         val storedAnswers = session.getJSONObject("answers")
         answers = storedAnswers.keys().asSequence().associateWith { storedAnswers.getString(it) }

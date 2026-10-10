@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.a0.daleelak.app.DaleelakViewModel
 import com.a0.daleelak.domain.OperationStatus
+import com.a0.daleelak.domain.Operation
 import com.a0.daleelak.features.journey.JourneyScreen
 
 fun OperationStatus.label(): String = when (this) {
@@ -21,12 +22,13 @@ fun OperationStatus.label(): String = when (this) {
 }
 
 enum class OperationsFilter(val label: String) {
-    ALL("الكل"), CURRENT("الحالية"), COMPLETED("المنتهية");
+    ALL("الكل"), CURRENT("الحالية"), COMPLETED("المنتهية"), ARCHIVED("الأرشيف");
 
-    fun includes(status: OperationStatus): Boolean = when (this) {
-        ALL -> true
-        CURRENT -> status != OperationStatus.COMPLETED
-        COMPLETED -> status == OperationStatus.COMPLETED
+    fun includes(operation: Operation): Boolean = when (this) {
+        ALL -> !operation.archived
+        CURRENT -> !operation.archived && operation.status != OperationStatus.COMPLETED
+        COMPLETED -> !operation.archived && operation.status == OperationStatus.COMPLETED
+        ARCHIVED -> operation.archived
     }
 }
 
@@ -49,21 +51,22 @@ fun OperationsScreen(
                 FilterChip(selected = filter == option, onClick = { filter = option }, label = { Text(option.label) })
             }
         }
-        val visible = model.operations.filter { filter.includes(it.status) }.sortedByDescending { it.updatedAt }
+        val visible = model.operations.filter { filter.includes(it) }.sortedByDescending { it.updatedAt }
         if (visible.isEmpty()) Text(
             when (filter) {
                 OperationsFilter.ALL -> "ما عندك معاملات محفوظة بعد. ابدأ معاملة جديدة من الرئيسية."
                 OperationsFilter.CURRENT -> "ما عندك معاملات حالية."
                 OperationsFilter.COMPLETED -> "ما عندك معاملات منتهية بعد."
+                OperationsFilter.ARCHIVED -> "ما عندك معاملات مؤرشفة بعد."
             }, Modifier.padding(vertical = 16.dp))
         LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             items(visible, key = { it.id }) { operation ->
                 Card(Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(operation.title, style = MaterialTheme.typography.titleMedium)
-                        Text(operation.status.label() + " · تقدم أبلغ عنه المستخدم")
+                        Text((if (operation.archived) "مؤرشفة · " else "") + operation.status.label() + " · تقدم أبلغ عنه المستخدم")
                         Text("${operation.completedStepIds.size} / ${operation.plan.steps.size} خطوات")
-                        Button(onClick = { model.selectedId = operation.id }) { Text("متابعة") }
+                        Button(onClick = { model.selectedId = operation.id }) { Text(if (operation.archived) "عرض" else "متابعة") }
                     }
                 }
             }

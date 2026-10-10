@@ -49,6 +49,7 @@ data class Operation(
     val conversation: List<ChatMessage> = emptyList(),
     val acceptedResponseJson: String? = null,
     val contextResponseJson: String? = null,
+    val archived: Boolean = false,
 )
 data class ChatMessage(val text: String, val fromUser: Boolean = false)
 

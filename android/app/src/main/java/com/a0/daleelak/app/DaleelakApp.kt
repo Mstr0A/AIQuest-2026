@@ -64,10 +64,11 @@ fun DaleelakApp(model: DaleelakViewModel) {
                     }
                 }
                 if (showHome) {
-                    val finished = model.operations.count { it.status == OperationStatus.COMPLETED }
+                    val active = model.operations.filterNot { it.archived }
+                    val finished = active.count { it.status == OperationStatus.COMPLETED }
                     HomeScreen(
-                        totalCount = model.operations.size,
-                        currentCount = model.operations.size - finished,
+                        archiveCount = model.operations.count { it.archived },
+                        currentCount = active.size - finished,
                         finishedCount = finished,
                         onNewOperation = {
                             operationsFilter = OperationsFilter.ALL
@@ -76,7 +77,7 @@ fun DaleelakApp(model: DaleelakViewModel) {
                             model.destination = Destination.ASSISTANT
                             showHome = false
                         },
-                        onHistory = { openOperations(OperationsFilter.ALL) },
+                        onArchive = { openOperations(OperationsFilter.ARCHIVED) },
                         onCurrent = { openOperations(OperationsFilter.CURRENT) },
                         onFinished = { openOperations(OperationsFilter.COMPLETED) },
                         modifier = Modifier.weight(1f),

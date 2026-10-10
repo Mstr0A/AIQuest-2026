@@ -29,3 +29,7 @@ Pages 38–39 were present in the original guide but were not in the runtime rev
 The Arabic title is larger and bold. Places navigation and per-card Places placeholders are removed. Any step can be confirmed, which completes that step and every preceding displayed step, plus necessary graph dependencies. Reopening a step clears dependent completions. Final operation completion remains a separate user confirmation. Step cards now have a visible content scrollbar and a clickable page navigation strip.
 
 Lost-ID verification passed: two real app-gateway turns (`هويتي ضاعت، شو أعمل؟`, then an explicit first-loss request) produced a relevant clarification followed by a cited eight-card plan. The response includes the historical 5 JOD fee and two-week restriction. See `evidence/lost-national-id/`. Final UI build succeeded; the UI changes were compiled, not exercised in an automated interaction test.
+
+## Reversible archive
+
+Operation deletion is replaced by archiving. A persisted `archived` boolean defaults to false for existing local records. Archived operations retain status, conversation, plan and progress; they are excluded from active lists and counts and shown under the Home archive entry replacing history. Archived plans are viewable with progress controls disabled, and can be restored. Live conversation saves do not reuse archived records.
