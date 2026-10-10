@@ -3,7 +3,7 @@ package com.a0.daleelak.ai
 import com.a0.daleelak.data.ReviewedCatalog
 import java.util.Locale
 
-/** Routes three separately reviewed historical service cards; never authors new procedures. */
+/** Routes four separately reviewed historical service cards; never authors new procedures. */
 class AdditionalReviewedAssistant(private val catalog: ReviewedCatalog, private val matchMessageIntent: Boolean = true) {
     fun respond(request: AssistantRequest): AssistantResponse? {
         val text = request.message.lowercase(Locale.ROOT).replace('أ', 'ا').replace('إ', 'ا').replace('ة', 'ه')
@@ -56,8 +56,8 @@ class AdditionalReviewedAssistant(private val catalog: ReviewedCatalog, private 
         val facts = answers.map { IssueFact(it.key, it.value) }
         val answer = answers[service.requiredFact]
         val summary = CaseSummary(service.response.plan!!.title, facts,
-            if (answer == null) listOf(service.question.text) else emptyList())
-        if (answer == null) return service.response.copy(kind = ResponseKind.CLARIFICATION,
+            if (answer == null || answer == "unknown") listOf(service.question.text) else emptyList())
+        if (answer == null || answer == "unknown") return service.response.copy(kind = ResponseKind.CLARIFICATION,
             message = service.question.text, caseSummary = summary, questions = listOf(service.question), plan = null)
         if (answer != service.supportedValue) return service.response.copy(kind = ResponseKind.UNSUPPORTED,
             message = "آسف، ما عندي مسار موثق يغطي تفاصيل هذه الحالة. راجع الجهة الرسمية لتحديد الإجراء الصحيح.", caseSummary = summary, plan = null)

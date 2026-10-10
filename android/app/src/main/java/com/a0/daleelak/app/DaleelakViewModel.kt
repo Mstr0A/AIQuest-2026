@@ -268,8 +268,10 @@ class DaleelakViewModel(
                 }
                 if (ticket != generation) return@launch
                 val encoded = codec.encode(response)
-                val nextIssue = response.caseSummary.knownFacts.firstOrNull { it.key == "issue" }?.value
-                if (nextIssue != null && nextIssue != answers["issue"]) activeOperationId = null
+                val nextIssue = response.plan?.serviceId ?: response.caseSummary.knownFacts.firstOrNull { it.key == "issue" }?.value
+                val previousIssue = currentPlan?.serviceId ?: answers["issue"]
+                if (nextIssue != null && nextIssue != previousIssue) activeOperationId = null
+                if (response.kind == ResponseKind.CLARIFICATION) activeOperationId = null
                 answers = response.caseSummary.knownFacts.filter { it.origin == "user" }.associate { it.key to it.value }
                 questions = response.questions
                 suggestedPrompts = response.suggestedPrompts
@@ -476,10 +478,23 @@ class DaleelakViewModel(
         messages = (0 until storedMessages.length()).map { storedMessages.getJSONObject(it).let { item -> ChatMessage(item.getString("text"), item.getBoolean("fromUser")) } }
         acceptedResponseJson = if (session.isNull("acceptedResponseJson")) null else session.getString("acceptedResponseJson")
         contextResponseJson = if (session.isNull("contextResponseJson")) null else session.getString("contextResponseJson")
-        acceptedResponseJson?.let { val accepted = codec.decode(it); validator.validate(accepted); currentPlan = catalog.toDomain(accepted) }
-        contextResponseJson?.let { val context = codec.decode(it); validator.validate(context)
-            questions = context.questions; suggestedPrompts = context.suggestedPrompts
-            if (context.kind != ResponseKind.PLAN) currentPlan = null
+        acceptedResponseJson?.let { rawResponse ->
+            runCatching { codec.decode(rawResponse).also(validator::validate) }
+                .onSuccess { currentPlan = catalog.toDomain(it) }
+                .onFailure { acceptedResponseJson = null; currentPlan = null }
+        }
+        contextResponseJson?.let { rawResponse ->
+            runCatching { codec.decode(rawResponse).also(validator::validate) }
+                .onSuccess { context ->
+                    questions = context.questions; suggestedPrompts = context.suggestedPrompts
+                    if (context.kind != ResponseKind.PLAN) currentPlan = null
+                }
+                .onFailure {
+                    // Old unsupported-unknown decisions can be invalid after a guidance upgrade.
+                    // Keep history and saved operations; don't disable storage for a stale response.
+                    contextResponseJson = null; acceptedResponseJson = null; currentPlan = null
+                    answers = emptyMap(); questions = emptyList(); activeOperationId = null
+                }
         }
     }
 }

@@ -1,0 +1,775 @@
+[
+  {
+    "input": "يا زلمة جوازي ضاع ومش عارف من وين أبلش",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "بدي أوضح المشكلة أكثر",
+        "بدي أبدأ طلب جديد",
+        "بدي أصحح معلومة ذكرتها"
+      ],
+      "source_ids": ["cspd-2024-lost_passport"],
+      "kind": "clarification",
+      "questions": [
+        {
+          "reason": "إذا ضاع خارج المملكة تختلف الوثائق المطلوبة (ترجمة معتمدة، جواز أجنبي يبين الدخول، وثيقة سفر اضطرارية) وقد يكون المسار عبر السفارة أو القنصلية، فالجواب يحدد أي متطلبات نعرض عليك.",
+          "options": [
+            "داخل الأردن",
+            "خارج الأردن"
+          ],
+          "id": "loss_location",
+          "text": "وين ضاع الجواز \u2014 داخل الأردن أو برّه؟"
+        },
+        {
+          "reason": "الرسوم تختلف حسب دليل 2024: 125 ديناراً لأول فقدان و250 ديناراً لكل فقدان لاحق، مع استيفاء الكفالة السابقة إذا كان الفقد السابق خلال أقل من خمس سنوات.",
+          "options": [
+            "أول مرة",
+            "سبق فقدانه من قبل",
+            "مش متأكد"
+          ],
+          "id": "previous_loss",
+          "text": "هل هاد أول مرة يضيع فيها جوازك؟"
+        }
+      ],
+      "case_summary": {
+        "goal": "إصدار جواز سفر أردني عادي بدل فاقد",
+        "known_facts": [{
+          "source_ids": ["cspd-2024-lost_passport"],
+          "origin": "user",
+          "value": "فقد المستخدم جواز سفره الأردني ويريد بدء إجراءات الاستبدال",
+          "key": "request"
+        }],
+        "unresolved_facts": [
+          "مكان فقدان الجواز (داخل الأردن أو خارجه)",
+          "هل هو أول فقدان أم سبق فقدان الجواز",
+          "تفاصيل تقديم بلاغ المركز الأمني غير موثقة في الدليل المتاح"
+        ]
+      },
+      "message": "لا تقلق، المسار موثق عندنا. إصدار جواز بدل فاقد يبدأ ببلاغ فقدان من المركز الأمني ثم طلب حضوري عند الأحوال المدنية والجوازات، وفيه لجنة تحقيق تحدد كفالة مالية قبل الإصدار. بس في تفصيلين بيغيّروا الوثائق والرسوم المطلوبة، جاوبني عليهم وبجهزلك الخطة كاملة.",
+      "plan": null,
+      "uncertainties": [
+        "تفاصيل تقديم بلاغ الفقدان لدى المركز الأمني غير موثقة في الدليل المتاح",
+        "الرسوم المذكورة من دليل 2024 ولم يتم التحقق من استمرارها الحالي",
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+        "الدليل يسمي وزارة العدل للكفالة والمركز الأمني للبلاغ؛ تفاصيل إنجاز هذه الإجراءات خارج الدائرة غير موثقة هنا. لا يثبت زمن إنجاز المعاملة بالكامل.",
+        "هذه بطاقات المسار الحضوري للجواز الأردني العادي؛ لا تعرض خطوات إلكترونية أو إجراءات سفارة كاملة. عند الفقد خارج المملكة راجع السفارة أو القنصلية لتحديد مسار التنفيذ."
+      ]
+    }
+  },
+  {
+    "input": "مش متأكد من كل التفاصيل، ورجيني خطوات بدل فاقد للجواز الأردني العادي مبدئياً وبينلي شو اللي لازم أتأكد منه",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "بدي أوضح المشكلة أكثر",
+        "بدي أبدأ طلب جديد",
+        "بدي أصحح معلومة ذكرتها"
+      ],
+      "source_ids": ["cspd-2024-lost_passport"],
+      "kind": "plan",
+      "questions": [],
+      "case_summary": {
+        "goal": "إصدار جواز سفر أردني عادي بدل فاقد \u2014 نظرة مبدئية على المسار الحضوري مع تحديد ما يحتاج المستخدم تأكيده",
+        "known_facts": [
+          {
+            "source_ids": ["cspd-2024-lost_passport"],
+            "origin": "user",
+            "value": "فقد المستخدم جواز سفره الأردني ويريد بدء إجراءات الاستبدال",
+            "key": "request"
+          },
+          {
+            "source_ids": ["cspd-2024-lost_passport"],
+            "origin": "user",
+            "value": "غير متأكد من بعض التفاصيل ويريد نظرة مبدئية على الخطوات",
+            "key": "certainty_level"
+          }
+        ],
+        "unresolved_facts": [
+          "مكان الفقدان: داخل الأردن أو خارجه \u2014 يغيّر الوثائق المطلوبة (ترجمة معتمدة، جواز أجنبي، وثيقة سفر اضطرارية) وربما جهة التقديم",
+          "هل هو أول فقدان أم سبق فقدان \u2014 يحدد الرسم 125 أو 250 ديناراً حسب دليل 2024",
+          "عمر صاحب الجواز وحضوره الشخصي إذا أتم 18 سنة",
+          "انطباق شروط خاصة: عسكري، قاصر، بطاقات جسور، خدمة علم"
+        ]
+      },
+      "message": "تمام، هي خطة مبدئية كاملة لمسار إصدار جواز بدل فاقد حسب دليل الأحوال المدنية والجوازات 2024 (ص 48\u201349). الخطوات واضحة، واللي لازم تتأكد منه مبيّن داخل كل بطاقة كشرط: مكان الفقدان (داخل/خارج الأردن)، هل هو أول فقدان، وعمر صاحب الجواز. ملاحظة مهمة: موافقة اللجنة والكفالة مش لازم تكونوا جاهزين قبل التقديم \u2014 بيتحددوا أثناء التحقيق.",
+      "plan": {
+        "summary": "مسار حضوري: تجهيز بلاغ الفقدان والوثائق، تقديم الطلب، لجنة تحقيق تحدد الكفالة والموافقة الأمنية، دفع الرسوم، ثم طباعة الجواز واستلامه. الشروط المتغيرة حسب حالتك موضحة كشرط داخل كل خطوة.",
+        "route": "in_person",
+        "service_id": "cspd-lost-passport-replacement",
+        "title": "إصدار جواز سفر أردني عادي بدل فاقد",
+        "steps": [
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "متطلب أساسي",
+                  "format": "unspecified",
+                  "id": "doc-police-report",
+                  "label": "بلاغ فقدان من المركز الأمني",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": null,
+                  "format": "original",
+                  "id": "doc-two-photos",
+                  "label": "صورتان شخصيتان حديثتان ملونتان",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا كان صاحب الجواز قد أتم 16 سنة",
+                  "format": "original",
+                  "id": "doc-id-16plus",
+                  "label": "البطاقة الشخصية لمن أتم 16 سنة",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": null,
+                  "format": "original",
+                  "id": "doc-receiver-id",
+                  "label": "البطاقة الشخصية للمستلم",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا كان صاحب الجواز دون 16 سنة",
+                  "format": "original",
+                  "id": "doc-guardian-consent",
+                  "label": "موافقة الأب أو ولي الأمر لمن هو دون 16 سنة",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا فقد الجواز خارج المملكة",
+                  "format": "unspecified",
+                  "id": "doc-abroad-translation",
+                  "label": "بلاغ فقدان وترجمة معتمدة إذا لم يكن بالعربية",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا فقد الجواز خارج المملكة",
+                  "format": "original",
+                  "id": "doc-foreign-passport",
+                  "label": "جواز السفر الأجنبي الذي يبين دخول الأردن",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا فقد الجواز خارج المملكة وقدّم الطلب صاحبه",
+                  "format": "original",
+                  "id": "doc-emergency-travel-doc",
+                  "label": "وثيقة السفر الاضطرارية",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "للفئات الملزمة",
+                  "format": "original",
+                  "id": "doc-military-service",
+                  "label": "دفتر خدمة العلم المؤجل أو شهادة إنهاء الخدمة",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا انطبق شرط بطاقات الجسور",
+                  "format": "original",
+                  "id": "doc-bridges-cards",
+                  "label": "بطاقات الجسور والهوية الفلسطينية/الإسرائيلية أو مشروحات المتابعة والتفتيش",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "للعسكريين والأجهزة المذكورة في الدليل",
+                  "format": "original",
+                  "id": "doc-military-approval",
+                  "label": "موافقة القيادة العامة أو كتاب شؤون الأفراد/الضباط",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "عند انطباق حالة القاصر",
+                  "format": "original",
+                  "id": "doc-custody",
+                  "label": "حجة الوصاية أو الحضانة",
+                  "necessity": "conditional"
+                }
+              ],
+              "actions": [{
+                "source_ids": ["cspd-2024-lost_passport"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "act-confirm-details",
+                "label": "تأكيد: مكان الفقدان (داخل/خارج الأردن)، أول فقدان أم لا، عمر صاحب الجواز",
+                "necessity": "helpful"
+              }]
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": [],
+            "place_ids": [],
+            "id": "step-prepare-docs",
+            "title": "تجهيز الوثائق المتاحة وبلاغ الفقدان",
+            "explanation": "جهّز بلاغ الفقدان من المركز الأمني والوثائق الشرطية التي تنطبق على حالتك. لا يلزم أن تكون موافقة اللجنة والكفالة جاهزتين قبل التقديم؛ يحدد مقدار الكفالة أثناء التحقيق. تفاصيل تقديم البلاغ غير موثقة في هذا الدليل.",
+            "completion_evidence": "تأكيدك أنك جمعت البلاغ والوثائق المنطبقة على حالتك"
+          },
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [{
+                "source_ids": ["cspd-2024-lost_passport"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "visit-civil-office",
+                "label": "مراجعة مكتب خدمة الجمهور في الأحوال المدنية والجوازات",
+                "necessity": "required"
+              }],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": [{
+                "source_ids": ["cspd-2024-lost_passport"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "act-fill-form",
+                "label": "تعبئة نموذج طلب الجواز وأخذ رقم الدور",
+                "necessity": "required"
+              }]
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["step-prepare-docs"],
+            "place_ids": [],
+            "id": "step-submit",
+            "title": "تقديم الطلب وأخذ الدور",
+            "explanation": "راجع خدمة الجمهور، عبّئ نموذج طلب الجواز واحصل على رقم الدور. الحضور الشخصي مطلوب لمن أتم 18 سنة، وللأب أو الأم طلب جواز لأولادهما القاصرين.",
+            "completion_evidence": "استلامك رقم دور وتقديم الطلب"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["step-submit"],
+            "place_ids": [],
+            "id": "step-acceptance",
+            "title": "قبول الطلب والصورة والمرفقات",
+            "explanation": "موظف قبول المعاملات يقبل الطلب على النظام ويلتقط الصورة والمرفقات.",
+            "completion_evidence": "تأكيد الموظف قبول الطلب على النظام"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [{
+                "source_ids": ["cspd-2024-lost_passport"],
+                "condition": "يحددها فريق التحقيق \u2014 ليست رسم إصدار الجواز",
+                "format": "unspecified",
+                "id": "pay-guarantee",
+                "label": "كفالة مالية بين 50 و500 دينار وفق قرار اللجنة",
+                "necessity": "conditional"
+              }],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["step-acceptance"],
+            "place_ids": [],
+            "id": "step-investigation",
+            "title": "التحقيق وتحديد الكفالة والموافقة الأمنية",
+            "explanation": "لجنة التحقيق تخاطب الجهات الأمنية وتحدد مبلغ الكفالة المالية. الدليل يسمّي وزارة العدل شريكاً للكفالة؛ استوضح من اللجنة ترتيب إنجازها دون افتراض إجراءات محددة.",
+            "completion_evidence": "إبلاغك بمبلغ الكفالة وورود الموافقة الأمنية"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["step-investigation"],
+            "place_ids": [],
+            "id": "step-approval-transfer",
+            "title": "كتاب الموافقة والتحويل لمكتب الجوازات",
+            "explanation": "بعد ورود الموافقة تصدر اللجنة كتابها وتحول المعاملة إلى مكتب الجوازات.",
+            "completion_evidence": "تحوّل المعاملة لمكتب الجوازات"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["step-approval-transfer"],
+            "place_ids": [],
+            "id": "step-verification",
+            "title": "تسجيل معاملة التحقق وإجازة الطلب",
+            "explanation": "موظف قبول المعاملات يسجل معاملة التحقق، ثم يجيز الطلب رئيس المكتب أو مساعده.",
+            "completion_evidence": "إجازة الطلب من رئيس المكتب"
+          },
+          {
+            "actor": "user_and_authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا كان الفقد لأول مرة \u2014 رسوم 2024، أكد المبلغ الحالي",
+                  "format": "unspecified",
+                  "id": "pay-first-loss",
+                  "label": "رسم أول فقدان: 125 ديناراً حسب دليل 2024",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا سبق فقدان الجواز \u2014 رسوم 2024، أكد المبلغ الحالي",
+                  "format": "unspecified",
+                  "id": "pay-subsequent-loss",
+                  "label": "رسم كل فقدان لاحق: 250 ديناراً حسب دليل 2024",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا كان الفقد السابق خلال أقل من خمس سنوات",
+                  "format": "unspecified",
+                  "id": "pay-previous-guarantee",
+                  "label": "استيفاء قيمة الكفالة السابقة؛ لا يحدد هذا السجل قيمتها",
+                  "necessity": "conditional"
+                }
+              ],
+              "documents": [],
+              "actions": [{
+                "source_ids": ["cspd-2024-lost_passport"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "act-keep-receipt",
+                "label": "الاحتفاظ بالوصل المالي",
+                "necessity": "required"
+              }]
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["step-verification"],
+            "place_ids": [],
+            "id": "step-fees",
+            "title": "دفع الرسوم لدى أمين الصندوق",
+            "explanation": "الدليل يذكر 125 ديناراً لأول فقدان و250 ديناراً لكل فقدان لاحق. تستوفى قيمة الكفالة السابقة إذا كان الفقد السابق خلال أقل من خمس سنوات. هذه رسوم 2024؛ أكد المبلغ الحالي واحتفظ بالوصل.",
+            "completion_evidence": "استلامك الوصل المالي بعد الدفع"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["step-fees"],
+            "place_ids": [],
+            "id": "step-printing",
+            "title": "طباعة الجواز وتغليفه وقراءته آلياً",
+            "explanation": "تحول الطلب إلى قسم الطباعة، ثم تغلف الدائرة الجواز وتقرأه آلياً.",
+            "completion_evidence": "جهوزية الجواز للتسليم"
+          },
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": [{
+                "source_ids": ["cspd-2024-lost_passport"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "act-show-receipt",
+                "label": "إبراز الوصل المالي عند التسليم",
+                "necessity": "required"
+              }]
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["step-printing"],
+            "place_ids": [],
+            "id": "step-receive",
+            "title": "استلام الجواز مقابل الوصل",
+            "explanation": "قدّم الوصل المالي لموظف التسليم واستلم الجواز. تأشير الإنجاز هنا شخصي ولا يثبت موافقة حكومية.",
+            "completion_evidence": "استلامك الجواز الفعلي"
+          }
+        ]
+      },
+      "uncertainties": [
+        "مكان الفقدان (داخل/خارج الأردن) يحدد وثائق إضافية: ترجمة معتمدة للبلاغ، جواز أجنبي يبين الدخول، ووثيقة سفر اضطرارية \u2014 وعند الفقد خارج المملكة يُراجع السفارة أو القنصلية لتحديد مسار التنفيذ",
+        "هل هو أول فقدان أم لاحق \u2014 يحدد الرسم 125 أو 250 ديناراً، مع استيفاء الكفالة السابقة إذا كان الفقد السابق خلال أقل من خمس سنوات",
+        "تفاصيل تقديم بلاغ المركز الأمني غير موثقة في الدليل",
+        "ترتيب إنجاز الكفالة مع وزارة العدل غير موثق بالتفصيل \u2014 استوضحه من لجنة التحقيق",
+        "المصدر دليل 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية \u2014 راجع الدائرة قبل التنفيذ",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق",
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+        "الدليل يسمي وزارة العدل للكفالة والمركز الأمني للبلاغ؛ تفاصيل إنجاز هذه الإجراءات خارج الدائرة غير موثقة هنا. لا يثبت زمن إنجاز المعاملة بالكامل.",
+        "هذه بطاقات المسار الحضوري للجواز الأردني العادي؛ لا تعرض خطوات إلكترونية أو إجراءات سفارة كاملة. عند الفقد خارج المملكة راجع السفارة أو القنصلية لتحديد مسار التنفيذ."
+      ]
+    }
+  },
+  {
+    "input": "هو العادي وأول مرة بضيع مني. كم رسومه؟ وهل الكفالة نفس الرسوم؟",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "بدي أوضح المشكلة أكثر",
+        "بدي أبدأ طلب جديد",
+        "بدي أصحح معلومة ذكرتها"
+      ],
+      "source_ids": ["cspd-2024-lost_passport"],
+      "kind": "plan",
+      "questions": [],
+      "case_summary": {
+        "goal": "إصدار جواز سفر أردني عادي بدل فاقد \u2014 فقد أول",
+        "known_facts": [
+          {
+            "source_ids": ["cspd-2024-lost_passport"],
+            "origin": "user",
+            "value": "جواز سفر أردني عادي",
+            "key": "passport_type"
+          },
+          {
+            "source_ids": ["cspd-2024-lost_passport"],
+            "origin": "user",
+            "value": "أول مرة يضيع الجواز",
+            "key": "loss_count"
+          }
+        ],
+        "unresolved_facts": [
+          "مكان الفقدان (داخل/خارج الأردن) غير محسوم \u2014 يحدد وثائق إضافية عند الفقد خارج المملكة",
+          "عمر صاحب الجواز يحدد متطلبات البطاقة/الموافقة والحضور الشخصي",
+          "تفاصيل تقديم بلاغ المركز الأمني غير موثقة في الدليل",
+          "ترتيب إنجاز الكفالة مع وزارة العدل غير موثق بالتفصيل"
+        ]
+      },
+      "message": "أهلاً فيك. حسب دليل 2024: رسم أول فقدان 125 ديناراً، والكفالة **مش** جزء من الرسم \u2014 هي مبلغ منفصل بين 50 و500 دينار بحدده فريق التحقيق حسب حالتك، وليست رسم إصدار. يعني المجموع اللي تتوقع تدفعه: 125 دينار رسم + الكفالة اللي بتحددها اللجنة. هاد حسب دليل 2024، أكد المبالغ الحالية من المكتب قبل الدفع. وهي الخطة كاملة مرة ثانية عشان تكون قدامك:",
+      "plan": {
+        "summary": "مسار حضوري: بلاغ أمني، تجهيز الوثائق، تقديم الطلب، تحقيق وتحديد كفالة، موافقة، دفع 125 ديناراً (أول فقدان)، طباعة وتسليم. الكفالة منفصلة عن الرسم وبحددها اللجنة أثناء التحقيق.",
+        "route": "in_person",
+        "service_id": "cspd-lost-passport-replacement",
+        "title": "إصدار جواز سفر أردني عادي بدل فاقد \u2014 أول فقدان",
+        "steps": [
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": null,
+                  "format": "unspecified",
+                  "id": "police-report",
+                  "label": "بلاغ فقدان من المركز الأمني",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": null,
+                  "format": "unspecified",
+                  "id": "photos",
+                  "label": "صورتان شخصيتان حديثتان ملونتان",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا كان صاحب الجواز قد أتم 16 سنة",
+                  "format": "unspecified",
+                  "id": "id-card-holder",
+                  "label": "البطاقة الشخصية لصاحب الجواز",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": null,
+                  "format": "unspecified",
+                  "id": "id-card-recipient",
+                  "label": "البطاقة الشخصية للمستلم",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا كان صاحب الجواز دون 16 سنة",
+                  "format": "unspecified",
+                  "id": "guardian-consent",
+                  "label": "موافقة الأب أو ولي الأمر",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "للفئات الملزمة",
+                  "format": "unspecified",
+                  "id": "military-docs",
+                  "label": "دفتر خدمة العلم المؤجل أو شهادة إنهاء الخدمة",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا انطبق شرط بطاقات الجسور",
+                  "format": "unspecified",
+                  "id": "bridges-cards",
+                  "label": "بطاقات الجسور والهوية الفلسطينية/الإسرائيلية أو مشروحات المتابعة والتفتيش",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "للعسكريين والأجهزة المذكورة في الدليل",
+                  "format": "unspecified",
+                  "id": "military-approval",
+                  "label": "موافقة القيادة العامة أو كتاب شؤون الأفراد/الضباط",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "عند انطباق حالة القاصر",
+                  "format": "unspecified",
+                  "id": "custody-doc",
+                  "label": "حجة الوصاية أو الحضانة",
+                  "necessity": "conditional"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_passport"],
+                  "condition": "إذا فقد الجواز خارج المملكة",
+                  "format": "unspecified",
+                  "id": "abroad-docs",
+                  "label": "بلاغ الفقدان بترجمة معتمدة + جواز سفر أجنبي يبين دخول الأردن + وثيقة السفر الاضطرارية (إن انطبقت)",
+                  "necessity": "conditional"
+                }
+              ],
+              "actions": [{
+                "source_ids": ["cspd-2024-lost_passport"],
+                "condition": "بحسب عمر صاحب الجواز",
+                "format": "unspecified",
+                "id": "personal-presence",
+                "label": "الحضور الشخصي لمن أتم 18 سنة؛ للأب أو الأم طلب جواز لأولادهما القاصرين",
+                "necessity": "conditional"
+              }]
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": [],
+            "place_ids": [],
+            "id": "prepare-docs",
+            "title": "تجهيز الوثائق المتاحة وبلاغ الفقدان",
+            "explanation": "جهز بلاغ الفقدان من المركز الأمني والوثائق الشرطية. لا يلزم أن تكون موافقة اللجنة والكفالة جاهزتين قبل التقديم. تفاصيل تقديم البلاغ غير موثقة في الدليل \u2014 استوضحها من المركز الأمني.",
+            "completion_evidence": "تأكيدك أنك جهزت الوثائق وبلاغ الفقدان"
+          },
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [{
+                "source_ids": ["cspd-2024-lost_passport"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "visit-cspd",
+                "label": "مراجعة مكتب الأحوال المدنية والجوازات",
+                "necessity": "required"
+              }],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["prepare-docs"],
+            "place_ids": [],
+            "id": "submit-request",
+            "title": "تقديم الطلب وأخذ الدور",
+            "explanation": "راجع خدمة الجمهور في المكتب، عبئ نموذج طلب الجواز واحصل على رقم الدور.",
+            "completion_evidence": "استلامك رقم الدور"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["submit-request"],
+            "place_ids": [],
+            "id": "accept-request",
+            "title": "قبول الطلب والصورة والمرفقات",
+            "explanation": "موظف قبول المعاملات يقبل الطلب على النظام ويلتقط الصورة والمرفقات.",
+            "completion_evidence": "تأكيد قبول الطلب على النظام"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [{
+                "source_ids": ["cspd-2024-lost_passport"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "kafala",
+                "label": "كفالة مالية بين 50 و500 دينار وفق قرار اللجنة \u2014 ليست رسم إصدار، وبحددها أثناء التحقيق",
+                "necessity": "required"
+              }],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["accept-request"],
+            "place_ids": [],
+            "id": "investigation",
+            "title": "التحقيق وتحديد الكفالة والموافقة الأمنية",
+            "explanation": "لجنة التحقيق تخاطب الجهات الأمنية وتحدد مبلغ الكفالة المالية. الدليل يسمي وزارة العدل شريكاً للكفالة \u2014 استوضح من اللجنة ترتيب إنجازها دون افتراض إجراءات محددة.",
+            "completion_evidence": "إبلاغك بمبلغ الكفالة وقرار اللجنة"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["investigation"],
+            "place_ids": [],
+            "id": "approval-transfer",
+            "title": "كتاب الموافقة والتحويل لمكتب الجوازات",
+            "explanation": "بعد ورود الموافقة الأمنية تصدر اللجنة كتابها وتحول المعاملة إلى مكتب الجوازات.",
+            "completion_evidence": "تأكيد تحويل المعاملة لمكتب الجوازات"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["approval-transfer"],
+            "place_ids": [],
+            "id": "verification-registration",
+            "title": "تسجيل معاملة التحقق",
+            "explanation": "موظف قبول المعاملات يسجل معاملة التحقق.",
+            "completion_evidence": "تأكيد تسجيل المعاملة"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["verification-registration"],
+            "place_ids": [],
+            "id": "approval",
+            "title": "إجازة الطلب",
+            "explanation": "رئيس المكتب أو مساعده يجيز الطلب.",
+            "completion_evidence": "تأكيد إجازة الطلب"
+          },
+          {
+            "actor": "user_and_authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [{
+                "source_ids": ["cspd-2024-lost_passport"],
+                "condition": "أول فقدان \u2014 حالتك",
+                "format": "unspecified",
+                "id": "fee-first-loss",
+                "label": "رسم أول فقدان: 125 ديناراً حسب دليل 2024 \u2014 أكد المبلغ الحالي واحتفظ بالوصل",
+                "necessity": "required"
+              }],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["approval"],
+            "place_ids": [],
+            "id": "pay-fees",
+            "title": "دفع الرسوم لدى أمين الصندوق",
+            "explanation": "الدليل يذكر 125 ديناراً لأول فقدان (حالتك). هذه رسوم 2024 \u2014 أكد المبلغ الحالي واحتفظ بالوصل المالي.",
+            "completion_evidence": "استلامك الوصل المالي"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["pay-fees"],
+            "place_ids": [],
+            "id": "printing",
+            "title": "طباعة الجواز",
+            "explanation": "تحول الطلب إلى قسم الطباعة لطباعة الجواز.",
+            "completion_evidence": "تأكيد اكتمال الطباعة"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["printing"],
+            "place_ids": [],
+            "id": "packaging",
+            "title": "التغليف والقراءة الآلية",
+            "explanation": "الدائرة تغلف الجواز وتقرأه آلياً.",
+            "completion_evidence": "تأكيد جهوزية الجواز للتسليم"
+          },
+          {
+            "actor": "user_and_authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [{
+                "source_ids": ["cspd-2024-lost_passport"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "receipt",
+                "label": "الوصل المالي",
+                "necessity": "required"
+              }],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_passport"],
+            "depends_on": ["packaging"],
+            "place_ids": [],
+            "id": "collect",
+            "title": "استلام الجواز مقابل الوصل",
+            "explanation": "قدم الوصل المالي لموظف التسليم واستلم الجواز. تأشير الإنجاز هنا شخصي ولا يثبت موافقة حكومية.",
+            "completion_evidence": "استلامك الجواز فعلياً"
+          }
+        ]
+      },
+      "uncertainties": [
+        "مكان الفقدان (داخل/خارج الأردن) غير محسوم \u2014 عند الفقد خارج المملكة تنطبق وثائق إضافية ويُراجع السفارة أو القنصلية لتحديد مسار التنفيذ",
+        "تفاصيل تقديم بلاغ المركز الأمني غير موثقة في الدليل",
+        "ترتيب إنجاز الكفالة مع وزارة العدل غير موثق بالتفصيل \u2014 استوضحه من لجنة التحقيق",
+        "المصدر دليل 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية \u2014 راجع الدائرة قبل التنفيذ",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق",
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+        "الدليل يسمي وزارة العدل للكفالة والمركز الأمني للبلاغ؛ تفاصيل إنجاز هذه الإجراءات خارج الدائرة غير موثقة هنا. لا يثبت زمن إنجاز المعاملة بالكامل.",
+        "هذه بطاقات المسار الحضوري للجواز الأردني العادي؛ لا تعرض خطوات إلكترونية أو إجراءات سفارة كاملة. عند الفقد خارج المملكة راجع السفارة أو القنصلية لتحديد مسار التنفيذ."
+      ]
+    }
+  }
+]

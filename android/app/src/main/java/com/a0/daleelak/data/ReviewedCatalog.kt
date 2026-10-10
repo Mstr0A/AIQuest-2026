@@ -15,7 +15,7 @@ data class ReviewedSource(
 data class AdditionalService(val id: String, val requiredFact: String, val allowedValues: List<String>,
     val supportedValue: String, val question: ClarificationQuestion, val response: AssistantResponse)
 
-/** Bundled source summary and three reviewed 2024 cards; no remote document fetch at runtime. */
+/** Bundled source summary and four reviewed 2024 cards; no remote document fetch at runtime. */
 class ReviewedCatalog private constructor(schemaText: String, sourceText: String, additionalText: String) {
     constructor(assets: AssetManager) : this(
         assets.open("guidance/ai-response.schema.json").bufferedReader().use { it.readText() },
@@ -40,6 +40,18 @@ class ReviewedCatalog private constructor(schemaText: String, sourceText: String
                 source.getString("reviewed_excerpt"), source.getJSONArray("supported_rules").strings(), source.getJSONArray("gaps").strings())
         } }
     }
+    fun conditionalGap(id: String): String {
+        val service = additionalServices.first { it.id == id }
+        val prerequisite = when (id) {
+            "lost_passport" -> "الجواز أردني عادي"
+            "birth_certificate" -> "واقعة الولادة مسجلة حاسوبياً لدى الأحوال المدنية"
+            "document_attestation" -> "أصل الوثيقة صادر عن دائرة الأحوال المدنية والجوازات"
+            "declared_address" -> "المستدعي رب الأسرة أو من ينوب عنه"
+            else -> error("Unknown conditional service")
+        }
+        return "هذه خطة مشروطة لمسار: ${service.response.plan!!.title}. شرط المسار: $prerequisite. لم يتأكد انطباقه على حالتك؛ لا تعتبر هذه الخطة تأكيد أهلية."
+    }
+
     val places: List<Place> = emptyList()
     val sourceIds = root.getJSONArray("sources").let { entries -> (0 until entries.length()).map { entries.getJSONObject(it).getString("id") } }
     val gaps = sources.filter { it.id in sourceIds }.flatMap { it.gaps }

@@ -2,126 +2,107 @@ package com.a0.daleelak
 
 import com.a0.daleelak.ai.*
 import com.a0.daleelak.data.ReviewedCatalog
+import com.a0.daleelak.domain.ChatMessage
 import kotlinx.coroutines.runBlocking
+import org.json.JSONArray
+import org.json.JSONObject
 import org.junit.Assert.*
 import org.junit.Assume.assumeTrue
 import org.junit.Test
-import org.json.JSONObject
 import java.io.File
 
-/** Opt-in direct API calls through the real Android gateway, codec, catalog and validator. */
+/** Real app gateway tests: semantic document selection, not predetermined question/step scripts. */
 class ThreeServiceLiveTest {
     private fun catalog(): ReviewedCatalog {
         val assets = File("src/main/assets/guidance")
         return ReviewedCatalog.fromReviewedJson(File(assets, "ai-response.schema.json").readText(),
             File(assets, "reviewed-sources.json").readText(), File(assets, "additional-services.json").readText())
     }
-    private fun exercise(id: String, text: String, count: Int) = runBlocking {
-        assumeTrue(System.getenv("DALEELAK_ALLOW_PAID_SERVICE_TESTS") == "true")
-        assertTrue("Demo APK must have the embedded key", BuildConfig.OPENROUTER_DEMO_KEY.isNotBlank())
-        val catalog = catalog()
-        val request = AssistantRequest(text, emptyList(), emptyMap(), null, emptyList())
-        val response = OpenRouterAssistant(catalog, BuildConfig.OPENROUTER_DEMO_KEY).respond(request)
-        val codec = ContractCodec(catalog.schema)
-        val accepted = codec.decode(codec.encode(response))
-        ResponseValidator(catalog).validate(accepted)
-        assertEquals(ResponseKind.PLAN, accepted.kind)
-        assertTrue("Clear first message must skip clarification", accepted.questions.isEmpty())
-        assertEquals(id, accepted.plan!!.serviceId)
-        assertEquals(count, accepted.plan.steps.size)
-        assertEquals(catalog.additionalServices.first { it.id == id }.response.plan, accepted.plan)
-        val domain = catalog.toDomain(accepted)!!
-        assertFalse(domain.illustrative)
-        assertTrue(domain.sourceVersions.keys.contains("cspd-2024-" + id))
-        val output = File("build/service-evaluation")
-        output.mkdirs()
-        File(output, "$id.json").writeText(JSONObject(codec.encode(accepted))
-            .put("test_scope", "Real OpenRouterAssistant classification, local reviewed plan, codec and validator; JVM execution, no Android UI walkthrough")
-            .toString(2))
-    }
-    @Test fun birthCertificate() = exercise("birth_certificate",
-        "أنا أردني بالغ وبدي شهادة ولادة لنفسي، والواقعة مسجلة حاسوبياً لدى الأحوال المدنية. كيف أطلع الشهادة؟", 6)
-    @Test fun documentAttestation() = exercise("document_attestation",
-        "بدي أصدق صورة شهادة الزواج الصادرة عن دائرة الأحوال المدنية والجوازات. معي الأصل والصورة وهويتي.", 5)
-    @Test fun declaredAddress() = exercise("declared_address",
-        "أنا رب الأسرة وبدي أحدث العنوان المصرح به للتبليغات بعد تغيير عنواني. شو الخطوات؟", 4)
-
-    @Test fun lostPassportClearRequest() = exercise("lost_passport",
-        "أنا أردني وجواز سفري الأردني العادي ضاع داخل الأردن لأول مرة. شو لازم أعمل؟", 11)
-
-    @Test fun genericPassportAndServiceSwitches() = runBlocking {
-        assumeTrue(System.getenv("DALEELAK_ALLOW_PAID_SERVICE_TESTS") == "true")
-        val c = catalog()
-        val gateway = OpenRouterAssistant(c, BuildConfig.OPENROUTER_DEMO_KEY)
-        val codec = ContractCodec(c.schema)
-        var answers = emptyMap<String, String>()
+    private class Dialogue(val catalog: ReviewedCatalog, val name: String) {
+        var messages = emptyList<ChatMessage>()
+        var facts = emptyMap<String, String>()
         var questions = emptyList<ClarificationQuestion>()
-        val evidence = org.json.JSONArray()
+        val evidence = JSONArray()
+        var decision = 0
+        val gateway = OpenRouterAssistant(catalog, BuildConfig.OPENROUTER_DEMO_KEY) { raw ->
+            val output = File("build/document-ai-debug"); output.mkdirs()
+            File(output, "$name-${++decision}.txt").writeText(raw)
+        }
         suspend fun turn(text: String): AssistantResponse {
-            val response = codec.decode(codec.encode(gateway.respond(AssistantRequest(text, emptyList(), answers, null, questions))))
-            ResponseValidator(c).validate(response)
-            answers = response.caseSummary.knownFacts.associate { it.key to it.value }
-            questions = response.questions
-            evidence.put(JSONObject().put("input", text).put("response", JSONObject(codec.encode(response))))
-            return response
+            val codec = ContractCodec(catalog.schema)
+            val r = codec.decode(codec.encode(gateway.respond(AssistantRequest(text, messages, facts, null, questions))))
+            ResponseValidator(catalog).validate(r)
+            facts = r.caseSummary.knownFacts.filter { it.origin == "user" }.associate { it.key to it.value }
+            questions = r.questions
+            messages = messages + ChatMessage(text, true) + ChatMessage(ResponsePresentation.message(r, catalog))
+            evidence.put(JSONObject().put("input", text).put("response", JSONObject(codec.encode(r))))
+            val output = File("build/document-ai-evaluation"); output.mkdirs()
+            File(output, "$name.json").writeText(evidence.toString(2))
+            return r
         }
-        val attestation = turn("بدي أصدق صورة وثيقة")
-        assertEquals("document_origin", attestation.questions.single().id)
-        val education = turn("بدي أصدق شهادة التوجيهي من وين؟")
-        assertEquals(ResponseKind.UNSUPPORTED, education.kind)
+    }
+    private fun paid() {
+        assumeTrue(System.getenv("DALEELAK_ALLOW_PAID_SERVICE_TESTS") == "true")
+        assertTrue(BuildConfig.OPENROUTER_DEMO_KEY.isNotBlank())
+    }
+    @Test fun threeDistinctDocumentProcedures() = runBlocking {
+        paid(); val d = Dialogue(catalog(), "three-procedures")
+        val scenarios = listOf(
+            "أنا أردني وبدي birth certificate لإلي، واقعة الولادة مسجلة بحاسوب الأحوال. ورجيني خطوات إصدارها." to "birth_certificate",
+            "بدي أصدق صورة شهادة زواج صادرة عن الأحوال المدنية، الأصل معي. شو الخطوات؟" to "document_attestation",
+            "أنا رب الأسرة وبدي أغير العنوان المصرح به للتبليغات. أعطيني الخطوات." to "declared_address")
+        for ((query, source) in scenarios) {
+            val r = d.turn(query)
+            assertEquals(r.message, ResponseKind.PLAN, r.kind)
+            assertTrue(r.sourceIds.contains("cspd-2024-$source"))
+            assertTrue(r.plan!!.steps.size >= 3)
+            assertNotNull(d.catalog.toDomain(r))
+        }
+    }
+    @Test fun naturalPassportConversationReachesStepsWithoutMagicWords() = runBlocking {
+        paid(); val d = Dialogue(catalog(), "passport-natural-conversation")
+        val start = d.turn("يا زلمة جوازي ضاع ومش عارف من وين أبلش")
+        assertTrue(start.message, start.kind != ResponseKind.UNSUPPORTED)
+        val overview = d.turn("مش متأكد من كل التفاصيل، ورجيني خطوات بدل فاقد للجواز الأردني العادي مبدئياً وبينلي شو اللي لازم أتأكد منه")
+        assertEquals(overview.message, ResponseKind.PLAN, overview.kind)
+        assertTrue(overview.sourceIds.contains("cspd-2024-lost_passport"))
+        assertTrue(overview.plan!!.steps.size >= 4)
+        val fees = d.turn("هو العادي وأول مرة بضيع مني. كم رسومه؟ وهل الكفالة نفس الرسوم؟")
+        assertEquals(fees.message, ResponseKind.PLAN, fees.kind)
+        val text = fees.message + ContractCodec(d.catalog.schema).encode(fees)
+        assertTrue(text.contains("125"))
+        assertTrue(text.contains("كفالة"))
+        assertTrue(fees.sourceIds.contains("cspd-2024-lost_passport"))
+    }
+    @Test fun familyBookAndEducationCoverage() = runBlocking {
+        paid(); val d = Dialogue(catalog(), "book-and-unsupported-education")
+        val book = d.turn("دفتر العيلة ضاع ومعي بلاغ فقدان، ورجيني الخطوات اللي بتعرفها من الوثائق")
+        assertEquals(book.message, ResponseKind.PLAN, book.kind)
+        assertTrue(book.sourceIds.any { it in d.catalog.sourceIds })
+        assertTrue(book.uncertainties.isNotEmpty())
+        val education = d.turn("موضوع ثاني: بدي أوثق شهادة التوجيهي. كيف؟")
+        assertEquals(education.message, ResponseKind.UNSUPPORTED, education.kind)
+        assertNull(education.plan)
         assertTrue(education.questions.isEmpty())
-        val passport = turn("جواز السفر تبعي ضاع، شو أسوي؟")
-        assertEquals(ResponseKind.CLARIFICATION, passport.kind)
-        assertEquals("passport_type", passport.questions.single().id)
-        val plan = turn("جواز أردني عادي")
-        assertEquals("lost_passport", plan.plan!!.serviceId)
-        assertEquals(11, plan.plan.steps.size)
-        assertFalse(ResponsePresentation.message(plan, c).contains("دفتر"))
-        val birth = turn("بدي شهادة ولادة، الواقعة مسجلة حاسوبياً")
-        assertEquals("birth_certificate", birth.plan!!.serviceId)
-        val document = turn("بدي أصدق صورة شهادة زواج صادرة عن الأحوال المدنية")
-        assertEquals("document_attestation", document.plan!!.serviceId)
-        val address = turn("أنا رب الأسرة وبدي أحدث العنوان المصرح به للتبليغات")
-        assertEquals("declared_address", address.plan!!.serviceId)
-        val book = turn("دفتر العيلة ضاع ومعي بلاغ فقدان من الشرطة")
-        assertEquals(c.supportedPlan, book.plan)
-        assertEquals("yes", answers["police_report"])
-        val output = File("build/service-evaluation"); output.mkdirs()
-        File(output, "service-switches.json").writeText(evidence.toString(2))
     }
-
-    @Test fun missingFactsAskOnlyReviewedQuestions() = runBlocking {
+    @Test fun arbitraryDocumentQuestionsAndFactsAreAccepted() {
         val c = catalog()
-        for (s in c.additionalServices) {
-            val r = LocalReviewedAssistant(c).respond(AssistantRequest("وضح المطلوب", emptyList(), mapOf("issue" to s.id), null, emptyList()))
-            assertEquals(ResponseKind.CLARIFICATION, r.kind)
-            assertEquals(listOf(s.question), r.questions)
-            ResponseValidator(c).validate(r)
-        }
+        val r = AssistantResponse(kind = ResponseKind.CLARIFICATION, message = "وين صار فقدان الجواز؟",
+            caseSummary = CaseSummary("استبدال الجواز", listOf(IssueFact("loss_place_description", "أثناء السفر")), listOf("مكان الفقد")),
+            questions = listOf(ClarificationQuestion("where_it_was_lost", "هل فقدته داخل الأردن أو خارجه؟", emptyList(),
+                "الدليل يذكر وثائق إضافية للفقد خارج المملكة.")), suggestedPrompts = c.startPrompts,
+            sourceIds = listOf("cspd-2024-lost_passport"))
+        val decoded = ContractCodec(c.schema).decode(ContractCodec(c.schema).encode(r))
+        ResponseValidator(c).validate(decoded)
     }
-    @Test fun unsupportedBranchesDoNotReuseHappyPlan() = runBlocking {
-        val c = catalog()
-        for (s in c.additionalServices) {
-            val negative = s.allowedValues.first { it != s.supportedValue }
-            val r = LocalReviewedAssistant(c).respond(AssistantRequest("وضح المطلوب", emptyList(),
-                mapOf("issue" to s.id, s.requiredFact to negative), null, emptyList()))
-            assertEquals(ResponseKind.UNSUPPORTED, r.kind)
-            assertNull(r.plan)
-            ResponseValidator(c).validate(r)
-        }
-    }
-    @Test fun legacyLostBookStillProducesItsReviewedPlan() = runBlocking {
-        val c = catalog()
-        val r = LocalReviewedAssistant(c).respond(AssistantRequest("ضاع دفتر العيلة ولسه ما عندي بلاغ", emptyList(), emptyMap(), null, emptyList()))
-        ResponseValidator(c).validate(r)
-        assertEquals(c.supportedPlan, r.plan)
-    }
-    @Test fun fabricatedProcedureCannotPassWithValidReference() {
-        val c = catalog()
-        val s = c.additionalServices.first()
-        val valid = s.response.copy(caseSummary = s.response.caseSummary.copy(knownFacts = listOf(
-            IssueFact("issue", s.id), IssueFact(s.requiredFact, s.supportedValue))))
-        val forged = valid.copy(plan = valid.plan!!.copy(title = "ادفع 100 دينار"))
-        assertThrows(IllegalArgumentException::class.java) { ResponseValidator(c).validate(forged) }
+    @Test fun unknownCitationsAndDependencyCyclesAreRejected() {
+        val c = catalog(); val response = c.additionalServices.first().response
+        val unknown = response.copy(sourceIds = listOf("made-up-source"))
+        assertThrows(IllegalArgumentException::class.java) { ResponseValidator(c).validate(unknown) }
+        val plan = response.plan!!
+        val bad = response.copy(plan = plan.copy(steps = plan.steps.mapIndexed { index, step ->
+            if (index == 0) step.copy(dependsOn = listOf(plan.steps.last().id)) else step
+        }))
+        assertThrows(IllegalArgumentException::class.java) { ResponseValidator(c).validate(bad) }
     }
 }

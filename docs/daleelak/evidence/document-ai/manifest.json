@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-10",
+  "tests": 5,
+  "failures": 0,
+  "skipped": 0,
+  "model": "z-ai/glm-5.3-flash",
+  "reasoning": "high",
+  "scope": "Real document-driven gateway, codec and structural/citation validator in JVM; Android UI not observed",
+  "apk_sha256": "8acf73055ac2674af6bd784744b5cbcb3190ffb1d88740db568817c053c4ad25",
+  "credentials": "Private; omitted"
+}

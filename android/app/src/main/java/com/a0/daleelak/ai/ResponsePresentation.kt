@@ -2,21 +2,16 @@ package com.a0.daleelak.ai
 
 import com.a0.daleelak.data.ReviewedCatalog
 
-/** Render factual text from reviewed records; arbitrary provider prose is not procedural evidence. */
+/** Retain accepted conversational text; source-validated procedural cards are resolved before rendering. */
 object ResponsePresentation {
-    fun message(response: AssistantResponse, catalog: ReviewedCatalog): String = when (response.kind) {
-        ResponseKind.CLARIFICATION -> response.questions.joinToString("\n") { "${it.text}\n${it.reason}" }
-        ResponseKind.UNSUPPORTED -> UnsupportedGuidance.acceptedExplanation(response.uncertainties)
-        ResponseKind.PLAN -> {
-            val additional = catalog.additionalServices.firstOrNull { it.id == response.plan?.serviceId }
-            if (additional != null) {
-                "${additional.response.plan!!.summary}\nالخطوة الأولى: ${additional.response.plan.steps.first().title}\n${response.uncertainties.joinToString("\n")}"
-            } else {
-            val report = response.caseSummary.knownFacts.firstOrNull { it.key == "police_report" }?.value
-            val next = if (report == "yes") "حسب إجابتك البلاغ متوفر؛ الخطوة التالية في الجزء الموثق هي مراجعة القناة الإلكترونية."
-                else "المتطلب السابق الموثق هو بلاغ الشرطة؛ صيغة تقديمه غير مثبتة في السجل المتاح."
-            "$next\n${catalog.supportedPlan.summary}\n${response.uncertainties.joinToString("\n") }"
-            }
+    @Suppress("UNUSED_PARAMETER")
+    fun message(response: AssistantResponse, catalog: ReviewedCatalog): String = buildString {
+        append(response.message)
+        if (response.kind == ResponseKind.CLARIFICATION) response.questions.forEach { question ->
+            if (!response.message.contains(question.text)) append("\n${question.text}")
+        }
+        if (response.kind == ResponseKind.PLAN) response.uncertainties.forEach { gap ->
+            if (!response.message.contains(gap)) append("\n$gap")
         }
     }
 }

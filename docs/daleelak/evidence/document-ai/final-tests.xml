@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.a0.daleelak.ThreeServiceLiveTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-10T08:55:47.607Z" hostname="LEGION" time="94.002">
+  <properties/>
+  <testcase name="naturalPassportConversationReachesStepsWithoutMagicWords" classname="com.a0.daleelak.ThreeServiceLiveTest" time="41.571"/>
+  <testcase name="unknownCitationsAndDependencyCyclesAreRejected" classname="com.a0.daleelak.ThreeServiceLiveTest" time="0.005"/>
+  <testcase name="arbitraryDocumentQuestionsAndFactsAreAccepted" classname="com.a0.daleelak.ThreeServiceLiveTest" time="0.004"/>
+  <testcase name="familyBookAndEducationCoverage" classname="com.a0.daleelak.ThreeServiceLiveTest" time="14.343"/>
+  <testcase name="threeDistinctDocumentProcedures" classname="com.a0.daleelak.ThreeServiceLiveTest" time="38.077"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

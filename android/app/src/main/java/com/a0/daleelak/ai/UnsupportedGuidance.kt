@@ -1,6 +1,6 @@
 package com.a0.daleelak.ai
 
-/** Coverage explanations authored from the reviewed CSPD guide, never procedural guesses. */
+/** Offline-only coverage explanations; the live grounded assistant writes its own scope replies. */
 object UnsupportedGuidance {
     const val EDUCATION = "آسف، دليل الأحوال المدنية المتاح ما يغطي توثيق شهادات الجامعة أو التوجيهي. ما عندي مصدر موثق يحدد الجهة والخطوات لهذه المعاملة."
     const val PASSPORT = "آسف، المسار المراجع للجواز بدل فاقد يغطي الجواز الأردني العادي فقط. تفاصيل هذا الطلب غير مغطاة بمسار مراجع؛ راجع دائرة الأحوال المدنية والجوازات."
@@ -13,5 +13,4 @@ object UnsupportedGuidance {
             else -> GENERIC
         }
     }
-    fun acceptedExplanation(uncertainties: List<String>) = uncertainties.firstOrNull { it == EDUCATION || it == PASSPORT } ?: GENERIC
 }
