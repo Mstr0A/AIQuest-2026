@@ -63,7 +63,7 @@ The AI key-settings button/dialog is removed. New chat appears only after a user
 
 ## Verification
 
-`ThreeServiceLiveTest` calls the real `OpenRouterAssistant` directly from JVM tests using the embedded debug credential, then runs the actual catalog, codec, semantic validator and domain mapping. Three distinct service messages returned their exact reviewed plans without clarification. Additional local checks cover missing-fact questions, unsupported prerequisite branches, fabricated procedure rejection and the legacy lost-book plan. Evidence is under `evidence/three-services/`. The accepted response files and final-tests.xml come from the successful replacement-key rerun; live-rerun-rejected-key.xml preserves the earlier rejected-key run.
+`ThreeServiceLiveTest` calls the real `OpenRouterAssistant` directly from JVM tests using the embedded debug credential, then runs the actual catalog, codec, semantic validator and domain mapping. Three distinct service messages returned their exact reviewed plans without clarification. Additional local checks cover missing-fact questions, unsupported prerequisite branches, fabricated procedure rejection and the legacy lost-book plan. Evidence is under `evidence/three-services/`. The accepted response files and final-tests.xml come from the successful replacement-key rerun; credential-status.json records the earlier HTTP 401 from the original key.
 
 Run explicitly paid tests:
 
