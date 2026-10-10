@@ -1,0 +1,49 @@
+{
+  "context_version": "pilot-2026-10-10-v1",
+  "service_id": "lost_family_book",
+  "coverage": "One reviewed lost-family-book inspection summary; a partial procedure, not complete government coverage.",
+  "goal_by_issue": {"unknown": "تحديد المشكلة المطلوبة", "lost": "تعويض دفتر عائلة مفقود", "damaged": "دفتر عائلة تالف؛ خارج السجل المراجع المتاح", "other": "خدمة خارج السجل المراجع المتاح"},
+  "approved_questions": [
+    {"id": "issue", "text": "هل المطلوب تعويض دفتر عائلة مفقود؟", "options": ["نعم، دفتر عائلة مفقود", "دفتر تالف", "خدمة ثانية"], "reason": "لتحديد إذا المشكلة ضمن الخدمة التي تغطيها الوثائق المراجعة."},
+    {"id": "police_report", "text": "هل عندك بلاغ فقدان من الشرطة؟", "options": ["عندي بلاغ فقدان", "لسه ما عندي بلاغ", "مش متأكد"], "reason": "المصدر المراجع يذكر البلاغ كمتطلب سابق؛ الإجابة تحدد إذا نبدأ بالبلاغ أو بالقناة الإلكترونية."}
+  ],
+  "allowed_suggested_prompts": ["ضاع دفتر العيلة، شو أعمل؟", "شو الأوراق المطلوبة لتعويض دفتر العائلة؟", "عندي بلاغ فقدان، شو الخطوة الجاية؟", "عندي بلاغ فقدان", "لسه ما عندي بلاغ", "مش متأكد", "مش متأكد إذا عندي بلاغ"],
+  "eligible_places": [],
+  "approved_partial_plan": {
+    "title": "تعويض دفتر عائلة مفقود · الجزء الموثق",
+    "service_id": "lost_family_book",
+    "route": "electronic",
+    "summary": "السجل المراجع يثبت وجود مسار إلكتروني وبلاغ شرطة كمتطلب سابق. هذه خطة جزئية؛ التفاصيل غير المتاحة مبينة صراحة.",
+    "steps": [
+      {
+        "id": "police_report",
+        "title": "بلاغ فقدان من الشرطة",
+        "explanation": "المصدر المراجع يذكر بلاغ الشرطة كمتطلب سابق. صيغة البلاغ وطريقة تقديمه غير محددتين في الملفات المتاحة.",
+        "actor": "user",
+        "depends_on": [],
+        "checklists": {
+          "documents": [{"id": "police_report_document", "label": "بلاغ فقدان من الشرطة", "necessity": "required", "condition": null, "format": "unspecified", "source_ids": ["cspd-lost-family-book-electronic"]}],
+          "actions": [], "payments_and_commitments": [], "visits": []
+        },
+        "completion_evidence": "تأكيد المستخدم أن البلاغ متوفر؛ ليس تأكيداً حكومياً",
+        "place_ids": [],
+        "source_ids": ["cspd-lost-family-book-electronic"]
+      },
+      {
+        "id": "electronic_channel",
+        "title": "مراجعة القناة الإلكترونية للخدمة",
+        "explanation": "المصدر المراجع يثبت وجود مسار إلكتروني. راجع بطاقة الخدمة الرسمية لتفاصيل التقديم والمتابعة؛ لا يوجد إرسال طلب من التطبيق.",
+        "actor": "user",
+        "depends_on": ["police_report"],
+        "checklists": {
+          "documents": [],
+          "actions": [{"id": "review_service_card", "label": "مراجعة بطاقة الخدمة الرسمية", "necessity": "helpful", "condition": null, "format": "unspecified", "source_ids": ["cspd-lost-family-book-electronic"]}],
+          "payments_and_commitments": [], "visits": []
+        },
+        "completion_evidence": "تأكيد المستخدم أنه راجع القناة الرسمية؛ ليس تأكيد إرسال أو موافقة",
+        "place_ids": [],
+        "source_ids": ["cspd-lost-family-book-electronic"]
+      }
+    ]
+  }
+}
