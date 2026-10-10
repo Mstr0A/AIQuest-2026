@@ -1,0 +1,407 @@
+{
+  "model": "z-ai/glm-5.3-flash",
+  "inputs_sha256": {
+    "docs/daleelak/assistant-system-prompt.txt": "98380eb050afce875b59005dda21a083702b1765254c9263b82184503f98e3a1",
+    "docs/daleelak/assistant-context.json": "0bcfec32a63e4ae93c6756007a77f4cbf8b7b6d186984efd6cf8061e84c13e87",
+    "docs/daleelak/assistant-scenarios.json": "cb879931eeb2ade2c65826433bee6a13179adb7f16fe54f89fc045d229aa5a21",
+    "android/app/src/main/assets/guidance/ai-response.schema.json": "112c24fdbabe7849be6146bfcd4a4b535cdaec8cbed6072d1aff7ec93452287b",
+    "android/app/src/main/assets/guidance/reviewed-sources.json": "b30ebd75c261be3637a2ce2f11264f60ae3d2f33f9da6715a907c45733bcc084",
+    "android/app/src/main/java/com/a0/daleelak/data/ReviewedCatalog.kt": "e0f2463c289cd16d09c699fdff7afe5d97821bc2b2d047393352ce20bafbe485"
+  },
+  "results": [
+    {
+      "id": "vague_help_request",
+      "model": "z-ai/glm-5.3-flash",
+      "expected_kind": "clarification",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2483,
+        "completion_tokens": 308,
+        "total_tokens": 2791,
+        "cost": 0.0002561031,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 2304,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00025869,
+          "upstream_inference_prompt_cost": 0.00010469,
+          "upstream_inference_completions_cost": 0.000154
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 20,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "response": {
+        "uncertainties": [],
+        "suggested_prompts": [
+          "ضاع دفتر العيلة، شو أعمل؟",
+          "شو الأوراق المطلوبة لتعويض دفتر العائلة؟",
+          "عندي بلاغ فقدان، شو الخطوة الجاية؟"
+        ],
+        "source_ids": [],
+        "schema_version": "1.0",
+        "questions": [
+          {
+            "text": "هل المطلوب تعويض دفتر عائلة مفقود؟",
+            "reason": "لتحديد إذا المشكلة ضمن الخدمة التي تغطيها الوثائق المراجعة.",
+            "options": [
+              "نعم، دفتر عائلة مفقود",
+              "دفتر تالف",
+              "خدمة ثانية"
+            ],
+            "id": "issue"
+          }
+        ],
+        "plan": null,
+        "message": "أهلاً فيك. حالياً السجل المراجع عندي يغطي خدمة تعويض دفتر عائلة مفقود فقط. حتى نحدد إذا معاملتك ضمن هالتغطية، ممكن توضحلي شو نوع المشكلة أو الخدمة المطلوبة؟",
+        "kind": "clarification",
+        "case_summary": {
+          "unresolved_facts": [
+            "نوع المشكلة"
+          ],
+          "known_facts": [],
+          "goal": "تحديد المشكلة المطلوبة"
+        }
+      },
+      "status": "passed"
+    },
+    {
+      "id": "clear_lost_no_report_first_message",
+      "model": "z-ai/glm-5.3-flash",
+      "expected_kind": "plan",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2492,
+        "completion_tokens": 895,
+        "total_tokens": 3387,
+        "cost": 0.000813087,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0008213,
+          "upstream_inference_prompt_cost": 0.0003738,
+          "upstream_inference_completions_cost": 0.0004475
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 21,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "response": {
+        "schema_version": "1.0",
+        "kind": "plan",
+        "message": "دفتر العائلة المفقود ضمن السجل المراجع: فيه مسار إلكتروني لتعويضه، وبلاغ فقدان من الشرطة متطلب سابق. بما إنه ما عندك بلاغ، الخطوة الأولى هي الحصول عليه — طريقة تقديمه غير محددة بالملفات المتاحة. بعدين راجع بطاقة الخدمة الرسمية للقناة الإلكترونية. هذي خطة جزئية: الرسوم وزمن الإنجاز وشروط المتابعة غير موثقة بالسجل المراجع.",
+        "case_summary": {
+          "goal": "تعويض دفتر عائلة مفقود",
+          "known_facts": [
+            {
+              "key": "issue",
+              "value": "lost",
+              "origin": "user",
+              "source_ids": []
+            },
+            {
+              "key": "police_report",
+              "value": "no",
+              "origin": "user",
+              "source_ids": []
+            }
+          ],
+          "unresolved_facts": []
+        },
+        "questions": [],
+        "plan": {
+          "title": "تعويض دفتر عائلة مفقود · الجزء الموثق",
+          "service_id": "lost_family_book",
+          "route": "electronic",
+          "summary": "السجل المراجع يثبت وجود مسار إلكتروني وبلاغ شرطة كمتطلب سابق. هذه خطة جزئية؛ التفاصيل غير المتاحة مبينة صراحة.",
+          "steps": [
+            {
+              "id": "police_report",
+              "title": "بلاغ فقدان من الشرطة",
+              "explanation": "المصدر المراجع يذكر بلاغ الشرطة كمتطلب سابق. صيغة البلاغ وطريقة تقديمه غير محددتين في الملفات المتاحة.",
+              "actor": "user",
+              "depends_on": [],
+              "checklists": {
+                "documents": [
+                  {
+                    "id": "police_report_document",
+                    "label": "بلاغ فقدان من الشرطة",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-lost-family-book-electronic"
+                    ]
+                  }
+                ],
+                "actions": [],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم أن البلاغ متوفر؛ ليس تأكيداً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-lost-family-book-electronic"
+              ]
+            },
+            {
+              "id": "electronic_channel",
+              "title": "مراجعة القناة الإلكترونية للخدمة",
+              "explanation": "المصدر المراجع يثبت وجود مسار إلكتروني. راجع بطاقة الخدمة الرسمية لتفاصيل التقديم والمتابعة؛ لا يوجد إرسال طلب من التطبيق.",
+              "actor": "user",
+              "depends_on": [
+                "police_report"
+              ],
+              "checklists": {
+                "documents": [],
+                "actions": [
+                  {
+                    "id": "review_service_card",
+                    "label": "مراجعة بطاقة الخدمة الرسمية",
+                    "necessity": "helpful",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-lost-family-book-electronic"
+                    ]
+                  }
+                ],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم أنه راجع القناة الرسمية؛ ليس تأكيد إرسال أو موافقة",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-lost-family-book-electronic"
+              ]
+            }
+          ]
+        },
+        "suggested_prompts": [
+          "عندي بلاغ فقدان، شو الخطوة الجاية؟",
+          "شو الأوراق المطلوبة لتعويض دفتر العائلة؟",
+          "ضاع دفتر العيلة، شو أعمل؟"
+        ],
+        "source_ids": [
+          "cspd-lost-family-book-electronic"
+        ],
+        "uncertainties": [
+          "لا تتضمن الملفات المراجعة النص الكامل لشروط الفروع داخل الأردن وخارجها أو تكرار الفقدان.",
+          "لا تتضمن الملفات المراجعة تفاصيل الرسوم أو صيغة تقديم البلاغ أو زمن الإنجاز.",
+          "المتابعة مشروطة بحسب المصدر، لكن شروطها وخطواتها الكاملة غير متاحة في السجل المرفق.",
+          "لا توجد أماكن موثقة أو بيانات توافر مواعيد."
+        ]
+      },
+      "status": "passed"
+    },
+    {
+      "id": "correct_prior_report_answer",
+      "model": "z-ai/glm-5.3-flash",
+      "expected_kind": "plan",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2509,
+        "completion_tokens": 1088,
+        "total_tokens": 3597,
+        "cost": 0.0005103846,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 2484,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00051554,
+          "upstream_inference_prompt_cost": 2.594e-05,
+          "upstream_inference_completions_cost": 0.0004896
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 54,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "response": {
+        "schema_version": "1.0",
+        "kind": "plan",
+        "message": "شكراً على التصحيح. بما إنه ما عندك بلاغ فقدان من الشرطة، هاد المتطلب السابق الأول قبل أي خطوة إلكترونية. السجل المراجع يثبت وجود مسار إلكتروني لتعويض دفتر العائلة المفقود، لكن ما بحدد طريقة تقديم البلاغ ولا رسوم ولا زمن إنجاز، فهاد الجزء من الخطة جزئي بس.",
+        "case_summary": {
+          "goal": "تعويض دفتر عائلة مفقود",
+          "known_facts": [
+            {
+              "key": "issue",
+              "value": "lost",
+              "origin": "user",
+              "source_ids": []
+            },
+            {
+              "key": "police_report",
+              "value": "no",
+              "origin": "user",
+              "source_ids": []
+            }
+          ],
+          "unresolved_facts": []
+        },
+        "questions": [],
+        "plan": {
+          "title": "تعويض دفتر عائلة مفقود · الجزء الموثق",
+          "service_id": "lost_family_book",
+          "route": "electronic",
+          "summary": "السجل المراجع يثبت وجود مسار إلكتروني وبلاغ شرطة كمتطلب سابق. هذه خطة جزئية؛ التفاصيل غير المتاحة مبينة صراحة.",
+          "steps": [
+            {
+              "id": "police_report",
+              "title": "بلاغ فقدان من الشرطة",
+              "explanation": "المصدر المراجع يذكر بلاغ الشرطة كمتطلب سابق. صيغة البلاغ وطريقة تقديمه غير محددتين في الملفات المتاحة.",
+              "actor": "user",
+              "depends_on": [],
+              "checklists": {
+                "documents": [
+                  {
+                    "id": "police_report_document",
+                    "label": "بلاغ فقدان من الشرطة",
+                    "necessity": "required",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-lost-family-book-electronic"
+                    ]
+                  }
+                ],
+                "actions": [],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم أن البلاغ متوفر؛ ليس تأكيداً حكومياً",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-lost-family-book-electronic"
+              ]
+            },
+            {
+              "id": "electronic_channel",
+              "title": "مراجعة القناة الإلكترونية للخدمة",
+              "explanation": "المصدر المراجع يثبت وجود مسار إلكتروني. راجع بطاقة الخدمة الرسمية لتفاصيل التقديم والمتابعة؛ لا يوجد إرسال طلب من التطبيق.",
+              "actor": "user",
+              "depends_on": [
+                "police_report"
+              ],
+              "checklists": {
+                "documents": [],
+                "actions": [
+                  {
+                    "id": "review_service_card",
+                    "label": "مراجعة بطاقة الخدمة الرسمية",
+                    "necessity": "helpful",
+                    "condition": null,
+                    "format": "unspecified",
+                    "source_ids": [
+                      "cspd-lost-family-book-electronic"
+                    ]
+                  }
+                ],
+                "payments_and_commitments": [],
+                "visits": []
+              },
+              "completion_evidence": "تأكيد المستخدم أنه راجع القناة الرسمية؛ ليس تأكيد إرسال أو موافقة",
+              "place_ids": [],
+              "source_ids": [
+                "cspd-lost-family-book-electronic"
+              ]
+            }
+          ]
+        },
+        "suggested_prompts": [
+          "عندي بلاغ فقدان، شو الخطوة الجاية؟",
+          "شو الأوراق المطلوبة لتعويض دفتر العائلة؟",
+          "ضاع دفتر العيلة، شو أعمل؟"
+        ],
+        "source_ids": [
+          "cspd-lost-family-book-electronic"
+        ],
+        "uncertainties": [
+          "لا تتضمن الملفات المراجعة النص الكامل لشروط الفروع داخل الأردن وخارجها أو تكرار الفقدان.",
+          "لا تتضمن الملفات المراجعة تفاصيل الرسوم أو صيغة تقديم البلاغ أو زمن الإنجاز.",
+          "المتابعة مشروطة بحسب المصدر، لكن شروطها وخطواتها الكاملة غير متاحة في السجل المرفق.",
+          "لا توجد أماكن موثقة أو بيانات توافر مواعيد."
+        ]
+      },
+      "status": "passed"
+    },
+    {
+      "id": "damaged_not_lost_family_book",
+      "model": "z-ai/glm-5.3-flash",
+      "expected_kind": "unsupported",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2486,
+        "completion_tokens": 361,
+        "total_tokens": 2847,
+        "cost": 0.000547866,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0005534,
+          "upstream_inference_prompt_cost": 0.0003729,
+          "upstream_inference_completions_cost": 0.0001805
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 5,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "response": {
+        "schema_version": "1.0",
+        "kind": "unsupported",
+        "message": "دفترك تالف من المي، وهذه مشكلة مختلفة عن دفتر العائلة المفقود. السجل المراجع المتاح حالياً يغطي فقط مسار تعويض دفتر عائلة مفقود، وما في إجراءات مراجعة لتبديل دفتر تالف. لذلك ما بقدر أعطيك خطوات موثقة لهذه الحالة، وبنصحك تراجع القنوات الرسمية المعنية للحصول على التفاصيل.",
+        "case_summary": {
+          "goal": "دفتر عائلة تالف؛ خارج السجل المراجع المتاح",
+          "known_facts": [
+            {
+              "key": "issue",
+              "value": "damaged",
+              "origin": "user",
+              "source_ids": []
+            }
+          ],
+          "unresolved_facts": []
+        },
+        "questions": [],
+        "plan": null,
+        "suggested_prompts": [
+          "ضاع دفتر العيلة، شو أعمل؟",
+          "شو الأوراق المطلوبة لتعويض دفتر العائلة؟",
+          "عندي بلاغ فقدان، شو الخطوة الجاية؟"
+        ],
+        "source_ids": [],
+        "uncertainties": [
+          "السجل المراجع المتاح لا يغطي إجراءات تبديل دفتر عائلة تالف؛ التفاصيل غير متوفرة في الملفات المراجعة."
+        ]
+      },
+      "status": "passed"
+    }
+  ],
+  "reported_cost_usd": 0.0021274407,
+  "scope": "Direct full-response prototype. Schema plus reviewed pilot checks; not Android deployment or independent validation of free prose."
+}
