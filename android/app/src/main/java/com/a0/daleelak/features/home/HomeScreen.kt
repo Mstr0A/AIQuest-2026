@@ -22,7 +22,6 @@ fun HomeScreen(
     onHistory: () -> Unit,
     onCurrent: () -> Unit,
     onFinished: () -> Unit,
-    onPlaces: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -63,13 +62,6 @@ fun HomeScreen(
         item {
             OperationEntry("سجل المعاملات", "كل معاملاتك المحفوظة", totalCount,
                 DaleelakIcons.History, onHistory)
-        }
-        item {
-            TextButton(onClick = onPlaces, modifier = Modifier.heightIn(min = 48.dp)) {
-                Icon(DaleelakIcons.Places, contentDescription = null, modifier = Modifier.size(20.dp))
-                Spacer(Modifier.width(8.dp))
-                Text("الأماكن ذات الصلة")
-            }
         }
     }
 }

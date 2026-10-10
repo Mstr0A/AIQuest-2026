@@ -12,7 +12,7 @@ The document context contains source text and documented limits, not `required_f
 
 The existing JSON schema, valid citation IDs, citation inclusion, unique fact/step/checklist IDs, required conditions, acyclic dependencies and lack of unverified place IDs. The code does not require a specific prerequisite answer, question ID, service ID, template match or step count. Source limits are appended automatically so historical rules and incomplete coverage remain visible. Suggested-response UI remains hidden.
 
-Citation validation proves that a referenced document exists, not that every generated claim is true. Source-only prompting and inspection of live outputs remain necessary. Model-written procedures can contain errors; this is not verified government execution. Sources are reviewed extracts for four complete workflows and the partial lost-family-book procedure, not the full 162-page guide. Loading further raw document sections remains future work.
+Citation validation proves that a referenced document exists, not that every generated claim is true. Source-only prompting and inspection of live outputs remain necessary. Model-written procedures can contain errors; this is not verified government execution. Sources are reviewed extracts for five complete workflows and the partial lost-family-book procedure, not the full 162-page guide. Loading further raw document sections remains future work.
 
 ## Verification
 
@@ -21,3 +21,11 @@ Citation validation proves that a referenced document exists, not that every gen
 Results are stored in `evidence/document-ai/`. Tests use the actual gateway, codec and validator in the JVM; they are not an Android UI walkthrough. Current credentials remain private local files and the local debug APK only.
 
 Final verification: all 5 tests passed without skips, including 8 live app-gateway requests across five covered services and an unsupported education request. The APK was rebuilt and copied to Downloads/DALEELAK-demo.apk. Source-only correctness is not established merely by the structural test pass.
+
+## Lost national ID and UI update
+
+Pages 38–39 were present in the original guide but were not in the runtime reviewed extracts. The new `cspd-2024-lost_national_id` source supplies visually reviewed requirements, historical fees and the complete illustrated workflow directly to the AI. It has no app-authored prerequisite gate or fixed plan. The source distinguishes the first/second/third loss, conditional military/bridge-card documents, guarantees and undertakings, and the two-week restriction after police notification (unless director approval). The guide does not explain the electronic police notification mechanism or specify photo dimensions.
+
+The Arabic title is larger and bold. Places navigation and per-card Places placeholders are removed. Any step can be confirmed, which completes that step and every preceding displayed step, plus necessary graph dependencies. Reopening a step clears dependent completions. Final operation completion remains a separate user confirmation. Step cards now have a visible content scrollbar and a clickable page navigation strip.
+
+Lost-ID verification passed: two real app-gateway turns (`هويتي ضاعت، شو أعمل؟`, then an explicit first-loss request) produced a relevant clarification followed by a cited eight-card plan. The response includes the historical 5 JOD fee and two-week restriction. See `evidence/lost-national-id/`. Final UI build succeeded; the UI changes were compiled, not exercised in an automated interaction test.

@@ -346,20 +346,28 @@ class DaleelakViewModel(
     }
 
     fun toggleStep(id: String) = update { operation ->
-        val step = operation.plan.steps.firstOrNull { it.id == id } ?: return@update operation
+        val index = operation.plan.steps.indexOfFirst { it.id == id }
+        if (index < 0) return@update operation
         if (operation.status == OperationStatus.COMPLETED) return@update operation
         val done = id in operation.completedStepIds
-        if (!done && !operation.completedStepIds.containsAll(step.dependsOn)) {
-            notice = "أكمل الخطوات السابقة أولاً."; operation
-        } else {
-            var completed = if (done) operation.completedStepIds - id else operation.completedStepIds + id
+        var completed = if (done) operation.completedStepIds - id else {
+            val confirmed = operation.completedStepIds.toMutableSet()
+            fun confirm(stepId: String) {
+                if (confirmed.add(stepId)) {
+                    operation.plan.steps.first { it.id == stepId }.dependsOn.forEach(::confirm)
+                }
+            }
+            operation.plan.steps.take(index + 1).forEach { confirm(it.id) }
+            confirmed.toSet()
+        }
+        if (done) {
             while (true) {
                 val invalid = operation.plan.steps.filter { it.id in completed && !completed.containsAll(it.dependsOn) }.map { it.id }.toSet()
                 if (invalid.isEmpty()) break
                 completed = completed - invalid
             }
-            operation.copy(completedStepIds = completed, status = OperationStatus.ONGOING)
         }
+        operation.copy(completedStepIds = completed, status = OperationStatus.ONGOING)
     }
     fun toggleRequirement(id: String) = update { operation ->
         if (operation.plan.steps.none { step -> step.requirements.any { it.id == id } } || operation.status == OperationStatus.COMPLETED) operation

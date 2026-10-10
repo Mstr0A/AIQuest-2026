@@ -1,0 +1,363 @@
+[
+  {
+    "input": "هويتي ضاعت، شو أعمل؟",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "بدي أوضح المشكلة أكثر",
+        "بدي أبدأ طلب جديد",
+        "بدي أصحح معلومة ذكرتها"
+      ],
+      "source_ids": ["cspd-2024-lost_national_id"],
+      "kind": "clarification",
+      "questions": [{
+        "reason": "عدد مرات الفقدان يغيّر المتطلبات: التعهد الخطي للمرة الأولى أو الثانية، ولجنة التحقيق والكفالة المالية للمرة الثالثة، وكذلك قيمة التعهد السابق إذا تكرر الفقدان خلال ثلاث سنوات.",
+        "options": [
+          "أول مرة",
+          "ثاني مرة",
+          "ثالث مرة أو أكثر"
+        ],
+        "id": "loss_count",
+        "text": "هل هذه أول مرة تفقد فيها بطاقتك الشخصية، أو سبق فقدانها من قبل؟"
+      }],
+      "case_summary": {
+        "goal": "إصدار بطاقة الأحوال المدنية الذكية (البطاقة الشخصية) بدل فاقدة",
+        "known_facts": [{
+          "source_ids": ["cspd-2024-lost_national_id"],
+          "origin": "user",
+          "value": "فقد المستخدم بطاقته الشخصية (هويته)",
+          "key": "situation"
+        }],
+        "unresolved_facts": ["عدد مرات فقدان البطاقة سابقاً (يحدد التعهد الخطي أو محضر لجنة التحقيق والكفالة)"]
+      },
+      "message": "أهلين، ما تقلق \u2014 فقدان البطاقة الشخصية إجراء معروف عند دائرة الأحوال المدنية والجوازات. بس قبل ما أعطيك الخطوات كاملة، بدي أعرف: هل هذه أول مرة تفقد فيها البطاقة، أو سبق وفقدتها من قبل؟ لأن عدد المرات بيغيّر المطلوب: أول أو ثاني فقدان بده تعهد خطي، أما ثالث فقدان بتحول للجنة التحقيق وبتفرض كفالة مالية 50 ديناراً حسب دليل 2024.",
+      "plan": null,
+      "uncertainties": [
+        "الدليل من 2024 ولم يتم التحقق من استمرار الشروط والرسوم الحالية؛ راجع الدائرة قبل التنفيذ",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق",
+        "طريقة تنفيذ التبليغ الإلكتروني للمركز الأمني غير موضحة في الدليل",
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+        "الصفحات لا توضح وسيلة تنفيذ التبليغ الإلكتروني للمركز الأمني ولا أبعاد الصورة؛ لا تفترض تفاصيل غير موثقة."
+      ]
+    }
+  },
+  {
+    "input": "بطاقتي الشخصية الأردنية الذكية، أول مرة بتضيع وأنا بالغ، مش عسكري وما عندي بطاقة جسور. ورجيني الخطوات والأوراق والرسوم حسب الدليل.",
+    "response": {
+      "schema_version": "1.0",
+      "suggested_prompts": [
+        "بدي أوضح المشكلة أكثر",
+        "بدي أبدأ طلب جديد",
+        "بدي أصحح معلومة ذكرتها"
+      ],
+      "source_ids": ["cspd-2024-lost_national_id"],
+      "kind": "plan",
+      "questions": [],
+      "case_summary": {
+        "goal": "إصدار بطاقة الأحوال المدنية الذكية (البطاقة الشخصية الأردنية) بدل فاقدة",
+        "known_facts": [
+          {
+            "source_ids": ["cspd-2024-lost_national_id"],
+            "origin": "user",
+            "value": "هذه أول مرة يفقد فيها المستخدم بطاقته الشخصية",
+            "key": "loss_count"
+          },
+          {
+            "source_ids": ["cspd-2024-lost_national_id"],
+            "origin": "user",
+            "value": "المستخدم بالغ ويقدم الطلب بنفسه",
+            "key": "applicant_age"
+          },
+          {
+            "source_ids": ["cspd-2024-lost_national_id"],
+            "origin": "user",
+            "value": "المستخدم ليس عسكرياً ولا يلزمه كتاب القيادة العامة",
+            "key": "military_status"
+          },
+          {
+            "source_ids": ["cspd-2024-lost_national_id"],
+            "origin": "user",
+            "value": "المستخدم لا يلزمه بطاقة إحصاءات الجسور",
+            "key": "bridges_card_status"
+          },
+          {
+            "source_ids": ["cspd-2024-lost_national_id"],
+            "origin": "reviewed_source",
+            "value": "رسم الخدمة 5 دنانير حسب دليل 2024",
+            "key": "service_fee"
+          },
+          {
+            "source_ids": ["cspd-2024-lost_national_id"],
+            "origin": "reviewed_source",
+            "value": "التعهد الخطي مطلوب إذا كان الفقدان للمرة الأولى أو الثانية",
+            "key": "pledge_requirement"
+          }
+        ],
+        "unresolved_facts": [
+          "طريقة تنفيذ التبليغ الإلكتروني للمركز الأمني غير موضحة في الدليل",
+          "أبعاد الصورة الشخصية غير محددة في الدليل",
+          "الدليل من 2024 ولم يتم التحقق من استمرار الشروط والرسوم الحالية",
+          "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة"
+        ]
+      },
+      "message": "تمام، بما أنها أول مرة وبالغ ومش من الفئات الخاصة، المسار بسيط نسبياً. حسب دليل 2024 بدك: نموذج البطاقة الشخصية، إثبات شخصية، تعهد خطي (لأول فقدان)، صورة شخصية حديثة ملونة، وتبليغ المركز الأمني إلكتروني. الرسم 5 دنانير. خد بالك: البطاقة المفقودة ما بتصرف إلا بعد أسبوعين من تاريخ تبليغ الشرطة أو بموافقة مدير المديرية، وهذه معلومات دليل 2024 فالأفضل تأكد من المكتب قبل ما تروح.",
+      "plan": {
+        "summary": "مسار حضوري عند مكاتب دائرة الأحوال المدنية والجوازات لإصدار بطاقة أحوال ذكية بدل فاقدة لأول فقدان: تجهيز الوثائق والتبليغ الأمني، ثم تقديم الطلب والإجازة ودفع رسم 5 دنانير، ثم البصمات والصورة والتوقيع، وأخيراً الاستلام بعد إشعار الجاهزية.",
+        "route": "in_person",
+        "service_id": "cspd-lost-national-id-first",
+        "title": "إصدار بطاقة الأحوال المدنية الذكية بدل فاقدة \u2014 أول فقدان",
+        "steps": [
+          {
+            "actor": "user",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [
+                {
+                  "source_ids": ["cspd-2024-lost_national_id"],
+                  "condition": null,
+                  "format": "paper_copy",
+                  "id": "doc-form",
+                  "label": "نموذج البطاقة الشخصية",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_national_id"],
+                  "condition": null,
+                  "format": "original",
+                  "id": "doc-identity-proof",
+                  "label": "إثبات شخصية صاحب العلاقة",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_national_id"],
+                  "condition": "لأول فقدان أو ثانيه",
+                  "format": "paper_copy",
+                  "id": "doc-pledge",
+                  "label": "التعهد الخطي",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_national_id"],
+                  "condition": null,
+                  "format": "original",
+                  "id": "doc-photo",
+                  "label": "صورة شخصية حديثة وملونة عدد 1 (الأبعاد غير محددة في الدليل)",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_national_id"],
+                  "condition": null,
+                  "format": "official_electronic_record",
+                  "id": "doc-security-notice",
+                  "label": "تبليغ المركز الأمني إلكتروني (طريقة التنفيذ غير موضحة في الدليل)",
+                  "necessity": "required"
+                }
+              ],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_national_id"],
+            "depends_on": [],
+            "place_ids": [],
+            "id": "step-prepare-docs",
+            "title": "تجهيز الوثائق وتبليغ المركز الأمني",
+            "explanation": "جهز نموذج البطاقة الشخصية وإثبات شخصيتك والتعهد الخطي وصورة شخصية حديثة ملونة، ونفذ تبليغ المركز الأمني إلكتروني. الدليل لا يوضح كيفية إجراء التبليغ الإلكتروني ولا أبعاد الصورة، فاستوضح من المكتب. لاحظ أن البطاقة المفقودة لا تصرف إلا بعد أسبوعين من تاريخ تبليغ الشرطة أو بموافقة مدير المديرية.",
+            "completion_evidence": "تأكيد المستخدم أن جميع الوثائق جاهزة وأن التبليغ الأمني تم"
+          },
+          {
+            "actor": "user_and_authority",
+            "checklists": {
+              "visits": [{
+                "source_ids": ["cspd-2024-lost_national_id"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "visit-civil-office",
+                "label": "مراجعة مكتب خدمة الجمهور في دائرة الأحوال المدنية والجوازات",
+                "necessity": "required"
+              }],
+              "payments_and_commitments": [],
+              "documents": [{
+                "source_ids": ["cspd-2024-lost_national_id"],
+                "condition": null,
+                "format": "original",
+                "id": "doc-identity-verify",
+                "label": "إبراز إثبات الشخصية للتدقيق",
+                "necessity": "required"
+              }],
+              "actions": [
+                {
+                  "source_ids": ["cspd-2024-lost_national_id"],
+                  "condition": null,
+                  "format": "unspecified",
+                  "id": "action-fill-form",
+                  "label": "تعبئة نموذج طلب الحصول على بطاقة أحوال ذكية",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_national_id"],
+                  "condition": null,
+                  "format": "unspecified",
+                  "id": "action-get-turn",
+                  "label": "الحصول على رقم الدور",
+                  "necessity": "required"
+                }
+              ]
+            },
+            "source_ids": ["cspd-2024-lost_national_id"],
+            "depends_on": ["step-prepare-docs"],
+            "place_ids": [],
+            "id": "step-visit-office",
+            "title": "مراجعة مكتب خدمة الجمهور وتعبئة الطلب وأخذ الدور",
+            "explanation": "راجع مكتب خدمة الجمهور، عبئ نموذج طلب الحصول على بطاقة أحوال ذكية واحصل على رقم الدور. الطلب يقدم من صاحب الوثيقة المفقودة بنفسه.",
+            "completion_evidence": "تأكيد المستخدم حصوله على رقم الدور"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_national_id"],
+            "depends_on": ["step-visit-office"],
+            "place_ids": [],
+            "id": "step-accept-request",
+            "title": "مطابقة المعلومات وقبول الطلب على النظام",
+            "explanation": "موظف قبول المعاملات يطابق المعلومات مع الطلب ويقبلها على النظام حسب الأصول، مع التدقيق بعدم وجود قيد.",
+            "completion_evidence": "تأكيد المستخدم قبول الطلب على النظام"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_national_id"],
+            "depends_on": ["step-accept-request"],
+            "place_ids": [],
+            "id": "step-approve",
+            "title": "إجازة الطلب من أمين المكتب",
+            "explanation": "يراجع أمين المكتب أو مساعده الطلب ويجيزه.",
+            "completion_evidence": "تأكيد المستخدم إجازة الطلب"
+          },
+          {
+            "actor": "user_and_authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [{
+                "source_ids": ["cspd-2024-lost_national_id"],
+                "condition": "حسب دليل 2024؛ أكد المبلغ الحالي من المكتب",
+                "format": "unspecified",
+                "id": "fee-service",
+                "label": "رسم الخدمة: 5 دنانير",
+                "necessity": "required"
+              }],
+              "documents": [],
+              "actions": [{
+                "source_ids": ["cspd-2024-lost_national_id"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "action-keep-receipt",
+                "label": "الاحتفاظ بالوصل المالي",
+                "necessity": "required"
+              }]
+            },
+            "source_ids": ["cspd-2024-lost_national_id"],
+            "depends_on": ["step-approve"],
+            "place_ids": [],
+            "id": "step-pay-fees",
+            "title": "دفع الرسوم لدى أمين الصندوق",
+            "explanation": "راجع أمين الصندوق لاستيفاء الرسوم القانونية. دليل 2024 يذكر 5 دنانير لرسم الخدمة؛ هذه رسوم تاريخية فأكد المبلغ الحالي واحتفظ بالوصل المالي. لأول فقدان لا توجد كفالة أو محضر لجنة تحقيق.",
+            "completion_evidence": "تأكيد المستخدم دفع الرسوم واستلام الوصل المالي"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_national_id"],
+            "depends_on": ["step-pay-fees"],
+            "place_ids": [],
+            "id": "step-biometrics",
+            "title": "أخذ البصمات والصورة والتوقيع وإرسال أمر الطباعة",
+            "explanation": "بعد تحويل الطلب للأرشفة، يحول لموظف التسجيل لأخذ بصماتك وصورتك وتوقيعك، ويرسل أمر الطباعة إلكترونياً إلى مراكز الطباعة.",
+            "completion_evidence": "تأكيد المستخدم إتمام البصمات والصورة والتوقيع"
+          },
+          {
+            "actor": "authority",
+            "checklists": {
+              "visits": [],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": []
+            },
+            "source_ids": ["cspd-2024-lost_national_id"],
+            "depends_on": ["step-biometrics"],
+            "place_ids": [],
+            "id": "step-sms",
+            "title": "انتظار رسالة جاهزية البطاقة",
+            "explanation": "تصلك رسالة قصيرة (SMS) لإعلامك بجاهزية البطاقة. الدليل يذكر وقت إنجاز 0:20 لكن هذا ليس ضماناً لإنجاز بدل الفاقد كله ولا يلغي فترة الأسبوعين المذكورة.",
+            "completion_evidence": "تأكيد المستخدم وصول رسالة الجاهزية"
+          },
+          {
+            "actor": "user_and_authority",
+            "checklists": {
+              "visits": [{
+                "source_ids": ["cspd-2024-lost_national_id"],
+                "condition": null,
+                "format": "unspecified",
+                "id": "visit-delivery",
+                "label": "مراجعة المكتب لاستلام البطاقة",
+                "necessity": "required"
+              }],
+              "payments_and_commitments": [],
+              "documents": [],
+              "actions": [
+                {
+                  "source_ids": ["cspd-2024-lost_national_id"],
+                  "condition": null,
+                  "format": "unspecified",
+                  "id": "action-fingerprint-verify",
+                  "label": "التحقق من بياناتك عبر البصمة",
+                  "necessity": "required"
+                },
+                {
+                  "source_ids": ["cspd-2024-lost_national_id"],
+                  "condition": null,
+                  "format": "unspecified",
+                  "id": "action-set-pin",
+                  "label": "إدخال الرقم السري الخاص بالبطاقة",
+                  "necessity": "required"
+                }
+              ]
+            },
+            "source_ids": ["cspd-2024-lost_national_id"],
+            "depends_on": ["step-sms"],
+            "place_ids": [],
+            "id": "step-receive-card",
+            "title": "استلام البطاقة الذكية",
+            "explanation": "تسلم بطاقة الأحوال المدنية الذكية بعد التأكد من بياناتك من خلال البصمة ومن ثم إدخال الرقم السري الخاص بالبطاقة.",
+            "completion_evidence": "تأكيد المستخدم استلام البطاقة الفعلية"
+          }
+        ]
+      },
+      "uncertainties": [
+        "الدليل من 2024 ولم يتم التحقق من استمرار الشروط والرسوم الحالية؛ راجع الدائرة قبل التنفيذ",
+        "طريقة تنفيذ التبليغ الإلكتروني للمركز الأمني غير موضحة في الدليل",
+        "أبعاد الصورة الشخصية غير محددة في الدليل",
+        "البطاقة المفقودة لا تصرف إلا بعد أسبوعين من تاريخ تبليغ الشرطة أو بموافقة مدير المديرية",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق",
+        "المصدر دليل عام 2024؛ لم يتم التحقق من استمرار الشروط والرسوم الحالية. راجع الدائرة قبل التنفيذ.",
+        "لا توجد مواقع مكاتب أو بيانات مواعيد موثقة في التطبيق.",
+        "الصفحات لا توضح وسيلة تنفيذ التبليغ الإلكتروني للمركز الأمني ولا أبعاد الصورة؛ لا تفترض تفاصيل غير موثقة."
+      ]
+    }
+  }
+]

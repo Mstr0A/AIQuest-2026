@@ -1,9 +1,13 @@
 package com.a0.daleelak.features.journey
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,6 +17,9 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.a0.daleelak.app.DaleelakViewModel
@@ -38,6 +45,8 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
     // Overview, one page per step, then operation actions. Future pages remain browsable.
     val pager = rememberPagerState(pageCount = { steps.size + 2 })
     val scope = rememberCoroutineScope()
+    val navigation = rememberLazyListState()
+    LaunchedEffect(pager.currentPage) { navigation.animateScrollToItem(pager.currentPage) }
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -54,12 +63,26 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                 else -> "خطوة ${pager.currentPage} من ${steps.size}"
             }, style = MaterialTheme.typography.labelMedium)
         }
+        LazyRow(state = navigation, modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            items(pager.pageCount) { page ->
+                FilterChip(selected = pager.currentPage == page,
+                    onClick = { scope.launch { pager.animateScrollToPage(page) } },
+                    label = { Text(when (page) {
+                        0 -> "نظرة عامة"
+                        steps.size + 1 -> "إنهاء"
+                        else -> page.toString()
+                    }) })
+            }
+        }
         VerticalPager(state = pager, modifier = Modifier.weight(1f).fillMaxWidth(),
             pageSpacing = 12.dp, contentPadding = PaddingValues(bottom = 40.dp)) { page ->
             OutlinedCard(Modifier.fillMaxSize(), shape = RoundedCornerShape(20.dp),
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                 colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-                LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(20.dp),
+                val contentScroll = rememberLazyListState()
+                Box(Modifier.fillMaxSize()) {
+                LazyColumn(Modifier.fillMaxSize(), state = contentScroll, contentPadding = PaddingValues(20.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     when (page) {
                         0 -> {
@@ -208,10 +231,6 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                                 else "لا توجد متطلبات إضافية مذكورة في هذه الخطوة.",
                                     style = MaterialTheme.typography.bodySmall)
                             }
-                            item {
-                                Text("الأماكن ذات الصلة", style = MaterialTheme.typography.titleMedium)
-                                Text("ما في خيارات موثقة مضافة لهذه الخطوة بعد.", style = MaterialTheme.typography.bodySmall)
-                            }
                             val references = (step.sourceIds + step.requirements.flatMap { it.sourceIds }).distinct()
                             if (references.isNotEmpty()) item {
                                 var showSources by rememberSaveable(step.id) { mutableStateOf(false) }
@@ -225,12 +244,18 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
                             item {
                                 OutlinedButton(onClick = { model.toggleStep(step.id) },
                                     modifier = Modifier.fillMaxWidth(),
-                                    enabled = (ready || complete) && operation.status != OperationStatus.COMPLETED) {
+                                    enabled = operation.status != OperationStatus.COMPLETED) {
                                     Text(if (complete) "إعادة فتح الخطوة" else "أؤكد إكمال الخطوة")
                                 }
+                                if (!complete && page > 1) Text(
+                                    "تأكيد هذه الخطوة يعلّم كل الخطوات السابقة كمكتملة أيضاً.",
+                                    style = MaterialTheme.typography.bodySmall)
                             }
                         }
                     }
+                }
+                CardScrollIndicator(contentScroll, Modifier.align(Alignment.CenterEnd)
+                    .padding(vertical = 20.dp, horizontal = 6.dp).width(3.dp).fillMaxHeight())
                 }
             }
         }
@@ -246,6 +271,32 @@ private fun JourneyCards(model: DaleelakViewModel, operation: Operation, modifie
         title = { Text("حذف المعاملة؟") }, text = { Text("سيتم حذف تقدمها من هذا الجهاز.") },
         confirmButton = { TextButton(onClick = { model.deleteSelected(); confirmDelete = false }) { Text("حذف") } },
         dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text("إلغاء") } })
+}
+
+/** Visible thumb for the content inside a card, independent of the card pager. */
+@Composable
+private fun CardScrollIndicator(state: LazyListState, modifier: Modifier) {
+    val track = MaterialTheme.colorScheme.outlineVariant
+    val thumb = MaterialTheme.colorScheme.primary
+    Canvas(modifier) {
+        if (!state.canScrollBackward && !state.canScrollForward) return@Canvas
+        val layout = state.layoutInfo
+        val visible = layout.visibleItemsInfo
+        val first = visible.firstOrNull() ?: return@Canvas
+        val viewport = (layout.viewportEndOffset - layout.viewportStartOffset).toFloat()
+        val average = visible.map { it.size }.average().toFloat().coerceAtLeast(1f)
+        val estimatedTotal = (average + layout.mainAxisItemSpacing) * layout.totalItemsCount
+        val length = (size.height * viewport / estimatedTotal).coerceIn(24.dp.toPx().coerceAtMost(size.height), size.height)
+        val progress = when {
+            !state.canScrollBackward -> 0f
+            !state.canScrollForward -> 1f
+            else -> ((state.firstVisibleItemIndex + state.firstVisibleItemScrollOffset.toFloat() /
+                first.size.coerceAtLeast(1)) / (layout.totalItemsCount - viewport / average).coerceAtLeast(1f)).coerceIn(0f, 1f)
+        }
+        drawRoundRect(track, cornerRadius = CornerRadius(size.width))
+        drawRoundRect(thumb, topLeft = Offset(0f, (size.height - length) * progress),
+            size = Size(size.width, length), cornerRadius = CornerRadius(size.width))
+    }
 }
 
 private fun Requirement.necessityLabel(): String = when (necessity) {

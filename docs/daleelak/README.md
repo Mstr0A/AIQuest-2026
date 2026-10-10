@@ -1,6 +1,6 @@
 # DALEELAK
 
-> **Current scope:** Three separate reviewed 2024 services are now implemented: registered-birth certificate, CSPD-document certification and declared-address update. See [three-service demo](three-service-demo.md). Earlier lost-book-only prototype scenarios below are historical; the deployed classifier now accepts five bounded fact fields.
+> **Current scope, 2026-10-10:** The live AI reads reviewed 2024 document extracts for birth certificates, CSPD-document certification, declared-address updates, lost ordinary passports and lost national ID cards, plus partial lost-family-book guidance. It derives questions and step plans from the documents and conversation; no fixed prerequisite classifier gates the live response. See [current architecture](grounded-conversation.md). Places UI is removed; step confirmation completes earlier displayed steps. The earlier prototype descriptions below are historical.
 
 
 **An AI guide that turns a citizen's government-service goal into a clear, personalized plan with requirements, relevant places and saved progress.**

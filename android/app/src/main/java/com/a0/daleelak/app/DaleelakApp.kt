@@ -8,12 +8,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.a0.daleelak.domain.OperationStatus
 import com.a0.daleelak.features.assistant.AssistantScreen
 import com.a0.daleelak.features.home.HomeScreen
-import com.a0.daleelak.features.locations.LocationsScreen
 import com.a0.daleelak.features.operations.OperationsFilter
 import com.a0.daleelak.features.operations.OperationsScreen
 import com.a0.daleelak.ui.components.DaleelakIcons
@@ -42,7 +42,8 @@ fun DaleelakApp(model: DaleelakViewModel) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween) {
                     Column {
-                        Text("دليلك", style = MaterialTheme.typography.titleLarge,
+                        Text("دليلك", style = MaterialTheme.typography.headlineLarge,
+                            fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary)
                         Text("DALEELAK · نسخة تجريبية", style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -78,18 +79,14 @@ fun DaleelakApp(model: DaleelakViewModel) {
                         onHistory = { openOperations(OperationsFilter.ALL) },
                         onCurrent = { openOperations(OperationsFilter.CURRENT) },
                         onFinished = { openOperations(OperationsFilter.COMPLETED) },
-                        onPlaces = {
-                            model.selectedId = null
-                            model.destination = Destination.LOCATIONS
-                            showHome = false
-                        },
                         modifier = Modifier.weight(1f),
                     )
                 } else {
                     when (model.destination) {
                         Destination.ASSISTANT -> AssistantScreen(model, Modifier.weight(1f))
                         Destination.OPERATIONS -> OperationsScreen(model, Modifier.weight(1f), operationsFilter)
-                        Destination.LOCATIONS -> LocationsScreen(Modifier.weight(1f))
+                        // Retain the old route value for restored sessions, without a Places screen.
+                        Destination.LOCATIONS -> OperationsScreen(model, Modifier.weight(1f), operationsFilter)
                     }
                 }
             }

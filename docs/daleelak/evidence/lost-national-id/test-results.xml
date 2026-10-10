@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.a0.daleelak.ThreeServiceLiveTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-10-10T09:11:39.064Z" hostname="LEGION" time="85.234">
+  <properties/>
+  <testcase name="lostNationalIdReachesDocumentSteps" classname="com.a0.daleelak.ThreeServiceLiveTest" time="85.232"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

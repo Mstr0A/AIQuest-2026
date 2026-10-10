@@ -45,6 +45,19 @@ class ThreeServiceLiveTest {
         assumeTrue(System.getenv("DALEELAK_ALLOW_PAID_SERVICE_TESTS") == "true")
         assertTrue(BuildConfig.OPENROUTER_DEMO_KEY.isNotBlank())
     }
+    @Test fun lostNationalIdReachesDocumentSteps() = runBlocking {
+        paid(); val d = Dialogue(catalog(), "lost-national-id")
+        val start = d.turn("هويتي ضاعت، شو أعمل؟")
+        assertTrue(start.message, start.kind != ResponseKind.UNSUPPORTED)
+        val plan = d.turn("بطاقتي الشخصية الأردنية الذكية، أول مرة بتضيع وأنا بالغ، مش عسكري وما عندي بطاقة جسور. ورجيني الخطوات والأوراق والرسوم حسب الدليل.")
+        assertEquals(plan.message, ResponseKind.PLAN, plan.kind)
+        assertTrue(plan.sourceIds.contains("cspd-2024-lost_national_id"))
+        assertTrue(plan.plan!!.steps.size >= 4)
+        val text = ContractCodec(d.catalog.schema).encode(plan)
+        assertTrue(text.contains("5") || text.contains("٥") || text.contains("خمسة"))
+        assertTrue(text.contains("أسبوعين") || text.contains("اسبوعين") || text.contains("14") || text.contains("١٤"))
+        assertNotNull(d.catalog.toDomain(plan))
+    }
     @Test fun threeDistinctDocumentProcedures() = runBlocking {
         paid(); val d = Dialogue(catalog(), "three-procedures")
         val scenarios = listOf(

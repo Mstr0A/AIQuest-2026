@@ -15,7 +15,7 @@ data class ReviewedSource(
 data class AdditionalService(val id: String, val requiredFact: String, val allowedValues: List<String>,
     val supportedValue: String, val question: ClarificationQuestion, val response: AssistantResponse)
 
-/** Bundled source summary and four reviewed 2024 cards; no remote document fetch at runtime. */
+/** Bundled reviewed source extracts and legacy cards; no remote document fetch at runtime. */
 class ReviewedCatalog private constructor(schemaText: String, sourceText: String, additionalText: String) {
     constructor(assets: AssetManager) : this(
         assets.open("guidance/ai-response.schema.json").bufferedReader().use { it.readText() },
